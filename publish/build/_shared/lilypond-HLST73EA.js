@@ -1,1 +1,1 @@
-import{a}from"C:/Program Files/Git/mmir-unibasel-hs26/build/_shared/chunk-JDDPODAA.js";import"C:/Program Files/Git/mmir-unibasel-hs26/build/_shared/chunk-I232HDZP.js";import"C:/Program Files/Git/mmir-unibasel-hs26/build/_shared/chunk-OZE3FFNP.js";export default a();
+import{a}from"/mmir-unibasel-hs26/build/_shared/chunk-JDDPODAA.js";import"/mmir-unibasel-hs26/build/_shared/chunk-I232HDZP.js";import"/mmir-unibasel-hs26/build/_shared/chunk-OZE3FFNP.js";export default a();

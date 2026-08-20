@@ -1,1 +1,1 @@
-import{a,b,c,d,e}from"C:/Program Files/Git/mmir-unibasel-hs26/build/_shared/chunk-265RPIE7.js";import"C:/Program Files/Git/mmir-unibasel-hs26/build/_shared/chunk-OZE3FFNP.js";e();export{a as javascript,b as json,c as jsonld,d as typescript};
+import{a,b,c,d,e}from"/mmir-unibasel-hs26/build/_shared/chunk-265RPIE7.js";import"/mmir-unibasel-hs26/build/_shared/chunk-OZE3FFNP.js";e();export{a as javascript,b as json,c as jsonld,d as typescript};
