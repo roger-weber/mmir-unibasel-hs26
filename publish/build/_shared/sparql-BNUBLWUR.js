@@ -1,1 +1,1 @@
-import{a}from"/build/_shared/chunk-JPAKTGLR.js";import"/build/_shared/chunk-B2YV2K7D.js";import"/build/_shared/chunk-OZE3FFNP.js";export default a();
+import{a}from"C:/Program Files/Git/mmir-unibasel-hs26/build/_shared/chunk-JPAKTGLR.js";import"C:/Program Files/Git/mmir-unibasel-hs26/build/_shared/chunk-B2YV2K7D.js";import"C:/Program Files/Git/mmir-unibasel-hs26/build/_shared/chunk-OZE3FFNP.js";export default a();
