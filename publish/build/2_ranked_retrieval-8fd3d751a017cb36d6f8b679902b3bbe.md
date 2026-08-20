@@ -1,0 +1,98 @@
+---
+author: Roger Weber
+edition: HS26
+status: in-progress
+book_part: Search Systems
+chapter: Index for Text Retrieval
+section: Ranked Retrieval over Inverted Files
+order: "4.2"
+---
+
+(indexing-ranked-retrieval)=
+# Ranked Retrieval over Inverted Files
+
+Boolean retrieval returns an unordered candidate set. The ranked models from [Classical Text Retrieval](../ch01_classical_text_retrieval/0_index.md), the binary independence model (BIR), the vector space model, and BM25, go further: they assign each document a score so we can return the best matches first. This section shows that all three run over the same inverted index. What changes is the content of the postings and the function that turns them into a score.
+
+## Retriever and ranker
+
+Ranked retrieval separates into two stages, shown in [](#fig-retriever-ranker). The **retriever** uses the inverted index to gather candidates, taking the union of the postings lists of the query terms, the same merge as a Boolean `OR`. The **ranker** then scores each candidate with the model's scoring function and keeps the top results. An optional filter can drop candidates that fail a metadata condition before ranking; we return to filtering in the next section.
+
+```{figure} images/figure_4_6.png
+:name: fig-retriever-ranker
+:width: 85%
+
+The two-stage pipeline: a retriever gathers candidates from the index, and a filter-and-ranker scores them into a ranked list.
+```
+
+The retriever only needs candidates with at least one query term, because a document with no query term scores zero under all three models. This is the same efficiency argument as before: we score a small candidate set, not the whole collection.
+
+## Two evaluation strategies
+
+There are two natural orders in which to walk the postings and accumulate scores.
+
+**Document-at-a-time (DAAT)** merges the query-term postings as sorted streams, exactly like the Boolean `OR` merge. At each step it takes the smallest document identifier across the streams, computes that document's complete score from the query terms present, and offers it to a top-$k$ structure. A heap of size $k$ keeps the best candidates and discards the rest, so memory stays bounded. Because the full score of a document is known the moment it is emitted, DAAT can also prune: once the heap is full, candidates that provably cannot enter the top $k$ are skipped.
+
+**Term-at-a-time (TAAT)** processes one query term fully before moving to the next. It walks a term's postings and adds that term's contribution to a running score for each document, held in a dictionary. After all terms are processed, the dictionary holds every candidate's final score, which is then sorted. TAAT is simpler to implement, but the score dictionary can grow large when a query contains common terms with long postings, and it cannot prune as it goes because scores are incomplete until the last term is done.
+
+Both strategies read the same postings and consider the same candidates, so their asymptotic cost is similar. DAAT is generally preferred in practice because of its bounded memory and its ability to prune; TAAT remains a clear mental model and a fine choice for short queries.
+
+## The three models over postings
+
+The models differ only in what the postings store and how a candidate is scored.
+
+For **BIR**, the postings need only document identifiers. Each query term $t_j$ carries a weight $c_j$ derived from relevance feedback, and a document's score is the sum of the $c_j$ over the query terms it contains. No term frequencies or document lengths are involved.
+
+For the **vector space model**, the postings store term frequencies alongside the document identifiers. The score is the cosine between the query and document TF-IDF vectors, restricted to the query terms:
+
+$$\text{sim}_{\cos}(Q, D) = \sum_{j} \hat{d}_j \cdot \hat{q}_j, \quad \text{with} \quad \hat{d}_j = \frac{\text{idf}(t_j)\,\text{tf}(D, t_j)}{\lVert \mathbf{d} \rVert} \quad \text{and} \quad \hat{q}_j = \frac{\text{idf}(t_j)\,\text{tf}(Q, t_j)}{\lVert \mathbf{q} \rVert}.$$
+
+For **BM25**, the postings again store term frequencies, and the ranker additionally needs the document length $\lvert D \rvert$, the average document length $\text{avgdl}$, and the parameters $k$ and $b$.
+
+```{admonition} Key Formula: BM25 over postings
+:class: important
+
+$$\text{sim}_{\text{BM25}}(Q, D) = \sum_{j} \text{idf}(t_j) \cdot \frac{\text{tf}(D, t_j)\,(k + 1)}{\text{tf}(D, t_j) + k\left(1 - b + b\,\dfrac{\lvert D \rvert}{\text{avgdl}}\right)}, \quad \text{idf}(t_j) = \log \frac{N - \text{df}(t_j) + 0.5}{\text{df}(t_j) + 0.5}$$
+
+Each query term contributes a saturating term-frequency factor, scaled by an inverse document frequency and normalized by document length. Rare terms in short documents score highest.
+```
+
+```{admonition} IDF is not one fixed quantity
+:class: warning
+
+The symbol $\text{idf}$ appears in the vector space model, in BM25, and in Lucene, but the formulas differ. The classic form is $\log(N / \text{df})$; BM25 uses $\log\frac{N - \text{df} + 0.5}{\text{df} + 0.5}$; Lucene adds one inside the logarithm, $\log\left(1 + \frac{N - \text{df} + 0.5}{\text{df} + 0.5}\right)$, to keep the value positive. These variants track the same idea, rarer terms weigh more, but their numeric values are not interchangeable. When you compare scores, make sure they come from the same formula.
+```
+
+### A worked BM25 example
+
+We index the titles of the 50-book library collection from [Performance Evaluation](../ch02_performance_evaluation/0_index.md), applying the standard pipeline of tokenization, stop-word removal, and stemming. This gives $N = 50$ documents with an average title length of $\text{avgdl} = 2.72$ tokens. We run the query "database systems", which the pipeline reduces to the stems "databas" and "system", with $k = 1.2$ and $b = 0.75$.
+
+```{admonition} Example
+:class: example
+
+Document frequencies and BM25 IDF weights for the query terms:
+
+- "databas": $\text{df} = 1$, so $\text{idf} = \log\frac{50 - 1 + 0.5}{1 + 0.5} = 3.4965$.
+- "system": $\text{df} = 3$, so $\text{idf} = \log\frac{50 - 3 + 0.5}{3 + 0.5} = 2.6080$.
+
+The top-scoring document is "Database Systems: The Complete Book", whose title stems to four tokens ("databas", "system", "complet", "book"), so $\lvert D \rvert = 4$. Both query terms occur once ($\text{tf} = 1$). The length-normalized denominator is the same for both terms:
+
+$$\text{tf} + k\left(1 - b + b\,\frac{\lvert D \rvert}{\text{avgdl}}\right) = 1 + 1.2\left(0.25 + 0.75 \cdot \frac{4}{2.72}\right) = 2.6235.$$
+
+Each term contributes $\text{idf} \cdot \frac{1 \cdot (1.2 + 1)}{2.6235}$, giving $3.4965 \cdot \frac{2.2}{2.6235} = 2.9320$ for "databas" and $2.6080 \cdot \frac{2.2}{2.6235} = 2.1869$ for "system". The document score is their sum, $5.1190$.
+
+The next results score far lower because they match only "system": "Operating System Concepts" scores $2.5026$ and "Computer Systems: A Programmer's Perspective" scores $1.9420$. The rare term "databas" is what separates the top result from the rest.
+```
+
+## Precomputing to avoid extra lookups
+
+The dot product at the heart of the vector space model can be computed straight from the postings. The cosine measure and BM25, however, need per-document data that is not in a single postings list: the vector norm $\lVert \mathbf{d} \rVert$ for cosine, and the document length $\lvert D \rvert$ for BM25. Fetching that data for every candidate adds a random lookup per document and can dominate query cost.
+
+Two optimizations help. We can store the IDF weight next to each posting so the ranker does not consult the vocabulary during a query. And we can normalize the document vectors at index-build time: once we fix $\text{idf}$, $k$, $b$, $\lvert D \rvert$, and $\text{avgdl}$, all three measures reduce to a dot product between a normalized document vector and the query vector. The cost is flexibility. If any normalization parameter changes, the index must be rebuilt. The alternative, storing the raw per-document data with each posting, keeps parameters adjustable at the price of larger postings and more data to read.
+
+```{admonition} Hands-on: Ranked Retrieval over an Inverted Index
+:class: hint
+Implement document-at-a-time and term-at-a-time evaluation, and compare BIR, vector space, and BM25 rankings on the library collection.
+[Open notebook -->](https://github.com/mmir-unibasel-hs26/mmir-unibasel-hs26/blob/main/05-IndexForTextRetrieval/01-boolean-retrieval.ipynb)
+
+*Includes pre-run results. You can read through or download and experiment.*
+```

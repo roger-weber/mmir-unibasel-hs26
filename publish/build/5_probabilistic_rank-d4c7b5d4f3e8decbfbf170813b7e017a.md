@@ -1,0 +1,326 @@
+---
+author: Roger Weber
+edition: HS26
+status: not-reviewed
+part: Foundations
+chapter: Classical Text Retrieval
+section: Probabilistic Ranking and BM25
+order: "1.5"
+---
+
+(classical-text-probabilistic)=
+# Probabilistic Ranking and BM25
+
+The Vector Space Model ranks effectively, but its weighting and similarity measures are heuristic. Probabilistic retrieval asks a more direct question: given query $Q$ and document $D_i$, how likely is the document to be relevant? The Binary Independence Model (BIR) develops this idea from binary term evidence. BM25 then retains its probabilistic term weighting while adding the term-frequency saturation and document-length normalization missing from BIR and vector-space scoring.
+
+## Binary Independence Model
+
+The BIR model uses the same tokenized vocabulary as the previous models, but represents each query and document as a set of terms. A component is 1 when a term is present and 0 when it is absent. It assumes that terms contribute independently and that non-query terms occur equally often in relevant and non-relevant documents. Under these assumptions, only query terms present in a document affect its rank.
+
+Let $R$ denote relevance and $NR$ non-relevance for query $Q$. Ranking by the posterior odds
+
+$$\frac{P(R\mid D_i,Q)}{P(NR\mid D_i,Q)}$$
+
+is equivalent to ranking by the document evidence after query-dependent constants are removed. Define
+
+$$r_j=P(d_{i,j}=1\mid R,Q), \qquad n_j=P(d_{i,j}=1\mid NR,Q).$$
+
+The first probability measures how often term $t_j$ occurs in relevant documents; the second measures how often it occurs in non-relevant documents. The resulting score is additive, but several probability terms must cancel before we reach that form. The derivation below explains why only query terms present in the document remain.
+
+```{admonition} From posterior odds to the BIR score (optional reading)
+:class: note dropdown
+
+Bayes' rule separates the posterior odds into prior odds and document evidence:
+
+$$
+\frac{P(R\mid \mathbf{d}_i,Q)}{P(NR\mid \mathbf{d}_i,Q)}
+=
+\frac{P(R\mid Q)}{P(NR\mid Q)}
+\cdot
+\frac{P(\mathbf{d}_i\mid R,Q)}{P(\mathbf{d}_i\mid NR,Q)}.
+$$
+
+The prior odds $P(R\mid Q)/P(NR\mid Q)$ are the same for every document considered for query $Q$. They affect the numerical score but not the ranking. We can therefore focus on the likelihood ratio containing the document evidence.
+
+Under the binary representation, each component satisfies $d_{i,j}\in\{0,1\}$: it is 1 when document $D_i$ contains term $t_j$ and 0 otherwise. Combined with term independence, this makes the probability of the complete document vector a product of Bernoulli probabilities. The exponents select the appropriate case: $r_j^{d_{i,j}}$ contributes $r_j$ when the term is present, while $(1-r_j)^{1-d_{i,j}}$ contributes $1-r_j$ when it is absent.
+
+$$
+P(\mathbf{d}_i\mid R,Q)
+=
+\prod_{j=1}^{M} r_j^{d_{i,j}}(1-r_j)^{1-d_{i,j}},
+$$
+
+$$
+P(\mathbf{d}_i\mid NR,Q)
+=
+\prod_{j=1}^{M} n_j^{d_{i,j}}(1-n_j)^{1-d_{i,j}}.
+$$
+
+Substituting these products into the odds and taking the logarithm turns multiplication into addition:
+
+$$
+\log\frac{P(R\mid \mathbf{d}_i,Q)}{P(NR\mid \mathbf{d}_i,Q)}
+=
+\log\frac{P(R\mid Q)}{P(NR\mid Q)}
++
+\sum_{j=1}^{M}
+\left[
+ d_{i,j}\log\frac{r_j}{n_j}
+ +(1-d_{i,j})\log\frac{1-r_j}{1-n_j}
+\right].
+$$
+
+For a term absent from the query, BIR assumes $r_j=n_j$. Both logarithms then become zero, so every non-query term disappears. For a query term, we can rearrange its contribution as
+
+$$
+\log\frac{1-r_j}{1-n_j}
++
+d_{i,j}\log\frac{r_j(1-n_j)}{n_j(1-r_j)}.
+$$
+
+The first part depends on the query but not on the document, so it is another constant that does not change the ranking. The second part contributes only when $d_{i,j}=1$. After removing all ranking constants, the remaining coefficient is
+
+$$
+c_j=\log\frac{r_j(1-n_j)}{n_j(1-r_j)},
+$$
+
+which produces the additive BIR score below.
+```
+
+```{admonition} Key Formula: BIR Similarity
+:class: important
+
+$$\text{sim}_{\text{BIR}}(Q,D_i)=\sum_{j:\,q_j=1,\,d_{i,j}=1}c_j, \qquad c_j=\log\frac{r_j(1-n_j)}{n_j(1-r_j)}$$
+
+A positive $c_j$ means that term $t_j$ is more characteristic of relevant than non-relevant documents. Documents receive the sum of the weights for query terms they contain.
+```
+
+### Relevance Feedback
+
+**Initial estimates.** Before any relevance information is available, the system must produce a first ranking. BIR commonly assumes that every query term has an equal chance of occurring in a relevant document, $r_j=0.5$. It estimates occurrence in non-relevant documents from the term's document frequency in the complete collection:
+
+$$r_j=0.5, \qquad n_j=\frac{\text{df}(t_j)+0.5}{N+1}.$$
+
+These initial values produce the first $c_j$ weights and therefore the first result list.
+
+**Collecting feedback.** The user can now mark retrieved documents as relevant or non-relevant, for example through like and dislike controls. These judgements provide a sample of both classes. Because $r_j$ is the probability that term $t_j$ occurs in a relevant document, we can estimate it by counting how many judged relevant documents contain the term. We estimate $n_j$ in the same way from the judged non-relevant documents.
+
+**Updating the estimates.** Suppose the user has judged $K$ documents and marked $L$ of them as relevant. Let $k_j$ be the number of judged documents containing $t_j$, and let $l_j$ be the number that both contain $t_j$ and are relevant. The relevant sample therefore contains $l_j$ occurrences among $L$ documents. The non-relevant sample contains $k_j-l_j$ occurrences among $K-L$ documents. Without smoothing, the corresponding estimates would be
+
+$$r_j\approx\frac{l_j}{L}, \qquad n_j\approx\frac{k_j-l_j}{K-L}.$$
+
+In practice, BIR adds pseudo-counts so that small samples do not produce probabilities of exactly 0 or 1:
+
+$$r_j=\frac{l_j+0.5}{L+1}, \qquad n_j=\frac{k_j-l_j+0.5}{K-L+1}.$$
+
+The updated probabilities produce new $c_j$ weights and a revised ranking. Further rounds of feedback can refine the estimates, although users may be unwilling to judge many results.
+
+```{admonition} Example: Feedback and query expansion
+:class: example
+
+Consider the query `dog forest`. Suppose all 12 documents are judged, and $D_1$ and $D_3$ are marked relevant, leaving the other 10 documents as the non-relevant sample. Both relevant documents contain "dog" and "forest", so feedback first refines the weights of the original query terms:
+
+| Term | Relevant documents containing term | Non-relevant documents containing term | $r_j$ | $n_j$ | $c_j$ |
+|---|---:|---:|---:|---:|---:|
+| "dog" | 2 | 4 | 0.833 | 0.409 | 1.977 |
+| "forest" | 2 | 5 | 0.833 | 0.500 | 1.609 |
+
+With these refined weights, a document containing both "dog" and "forest" scores $1.977+1.609=3.586$, an improved estimate over the initial, feedback-free weights.
+
+Feedback has a second, independent use: we can compute $c_j$ for terms that never appeared in the query, using the same relevant and non-relevant samples. This tells us which additional terms help separate relevant from non-relevant documents, without requiring the user to reformulate anything.
+
+| Term | Relevant documents containing term | Non-relevant documents containing term | $r_j$ | $n_j$ | $c_j$ |
+|---|---:|---:|---:|---:|---:|
+| "woodland" | 2 | 2 | 0.833 | 0.227 | 2.833 |
+| "algorithms" | 0 | 1 | 0.167 | 0.136 | 0.236 |
+| "cats" | 0 | 2 | 0.167 | 0.227 | -0.386 |
+
+The three terms illustrate three distinct roles:
+
+- **"woodland"** has a high positive $c_j$: both relevant documents contain it, and only a fifth of the non-relevant documents do. It is a strong candidate for query expansion. Adding it to the query raises $D_1$ and $D_3$ to $6.419$ and gives lexical variants such as $D_2$ and $D_{11}$ positive evidence even though they contain neither "dog" nor "forest".
+- **"algorithms"** has a $c_j$ close to zero: it occurs in only one document overall, and that document is not relevant. The sample is too small to say whether the term discriminates at all, so it is best discarded, the same treatment we give to stop words that occur everywhere.
+- **"cats"** has a negative $c_j$: it occurs only in non-relevant documents, both of which are technical distractors about pets and animal classification rather than the woodland adventure the user wants. Note that "cats" is a distinct token from "cat", which does appear in $D_1$; the tokenizer does not know they share a root, so the two counts are entirely independent. A negative weight can therefore help demote or eliminate documents that share surface vocabulary with the query but belong to the wrong sense.
+
+In practice, an automatic query expansion step keeps terms with a strongly positive $c_j$, drops terms near zero, and may use strongly negative terms to penalize rather than reward a document.
+```
+
+BIR marks a change in ambition, not only a change in formula. The Vector Space Model ranks by geometric heuristics that happen to work well; BIR instead tries to *explain* relevance from first principles, estimating how likely a document is to be relevant given its terms. It still represents documents as term vectors and still combines evidence with the same OR-like accumulation as VSM: any query term found in the document contributes its weight to the score. What changes is the meaning of that weight. Instead of a heuristic tf-idf product, $c_j$ estimates the independent contribution of each query term toward relevance, grounded in how often the term separates relevant from non-relevant documents.
+
+The restrictive assumptions behind this first version, binary term presence, term independence, and no document-length effect, are not inherent to the probabilistic idea itself. They make BIR tractable, and later probabilistic models relax them one at a time. The 2-Poisson model, for instance, models within-document term frequency directly instead of treating term presence as binary, at the cost of a more complex parameter estimation problem. Probabilistic language models take yet another route, estimating the probability that a document's language model would generate the query. The section below develops BM25, which keeps BIR's additive, per-term structure but approximates the 2-Poisson model's term-frequency behaviour with a simpler saturating function.
+
+The feedback mechanism also has a practical limitation worth naming. A user who rates a first result list of 10 documents gives us a sample of size $K=10$ from which to estimate $r_j$ and $n_j$, far too small to pin down these probabilities reliably, especially for terms that appear in only one or two of the judged documents. Larger judged samples would improve the estimates, but no user will realistically rate hundreds of documents to make search work. This tension between statistical need and user effort is a recurring theme in relevance feedback, not a flaw specific to BIR.
+
+(classical-text-bm25)=
+## Okapi BM25
+
+BM25 was developed at London's City University by Stephen Robertson, Karen Spärck Jones, and colleagues as a practical approximation to the 2-Poisson model. It became the robust default for free-text retrieval that BIR itself never was.
+
+```{note} What is the meaning of "Okapi BM25"?
+The name comes from Okapi, the experimental retrieval system built at City University London in the 1980s and 1990s where the formula was first implemented, not from any property of the ranking function itself. "BM" stands for "Best Matching", and "25" simply identifies it as the 25th weighting variant the researchers tried.
+```
+
+### Term-Frequency Saturation
+
+The inner product used raw term frequency, so every repetition added the same amount. This allowed $D_7$, which repeats "dog" four times, to outrank documents matching all query terms. BM25 instead applies diminishing returns:
+
+$$\widehat{\text{tf}}_{k_1}=\frac{\text{tf}(k_1+1)}{\text{tf}+k_1}, \qquad k_1>0.$$
+
+The first occurrence contributes strongly; later occurrences add progressively less. Parameter $k_1$ controls how quickly the function saturates. Values between 1 and 2 are common, with $k_1=1.2$ used in the running example. [Figure %s](#fig-tf-weighting-comparison) contrasts linear, square-root, and saturating term-frequency weights.
+
+```{figure} images/figure_1_23.png
+:name: fig-tf-weighting-comparison
+:width: 70%
+
+Linear, square-root, and BM25-saturated term-frequency weighting.
+```
+
+### Document-Length Normalization
+
+A term is generally stronger evidence in a short focused document than in a long document where it has more opportunities to occur. BM25 integrates document length into the saturation denominator:
+
+$$\widehat{\text{tf}}_{k_1,b}(D_i,t)=\frac{\text{tf}(D_i,t)(k_1+1)}{\text{tf}(D_i,t)+k_1\left(1-b+b\frac{|D_i|}{\text{avgdl}}\right)}.$$
+
+Here $|D_i|$ is the number of processed tokens and $\text{avgdl}$ is the collection's average document length. Parameter $b\in[0,1]$ controls the effect: $b=0$ disables length normalization, while $b=1$ applies the full length ratio. [Figure %s](#fig-bm25-tf-length-normalization) shows how the same term frequency receives more weight in a short document than in a long one.
+
+```{figure} images/figure_1_24.png
+:name: fig-bm25-tf-length-normalization
+:width: 70%
+
+BM25 term-frequency saturation for average, short, and long documents.
+```
+### Probabilistic IDF
+
+The original BIR derivation produces the BM25 term-specificity weight
+
+$$\text{idf}_{\text{BM25}}(t)=\log\frac{N-\text{df}(t)+0.5}{\text{df}(t)+0.5}.$$
+
+This value becomes negative when a term appears in more than half of the collection. Many implementations instead use the always-positive Lucene variant
+
+$$\text{idf}_{+}(t)=\log\left(1+\frac{N-\text{df}(t)+0.5}{\text{df}(t)+0.5}\right)=\log\frac{N+1}{\text{df}(t)+0.5}.$$
+
+[Figure %s](#fig-idf-variants-comparison) compares these variants with the smoothed classical IDF introduced earlier. All encode the same core intuition that common terms provide less evidence, but their numerical values are not interchangeable.
+
+```{figure} images/figure_1_25.png
+:name: fig-idf-variants-comparison
+:width: 70%
+
+Classical, original BM25, and positive Lucene IDF variants.
+```
+
+### Complete Formula and Running Example
+
+Using the positive IDF variant gives the practical scoring function used in this example.
+
+```{admonition} Key Formula: BM25
+:class: important
+
+$$\text{sim}_{\text{BM25}}(Q,D_i)=\sum_{t\in Q\cap D_i}\text{idf}_{+}(t)\frac{\text{tf}(D_i,t)(k_1+1)}{\text{tf}(D_i,t)+k_1\left(1-b+b\frac{|D_i|}{\text{avgdl}}\right)}$$
+
+BM25 sums query-term evidence after applying probabilistic term specificity, diminishing returns for repetition, and document-length normalization.
+```
+
+For $Q=$ `cat dog forest`, use $k_1=1.2$, $b=0.75$, and the same preprocessing as before. The 12 documents have $\text{avgdl}=9.67$ tokens. Their positive IDF values are 0.860 for "cat", 0.693 for "dog", and 0.550 for "forest".
+
+```{admonition} Example: BM25 ranking
+:class: example
+
+| Document | Length | TF (`cat`, `dog`, `forest`) | BM25 score |
+|---|---:|---:|---:|
+| $D_9$ | 3 | (1, 1, 1) | 2.930 |
+| $D_1$ | 8 | (2, 2, 1) | 2.836 |
+| $D_{10}$ | 14 | (2, 2, 2) | 2.568 |
+| $D_{12}$ | 11 | (1, 1, 0) | 1.470 |
+| $D_3$ | 10 | (0, 1, 1) | 1.226 |
+| $D_7$ | 10 | (0, 4, 0) | 1.166 |
+| $D_4$ | 8 | (1, 0, 0) | 0.925 |
+| $D_8$ | 12 | (0, 0, 4) | 0.894 |
+| $D_5$ | 11 | (0, 0, 2) | 0.728 |
+| $D_6$ | 10 | (0, 0, 1) | 0.542 |
+
+Documents $D_2$ and $D_{11}$ share no exact query term and score zero. The compact exact match $D_9$ ranks first. Repetition keeps $D_1$ competitive, but saturation prevents the four occurrences of "dog" in $D_7$ from dominating. Although $D_{10}$ repeats all three terms, its greater length lowers its score relative to $D_9
+### Probabilistic IDF
+
+BIR also motivates a term-specific weight from document frequency. Without feedback, the classical BM25 form is
+
+$$\text{idf}_{\text{BM25}}(t)=\log\frac{N-\text{df}(t)+0.5}{\text{df}(t)+0.5}.$$
+
+This value becomes negative when a term appears in more than half of the collection. Practical implementations commonly use a positive variant, including the one used by Lucene:
+
+$$\text{idf}_{+}(t)=\log\left(1+\frac{N-\text{df}(t)+0.5}{\text{df}(t)+0.5}\right)=\log\frac{N+1}{\text{df}(t)+0.5}.$$
+
+The smoothed IDF in [](#classical-text-feature-extraction), the VSM weight $\log(N/\text{df})$, and these BM25 variants share the same intuition but are not numerically interchangeable. [Figure %s](#fig-idf-variants-comparison) shows their different behaviour for frequent terms.
+
+```{figure} images/figure_1_25.png
+:name: fig-idf-variants-comparison
+:width: 70%
+
+Classical, BM25, and positive Lucene IDF variants as document frequency increases.
+```
+
+### Complete Formula and Running Example
+
+```{admonition} Key Formula: BM25
+:class: important
+
+$$\text{sim}_{\text{BM25}}(Q,D_i)=\sum_{t\in Q\cap D_i}\text{idf}_{+}(t)\frac{\text{tf}(D_i,t)(k_1+1)}{\text{tf}(D_i,t)+k_1\left(1-b+b\frac{|D_i|}{\text{avgdl}}\right)}$$
+
+BM25 sums probabilistic term-specificity weights after applying saturating, length-normalized term frequency. Parameter $k_1$ controls saturation and $b$ controls document-length normalization.
+```
+
+For the running query `cat dog forest`, use $k_1=1.2$, $b=0.75$, and the positive IDF variant above. After the preprocessing defined for the collection, $\text{avgdl}=9.67$ tokens. The query terms have
+
+$$\text{idf}_{+}(\text{cat})=0.860,\quad \text{idf}_{+}(\text{dog})=0.693,\quad \text{idf}_{+}(\text{forest})=0.550.$$
+
+```{admonition} Example: BM25 ranking
+:class: example
+
+| Document | Length | TF (`cat`, `dog`, `forest`) | BM25 score |
+|---|---:|---:|---:|
+| $D_9$ | 3 | (1, 1, 1) | 2.930 |
+| $D_1$ | 8 | (2, 2, 1) | 2.836 |
+| $D_{10}$ | 14 | (2, 2, 2) | 2.568 |
+| $D_{12}$ | 11 | (1, 1, 0) | 1.470 |
+| $D_3$ | 10 | (0, 1, 1) | 1.226 |
+| $D_7$ | 10 | (0, 4, 0) | 1.166 |
+| $D_4$ | 8 | (1, 0, 0) | 0.925 |
+| $D_8$ | 12 | (0, 0, 4) | 0.894 |
+| $D_5$ | 11 | (0, 0, 2) | 0.728 |
+| $D_6$ | 10 | (0, 0, 1) | 0.542 |
+
+Documents $D_2$ and $D_{11}$ score zero because they contain none of the exact query terms. The compact exact match $D_9$ ranks first. Repetition keeps $D_1$ competitive, but saturation prevents repeated terms from growing linearly. Although $D_{10}$ repeats every query term, its greater length lowers its score. Four occurrences of "dog" no longer allow $D_7$ to outrank documents matching all three terms.
+```
+
+Evaluation follows the same efficient pattern as vector-space retrieval. The system takes the union of the query-term posting lists, accumulates one BM25 contribution per matching term, and sorts candidates by decreasing score. Chapter 4 develops the posting-list algorithms used for this process.
+
+### Limitations and Modern Applications
+
+BM25 remains lexical and bag-of-words based. It neither connects "cat" with "feline" nor distinguishes the natural and technical meanings of "forest". It also assumes that document length should influence relevance in a consistent way, so $k_1$ and $b$ may require tuning for collections with unusual document types. Despite its probabilistic derivation, a BM25 score is a ranking value, not a calibrated probability of relevance.
+
+**Advantages**: BM25 combines partial matching, discriminative term weighting, term-frequency saturation, and document-length normalization in an efficient additive score. It is transparent, fast, and difficult to improve upon as a lexical baseline.
+
+**Disadvantages**: It retains lexical matching and term-independence assumptions, requires parameter choices, and does not directly represent phrase meaning or semantic similarity.
+
+BM25 is the default or standard lexical ranker in systems built on Lucene, including Elasticsearch, Solr, and OpenSearch. It is also widely used as a first-stage retriever in retrieval-augmented generation and in hybrid search, where its exact lexical matches complement dense embedding retrieval.
+
+## Model Comparison
+
+| Property | Boolean | Extended Boolean | Vector Space | BIR | BM25 |
+|---|---|---|---|---|---|
+| Query form | Boolean expression | Boolean expression | Free text | Term set | Free text |
+| Ranked output | No | Yes | Yes | Yes | Yes |
+| Partial matches | No | Yes | Yes | Yes | Yes |
+| Term frequency | Ignored | Normalized TF-IDF | Linear TF-IDF | Ignored | Saturating |
+| Document length | Ignored | Indirect normalization | Cosine or none | Ignored | Explicit parameter $b$ |
+| Foundation | Set theory | Soft-logic heuristic | Geometric heuristic | Relevance probability | BIR plus TF and length models |
+| Typical role | Exact filters | Specialized soft constraints | Baseline and vector similarity | Feedback model and foundation | Production lexical ranking |
+| Main weakness | No ranking | Operator choices | Length and repetition effects | Binary evidence and feedback burden | Lexical matching and tuning |
+
+The progression is cumulative rather than a sequence of complete replacements. Boolean predicates remain useful for mandatory filters, vector operations remain central to dense retrieval, BIR explains relevance feedback and probabilistic term weights, and BM25 provides the strongest general-purpose lexical ranking baseline.
+
+```{admonition} Hands-on: Retrieval Models
+:class: hint
+Implement Boolean, TF-IDF, and BM25 retrieval on a small collection and compare their rankings.
+[Open notebook -->](https://github.com/mmir-unibasel-hs26/mmir-unibasel-hs26/blob/main/05-IndexForTextRetrieval/01-boolean-retrieval.ipynb)
+
+*Includes pre-run results. You can read through or download and experiment.*
+```

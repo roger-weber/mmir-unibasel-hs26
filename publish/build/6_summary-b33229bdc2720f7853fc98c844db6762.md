@@ -1,0 +1,92 @@
+---
+author: Roger Weber
+edition: HS26
+status: in-progress
+book_part: Search Systems
+chapter: Index for Text Retrieval
+section: Summary
+order: "4.6"
+---
+
+# Summary
+
+## Approach Comparison
+
+The chapter surveyed three ways to run inverted-file search in practice. They sit at different points on the quality, latency, and storage tradeoff.
+
+| Property | In-database FTS | Lucene library | Distributed engines |
+|---|---|---|---|
+| Examples | PostgreSQL, SQLite FTS5 | Apache Lucene | Solr, Elasticsearch, OpenSearch |
+| Scale | up to a few million documents | one node, up to ~2.1B docs or 20-40 GB before latency-bound | 10s of billions, sharded and replicated |
+| Default ranking | frequency and proximity, no BM25 | BM25 | BM25, plus vector search |
+| Vector search | via pgvector extension | Lucene 9+ (HNSW) | native, with hybrid scoring |
+| Extra operations | none, it is your database | embed in a JVM application | run and operate a cluster |
+| Best fit | an app that already has a database | custom search inside one application | high query volume, high availability, hybrid retrieval |
+
+Each tier builds on the same core: postings, merges, and BM25 scoring are present everywhere. What grows from one tier to the next is the surrounding machinery for scale and availability.
+
+## Key Takeaways
+
+1. Scoring every document per query does not scale. The inverted index maps each term to a postings list, so query cost grows with the number of query terms, not with the size of the collection.
+2. Retrieval splits into a retriever that gathers candidates by merging query-term postings and a ranker that scores them. Boolean, BIR, vector space, and BM25 all run over the same index; only the postings content and scoring function differ.
+3. Document-at-a-time evaluation keeps memory bounded and allows pruning; term-at-a-time is simpler but accumulates a potentially large score table and cannot prune early.
+4. Metadata predicates attach through a priori, a posteriori, or inline filtering, and faceted search is the a priori case specialized to categories. Compression via d-gaps and variable-byte encoding keeps postings small so more of the index stays in memory.
+5. Sharding scales data volume and per-query latency; replication scales concurrent-query capacity and availability. A single query is not split across regions, so geo-distribution buys capacity, availability, and proximity, not lower per-query latency.
+
+## Key Formulas
+
+```{admonition} Key Formula: Query read cost
+:class: important
+
+$$\text{entries read} \approx \frac{N \cdot K \cdot L}{M} = (N \cdot K) \cdot \frac{L}{M}$$
+
+An inverted index reads a fraction $L/M$ of what a full scan touches, where $L$ is the query length and $M$ the vocabulary size.
+```
+
+```{admonition} Key Formula: Lucene's Scoring based on BM25
+:class: important
+
+$$\text{sim}_{\text{BM25}}(Q, D) = \sum_{j} \text{idf}(t_j) \cdot \frac{\text{tf}(D, t_j)\,(k + 1)}{\text{tf}(D, t_j) + k\left(1 - b + b\,\dfrac{\lvert D \rvert}{\text{avgdl}}\right)}$$
+
+A saturating term-frequency factor, weighted by inverse document frequency and normalized by document length. The default lexical ranker in Lucene-based engines.
+```
+
+```{admonition} Exam focus
+:class: attention
+- Why inverted-file query cost scales with query length, not collection size.
+- The retriever-ranker split, and how DAAT and TAAT trade memory against pruning.
+- The three filtering strategies (a priori, a posteriori, inline) and when each is preferable.
+- That the $\text{idf}$ variants (classic, BM25, Lucene) track the same idea but are not numerically interchangeable.
+- The d-gap plus variable-byte principle, and why sorted postings make it work.
+- Sharding versus replication: what each scales, and why one query is not split across regions.
+- That PostgreSQL's `ts_rank` is frequency-based, not BM25.
+```
+
+## Self-Check Questions
+
+1. (Understand) Explain why an inverted index reads only a fraction $L/M$ of the data a full scan would touch, and what $L$ and $M$ stand for.
+2. (Understand) Given the postings cat = 1, 4, 10 and dog = 3, 4, 8, 10, 12, evaluate "cat AND dog", "cat OR dog", and "cat AND NOT dog" by streaming merge.
+3. (Analyze) When would you prefer term-at-a-time over document-at-a-time evaluation, and when would you choose a posteriori filtering over a priori filtering?
+4. (Analyze) Why can the same document receive slightly different scores on different shards, and why is that usually acceptable?
+5. (Evaluate) An application with two million documents already stored in PostgreSQL needs search with good relevance ranking. Weigh in-database full-text search against adding a Lucene-based engine, using the quality, latency, and cost tradeoff.
+
+```{admonition} Test Your Knowledge
+:class: hint
+[Take the Chapter 4 Quiz -->](https://mmir-unibasel-hs26.github.io/quiz)
+```
+
+## Further Reading
+
+- Manning, C. D., Raghavan, P., & Schütze, H. (2008). **Introduction to Information Retrieval**. *Cambridge University Press*. [Free HTML](https://nlp.stanford.edu/IR-book/). The chapters on index construction and index compression cover this chapter's core structures in depth.
+- Zobel, J., & Moffat, A. (2006). **Inverted Files for Text Search Engines**. *ACM Computing Surveys*, 38(2). The canonical survey of inverted-file representation, construction, and query evaluation, including compression and query-time optimizations.
+- Robertson, S., & Zaragoza, H. (2009). **The Probabilistic Relevance Framework: BM25 and Beyond**. *Foundations and Trends in Information Retrieval*, 3(4), 333-389. [PDF](https://apollo.inf.upol.cz/~lastovicka/DATAB/BM25.pdf). Derives the BM25 ranker used throughout the chapter, including the multi-field BM25F variant behind Lucene's per-field scoring.
+- Büttcher, S., Clarke, C. L. A., & Cormack, G. V. (2010). **Information Retrieval: Implementing and Evaluating Search Engines**. *MIT Press*. An implementation-focused treatment of indexing, compression, and query processing.
+
+### Tools and documentation
+
+- Apache Lucene: [lucene.apache.org](https://lucene.apache.org)
+- Apache Solr: [solr.apache.org](https://solr.apache.org/)
+- Elasticsearch: [elastic.co](https://www.elastic.co/)
+- OpenSearch: [opensearch.org](https://opensearch.org/)
+- PostgreSQL Full Text Search: [postgresql.org](https://www.postgresql.org/docs/current/textsearch-intro.html)
+- Zhou, Z. (2019). **Lucene IndexWriter: An In-Depth Introduction**. *Alibaba Cloud Blog*. [Article](https://www.alibabacloud.com/blog/lucene-indexwriter-an-in-depth-introduction_594673). Walks through IndexWriter internals: the concurrency model, segment creation, delete-by-term, flush, commit, and merge lifecycle.

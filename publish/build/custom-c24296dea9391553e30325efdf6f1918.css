@@ -1,0 +1,15 @@
+/* Inline code: gray background like standard Markdown renderers */
+code {
+  background-color: #f0f0f0;
+  padding: 0.15em 0.3em;
+  border-radius: 3px;
+  font-size: 0.9em;
+}
+
+/* Don't apply background to code inside code blocks */
+pre code {
+  background-color: transparent;
+  padding: 0;
+  border-radius: 0;
+  font-size: inherit;
+}

@@ -1,0 +1,40 @@
+/* Inline code: gray background like standard Markdown renderers */
+code {
+  background-color: #f0f0f0;
+  padding: 0.15em 0.3em;
+  border-radius: 3px;
+  font-size: 0.9em;
+}
+
+/* Don't apply background to code inside code blocks */
+pre code {
+  background-color: transparent;
+  padding: 0;
+  border-radius: 0;
+  font-size: inherit;
+}
+
+/* Expand content to fill available width.
+   Collapse the grid named lines so content columns grow freely. */
+main.article-grid,
+main.article-grid > article.article-grid {
+  grid-template-columns:
+    [screen-start screen-inset-start page-start page-inset-start body-outset-start body-start gutter-left-start body-inset-start middle-start]
+    1fr 1fr [gutter-left-end] 1fr 1fr [gutter-right-start] 1fr 1fr
+    [middle-end body-inset-end body-end gutter-right-end body-outset-end page-inset-end page-end screen-inset-end screen-end] !important;
+}
+
+/* Add left margin so content doesn't go under the fixed TOC sidebar */
+@media (min-width: 1280px) {
+  main.article-grid {
+    margin-left: 20rem;
+    padding-right: 2rem;
+  }
+}
+
+@media (min-width: 1024px) and (max-width: 1279px) {
+  main.article-grid {
+    margin-left: 1rem;
+    padding-right: 1rem;
+  }
+}

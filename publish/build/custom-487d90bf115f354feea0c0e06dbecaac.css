@@ -1,0 +1,104 @@
+/* Inline code: gray background like standard Markdown renderers */
+code {
+  background-color: #f0f0f0;
+  padding: 0.15em 0.3em;
+  border-radius: 3px;
+  font-size: 0.9em;
+}
+
+/* Don't apply background to code inside code blocks */
+pre code {
+  background-color: transparent;
+  padding: 0;
+  border-radius: 0;
+  font-size: inherit;
+}
+
+/* Widen content by removing the empty right-sidebar column from the grid.
+   The original grid reserves minmax(5rem,13rem) for the outline sidebar.
+   Since we hide_outline, we reclaim that space for content. */
+
+@media (min-width: 768px) {
+  main.article-grid {
+    grid-template-columns:
+      [screen-start] 0.25rem
+      [screen-inset-start page-start page-inset-start body-outset-start] 1fr
+      [body-start gutter-left-start] 1rem
+      [body-inset-start] minmax(2ch, 12ch)
+      [middle-start] minmax(2ch, 12ch)
+      [gutter-left-end] minmax(2ch, 12ch)
+      minmax(2ch, 12ch)
+      [gutter-right-start] minmax(2ch, 12ch)
+      [middle-end] minmax(2ch, 12ch)
+      [body-inset-end] 1rem
+      [body-end gutter-right-end] 1fr
+      [body-outset-end page-inset-end page-end screen-inset-end] 0.25rem
+      [screen-end] !important;
+  }
+}
+
+@media (min-width: 1024px) {
+  main.article-grid {
+    grid-template-columns:
+      [screen-start] 0.25rem
+      [screen-inset-start page-start] 1rem
+      [page-inset-start body-outset-start] 1fr
+      [body-start gutter-left-start] 1rem
+      [body-inset-start] minmax(8ch, 14ch)
+      [middle-start] minmax(8ch, 14ch)
+      [gutter-left-end] minmax(8ch, 14ch)
+      minmax(8ch, 14ch)
+      [gutter-right-start] minmax(8ch, 14ch)
+      [middle-end] minmax(8ch, 14ch)
+      [body-inset-end] 1rem
+      [body-end gutter-right-end] 1fr
+      [body-outset-end page-inset-end page-end screen-inset-end] 0.25rem
+      [screen-end] !important;
+  }
+}
+
+@media (min-width: 1280px) {
+  main.article-grid {
+    grid-template-columns:
+      [screen-start] 0.25rem
+      [screen-inset-start] 1fr
+      [page-start] 3rem
+      [page-inset-start body-outset-start] 3rem
+      [body-start gutter-left-start] 1rem
+      [body-inset-start] minmax(8ch, 14ch)
+      [middle-start] minmax(8ch, 14ch)
+      [gutter-left-end] minmax(8ch, 14ch)
+      minmax(8ch, 14ch)
+      [gutter-right-start] minmax(8ch, 14ch)
+      [middle-end] minmax(8ch, 14ch)
+      [body-inset-end] 1rem
+      [body-end gutter-right-end] 3rem
+      [body-outset-end page-inset-end] 3rem
+      [page-end] 1fr
+      [screen-inset-end] 0.25rem
+      [screen-end] !important;
+  }
+}
+
+@media (min-width: 1536px) {
+  main.article-grid {
+    grid-template-columns:
+      [screen-start] 0.5rem
+      [screen-inset-start] 1fr
+      [page-start] 3rem
+      [page-inset-start body-outset-start] 3rem
+      [body-start gutter-left-start] 1rem
+      [body-inset-start] minmax(8ch, 14ch)
+      [middle-start] minmax(8ch, 14ch)
+      [gutter-left-end] minmax(8ch, 14ch)
+      minmax(8ch, 14ch)
+      [gutter-right-start] minmax(8ch, 14ch)
+      [middle-end] minmax(8ch, 14ch)
+      [body-inset-end] 1rem
+      [body-end gutter-right-end] 3rem
+      [body-outset-end page-inset-end] 3rem
+      [page-end] 1fr
+      [screen-inset-end] 0.5rem
+      [screen-end] !important;
+  }
+}

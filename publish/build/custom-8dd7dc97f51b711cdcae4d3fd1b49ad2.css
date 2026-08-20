@@ -1,0 +1,41 @@
+/* Inline code: gray background like standard Markdown renderers */
+code {
+  background-color: #f0f0f0;
+  padding: 0.15em 0.3em;
+  border-radius: 3px;
+  font-size: 0.9em;
+}
+
+/* Don't apply background to code inside code blocks */
+pre code {
+  background-color: transparent;
+  padding: 0;
+  border-radius: 0;
+  font-size: inherit;
+}
+
+/* Widen the content body column */
+.article-grid > article > * {
+  grid-column: body !important;
+}
+
+/* Override the grid template to make body columns wider */
+@media (min-width: 1024px) {
+  main.article-grid {
+    grid-template-columns:
+      [screen-start] 0.25rem
+      [screen-inset-start page-start] 1rem
+      [page-inset-start body-outset-start] 1fr
+      [body-start gutter-left-start] 1rem
+      [body-inset-start] minmax(12ch, 18ch)
+      [middle-start] minmax(12ch, 18ch)
+      [gutter-left-end] minmax(12ch, 18ch)
+      minmax(12ch, 18ch)
+      [gutter-right-start] minmax(12ch, 18ch)
+      [middle-end] minmax(12ch, 18ch)
+      [body-inset-end] 1rem
+      [body-end gutter-right-end] 1fr
+      [body-outset-end page-inset-end page-end screen-inset-end] 0.25rem
+      [screen-end] !important;
+  }
+}

@@ -1,0 +1,64 @@
+/* Inline code: gray background like standard Markdown renderers */
+code {
+  background-color: #f0f0f0;
+  padding: 0.15em 0.3em;
+  border-radius: 3px;
+  font-size: 0.9em;
+}
+
+/* Don't apply background to code inside code blocks */
+pre code {
+  background-color: transparent;
+  padding: 0;
+  border-radius: 0;
+  font-size: inherit;
+}
+
+/* Widen the 6 content columns from max 10ch each (60ch total) to 15ch each (90ch total).
+   This targets the subgrid on the article element, which is what actually constrains
+   content width. The main grid is inherited from the page-level layout. */
+@media (min-width: 768px) {
+  article.article-grid.subgrid-gap {
+    grid-template-columns:
+      [screen-start] 0.5rem
+      [screen-inset-start page-start page-inset-start body-outset-start] 1rem
+      [body-start gutter-left-start] 1rem
+      [body-inset-start] minmax(5ch, 15ch)
+      [middle-start] minmax(5ch, 15ch)
+      [gutter-left-end] minmax(5ch, 15ch)
+      minmax(5ch, 15ch)
+      [gutter-right-start] minmax(5ch, 15ch)
+      [middle-end] minmax(5ch, 15ch)
+      [body-inset-end] 1rem
+      [body-end gutter-right-end body-outset-end page-inset-end page-end screen-inset-end] 0.5rem
+      [screen-end] !important;
+    display: grid !important;
+  }
+}
+
+@media (min-width: 1024px) {
+  article.article-grid.subgrid-gap {
+    grid-template-columns:
+      [screen-start] 0.5rem
+      [screen-inset-start page-start page-inset-start body-outset-start] 1rem
+      [body-start gutter-left-start] 1rem
+      [body-inset-start] minmax(5ch, 15ch)
+      [middle-start] minmax(5ch, 15ch)
+      [gutter-left-end] minmax(5ch, 15ch)
+      minmax(5ch, 15ch)
+      [gutter-right-start] minmax(5ch, 15ch)
+      [middle-end] minmax(5ch, 15ch)
+      [body-inset-end] 1rem
+      [body-end gutter-right-end body-outset-end page-inset-end page-end screen-inset-end] 0.5rem
+      [screen-end] !important;
+    display: grid !important;
+  }
+}
+
+/* At xl (1280px+) the TOC sidebar appears fixed on the left.
+   Push content to the right to avoid overlap. */
+@media (min-width: 1280px) {
+  main.article-grid {
+    margin-left: 19.5rem;
+  }
+}

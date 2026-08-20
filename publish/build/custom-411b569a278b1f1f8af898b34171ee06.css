@@ -1,0 +1,30 @@
+/* Inline code: gray background like standard Markdown renderers */
+code {
+  background-color: #f0f0f0;
+  padding: 0.15em 0.3em;
+  border-radius: 3px;
+  font-size: 0.9em;
+}
+
+/* Don't apply background to code inside code blocks */
+pre code {
+  background-color: transparent;
+  padding: 0;
+  border-radius: 0;
+  font-size: inherit;
+}
+
+/* Widen content: override the prose max-width and expand grid placement */
+article.article {
+  max-width: none !important;
+}
+
+/* Make content children fill the full body-outset area instead of just body */
+main.article-grid > article > * {
+  grid-column: body-outset !important;
+}
+
+/* Keep the article itself spanning full screen (it already does via col-screen) */
+main.article-grid > article {
+  grid-column: screen !important;
+}
