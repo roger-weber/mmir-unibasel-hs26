@@ -1,0 +1,12 @@
+__pycache__
+.venv
+solr
+*.mp3
+*.zip
+node_modules
+data
+books
+*.7z
+movie_index
+lucene
+pdfs
