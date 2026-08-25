@@ -1,54 +1,96 @@
 # Multimedia Retrieval (HS26) — University of Basel
 
-The **Multimedia Retrieval** course at the University of Basel explores information retrieval systems spanning text, images, audio, and video content.
+The **Multimedia Retrieval** course explores information retrieval systems spanning text, images, audio, and video content — from classical models to modern AI-driven approaches.
 
-## Repository Structure
 
-```
-mmir-unibasel-hs26/
-├── publish/          ← Book + Quiz App (hosted via GitHub Pages)
-│   ├── index.html    ← Jupyter Book output (built from mmir-unibasel-content/book)
-│   ├── quiz/         ← Quiz application
-│   └── ...
-├── demos/            ← Interactive demo notebooks (Jupyter)
-├── exercises/        ← Theoretical and practical exercises
-├── learning/         ← Additional learning materials (book-related)
-└── README.md
-```
 
-## Online Resources
+## Schedule
 
-- **Book & Quiz**: https://roger-weber.github.io/mmir-unibasel-hs26/
-- **Quiz App**: https://roger-weber.github.io/mmir-unibasel-hs26/quiz/
-- [ADAM University Basel](https://adam.unibas.ch/) (for enrolled students)
-- [Public Web Site](https://dmi.unibas.ch/de/studium/computer-science-informatik/lehrangebot-hs26/lecture-multimedia-retrieval/)
+Fridays, 15:00–18:00
 
-## Getting Started
+| Date | Ch | Title | Location | Notes |
+|------:|---:|-------|----------|-------|
+| Sep 18 | 01 | Classical Text Retrieval | University | Course intro |
+| Sep 25 | 01–02 | Classical Text Retrieval / Performance Evaluation | University | |
+| Oct 02 | 02–03 | Performance Evaluation / Advanced Text Processing | University | |
+| Oct 09 | 03 | Advanced Text Processing | University | |
+| Oct 16 | 04 | Index for Text Retrieval | University | |
+| Oct 23 | 05 | Semantic Search | University | |
+| Oct 30 | 06 | Vector Search | Online (Zoom) | |
+| Nov 06 | 07 | Retrieval Augmented Generation | Online (Zoom) | |
+| Nov 13 | 08 | Web Search | Online (Zoom) | Exam preparation |
+| Nov 20 | 09 | Content Analysis | University | |
+| Nov 27 | — | *Dies Academicus* | — | No lecture |
+| Dec 04 | 10 | Visual Features | University | Evaluation |
+| Dec 11 | 11 | Audio Features | University | |
+| Dec 18 | 12 | Video & Structural Features | University | Feedback for Course |
 
-### Clone this repository
 
-```bash
-git clone https://github.com/roger-weber/mmir-unibasel-hs26.git
-cd mmir-unibasel-hs26
-```
 
-### Run demos locally
+## Resources
 
-```bash
-python -m venv .venv
-source .venv/bin/activate   # macOS/Linux
-.venv\Scripts\activate      # Windows
+The full course material is available as an interactive online book: **[Multimedia Retrieval Book](https://roger-weber.github.io/mmir-unibasel-hs26/)**
 
-pip install -r demos/requirements.txt
-jupyter notebook demos/
-```
+| Resource | Link |
+|----------|------|
+| Book | https://roger-weber.github.io/mmir-unibasel-hs26/ |
+| Quiz App | https://roger-weber.github.io/mmir-unibasel-hs26/quiz/ |
+| ADAM (students) | https://adam.unibas.ch/goto_adam_crs_2206931.html |
+| Public course page | https://dmi.unibas.ch/de/studium/computer-science-informatik/lehrangebot-hs26/lecture-multimedia-retrieval/ |
 
-### Exercises
 
-See the [exercises/](./exercises/) folder for theoretical and practical exercises assigned throughout the course.
 
-## Helpful Software
+## How the Content Is Organized
 
-- **Python**: [Download](https://www.python.org/downloads/) (3.11+)
-- **Jupyter**: `pip install notebook`
-- **IDE**: [VSCode](https://code.visualstudio.com/) with Python + Jupyter extensions
+The book is structured in three parts that build on each other. Each chapter focuses on one retrieval capability and the techniques to implement it. The path is cumulative: later chapters assume you have worked through the earlier ones.
+
+### Part I: Foundations
+
+The first three chapters establish the fundamentals that every retrieval system relies on.
+
+**Chapter 1: Classical Text Retrieval** introduces the core problem: given a query and a collection of documents, find the relevant ones. We build from Boolean retrieval (exact keyword matching) through TF-IDF weighting to BM25, the statistical ranking model that still powers production search engines today.
+
+**Chapter 2: Performance Evaluation** asks the question every retrieval engineer must answer: does this system actually work? We cover precision, recall, ranked evaluation metrics (MAP, NDCG), and the experimental methodology for benchmarking retrieval systems.
+
+**Chapter 3: Advanced Text Processing** looks at what happens before retrieval: how raw text is transformed into features that improve search quality. Tokenization, stemming, compound handling, query understanding, and intent classification.
+
+
+### Part II: Search Systems
+
+The middle chapters move from individual techniques to complete systems.
+
+**Chapter 4: Index for Text Retrieval** covers the data structures that make retrieval fast: inverted files, posting lists, compression, and how systems scale from thousands to billions of documents.
+
+**Chapter 5: Semantic Search** introduces the shift from keyword matching to meaning matching. We trace the path from latent semantic indexing through word embeddings to transformer-based dense retrieval.
+
+**Chapter 6: Vector Search** addresses the infrastructure challenge: once documents are represented as vectors, how do we find nearest neighbors efficiently among millions of embeddings? Approximate nearest neighbor algorithms, quantization, and vector databases.
+
+**Chapter 7: Retrieval-Augmented Generation** combines retrieval with large language models. We cover chunking strategies, query transformation, retrieval pipelines, and how to build systems that generate answers grounded in retrieved evidence.
+
+### Part III: Advanced Topics
+
+The final chapters extend retrieval beyond text.
+
+**Chapter 8: Web Search** adds link analysis (PageRank, HITS) and web-specific ranking signals to the retrieval stack.
+
+**Chapter 9: Content Analysis** covers structural and metadata-based features for multimedia documents.
+
+**Chapter 10: Visual Features** applies retrieval to images: color histograms, texture descriptors, shape features, and modern deep visual features.
+
+**Chapter 11: Audio Features** extends retrieval to audio: perceptual features, musical features, and fingerprinting for music recognition.
+
+**Chapter 12: Video Structural Features** addresses the temporal dimension: shot detection, motion features, and how to search within video.
+
+
+
+## What to Expect in Each Chapter
+
+Every chapter starts with a concrete scenario that motivates the problem, then develops the solution through four layers:
+
+1. **Concepts and examples.** We introduce each technique through a running example with real data, so you can see what the method does before we formalize how it works.
+2. **Formal foundations.** Key formulas and models are stated precisely, with plain-English intuition alongside the math. You will know both what to compute and why.
+3. **Practical implementation.** Code examples show how techniques translate into working systems. Where relevant, we reference production tools (Lucene, FAISS, LangChain) so you can connect theory to practice.
+4. **Hands-on notebooks.** Interactive demos let you run the techniques yourself, experiment with parameters, and observe how changes affect retrieval quality.
+5. **Quiz questions.** Each chapter includes multiple-choice questions in the [Quiz App](https://roger-weber.github.io/mmir-unibasel-hs26/quiz/) to test your understanding and prepare for the exam.
+
+
