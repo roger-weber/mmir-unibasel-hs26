@@ -2,6 +2,23 @@
 
 The **Multimedia Retrieval** course explores information retrieval systems spanning text, images, audio, and video content — from classical models to modern AI-driven approaches.
 
+### Prerequisites
+
+- Programming experience in Python
+- Basic linear algebra (vectors, matrices, dot products)
+- Basic probability and statistics
+
+### Learning Goals
+
+By the end of this course, you will be able to:
+
+- Build a text retrieval system using inverted indexes and ranking models
+- Evaluate retrieval quality with precision, recall, and ranking metrics
+- Design semantic search systems using dense embeddings
+- Construct a RAG pipeline that answers questions from a document collection
+- Apply retrieval techniques to images, audio, and video
+- Choose the right retrieval architecture for a given problem
+
 
 
 ## Schedule
@@ -20,7 +37,7 @@ Fridays, 15:00–18:00
 | Nov 06 | 07 | Retrieval Augmented Generation | Online (Zoom) | |
 | Nov 13 | 08 | Web Search | Online (Zoom) | Exam preparation |
 | Nov 20 | 09 | Content Analysis | University | |
-| Nov 27 | — | *Dies Academicus* | — | No lecture |
+| ==Nov 27== |  | ==*Dies Academicus*== |  | ==No lecture== |
 | Dec 04 | 10 | Visual Features | University | Evaluation |
 | Dec 11 | 11 | Audio Features | University | |
 | Dec 18 | 12 | Video & Structural Features | University | Feedback for Course |
@@ -29,8 +46,7 @@ Fridays, 15:00–18:00
 
 ## Resources
 
-The full course material is available as an interactive online book: **[Multimedia Retrieval Book](https://roger-weber.github.io/mmir-unibasel-hs26/)**
-
+The full course material is available as an interactive online book:
 | Resource | Link |
 |----------|------|
 | Book | https://roger-weber.github.io/mmir-unibasel-hs26/ |
@@ -42,7 +58,14 @@ The full course material is available as an interactive online book: **[Multimed
 
 ## How the Content Is Organized
 
-The book is structured in three parts that build on each other. Each chapter focuses on one retrieval capability and the techniques to implement it. The path is cumulative: later chapters assume you have worked through the earlier ones.
+The book is structured in three parts that build on each other. Each chapter focuses on one retrieval capability and the techniques to implement it. The path is cumulative: later chapters assume you have worked through the earlier ones. Every chapter starts with a concrete scenario that motivates the problem, then develops the solution through several layers:
+
+1. **Concepts and examples.** We introduce each technique through a running example with real data, so you can see what the method does before we formalize how it works.
+2. **Formal foundations.** Key formulas and models are stated precisely, with plain-English intuition alongside the math. You will know both what to compute and why.
+3. **Practical implementation.** Code examples show how techniques translate into working systems. Where relevant, we reference production tools (Lucene, FAISS, LangChain) so you can connect theory to practice.
+4. **Hands-on notebooks.** Interactive demos let you run the techniques yourself, experiment with parameters, and observe how changes affect retrieval quality.
+5. **Quiz questions.** Each chapter includes multiple-choice questions in the [Quiz App](https://roger-weber.github.io/mmir-unibasel-hs26/quiz/) to test your understanding and prepare for the exam.
+
 
 ### Part I: Foundations
 
@@ -81,16 +104,5 @@ The final chapters extend retrieval beyond text.
 
 **Chapter 12: Video Structural Features** addresses the temporal dimension: shot detection, motion features, and how to search within video.
 
-
-
-## What to Expect in Each Chapter
-
-Every chapter starts with a concrete scenario that motivates the problem, then develops the solution through four layers:
-
-1. **Concepts and examples.** We introduce each technique through a running example with real data, so you can see what the method does before we formalize how it works.
-2. **Formal foundations.** Key formulas and models are stated precisely, with plain-English intuition alongside the math. You will know both what to compute and why.
-3. **Practical implementation.** Code examples show how techniques translate into working systems. Where relevant, we reference production tools (Lucene, FAISS, LangChain) so you can connect theory to practice.
-4. **Hands-on notebooks.** Interactive demos let you run the techniques yourself, experiment with parameters, and observe how changes affect retrieval quality.
-5. **Quiz questions.** Each chapter includes multiple-choice questions in the [Quiz App](https://roger-weber.github.io/mmir-unibasel-hs26/quiz/) to test your understanding and prepare for the exam.
 
 
