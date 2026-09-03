@@ -49,7 +49,7 @@ Fridays, 15:00–18:00
 The full course material is available as an interactive online book:
 | Resource | Link |
 |----------|------|
-| Book | https://roger-weber.github.io/mmir-unibasel-hs26/ |
+| Book | https://roger-weber.github.io/mmir-unibasel-hs26/book |
 | Quiz App | https://roger-weber.github.io/mmir-unibasel-hs26/quiz/ |
 | ADAM (students) | https://adam.unibas.ch/goto_adam_crs_2206931.html |
 | Public course page | https://dmi.unibas.ch/de/studium/computer-science-informatik/lehrangebot-hs26/lecture-multimedia-retrieval/ |
