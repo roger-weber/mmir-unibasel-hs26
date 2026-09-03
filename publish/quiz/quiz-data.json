@@ -1,0 +1,252 @@
+{
+  "meta-data": {
+    "title": "Multimedia Retrieval HS26",
+    "description": "Exercise questions for MMIR HS26, University Basel",
+    "version": "2026-09-03",
+    "lastUpdated": "2026-09-03"
+  },
+  "questions": {
+    "01 - Classical Text Retrieval": [
+      {
+        "id": "01-classical-text-retr-q3",
+        "question": "Document A contains only the words \"solar panel efficiency\" (3 tokens). Document B discusses solar panel efficiency among many other energy topics (50 tokens, same query terms present). Using cosine similarity for the query \"solar panel efficiency\", which document scores higher and why?",
+        "options": [
+          "Document B, because it contains more total information about energy and has a richer vector representation",
+          "Document A, because the non-query terms in B inflate its vector norm without increasing the dot product",
+          "Both score equally because they contain the same query terms with identical frequencies",
+          "Document B, because longer documents accumulate more term matches and cosine scales with vector size"
+        ],
+        "correct": 1,
+        "explanation": "Cosine divides by the full vector norm. The non-query terms in B increase ||d|| without contributing to the numerator. This rotates the vector away from the query direction and lowers the score."
+      },
+      {
+        "id": "01-classical-text-retr-q5",
+        "question": "A stemmer reduces both \"operating\" and \"opera\" to the same stem \"oper\". What is the practical consequence for retrieval?",
+        "options": [
+          "Recall improves because grouping related terms increases the number of matching documents",
+          "Queries for \"opera\" return documents about operating systems, producing false positives that hurt precision",
+          "Precision improves because a smaller vocabulary reduces the chance of mismatches between queries and documents",
+          "The system can no longer distinguish any words that start with the same four letters"
+        ],
+        "correct": 1,
+        "explanation": "Over-stemming merges unrelated words into one token. A search for \"opera\" now matches documents about \"operating\", producing false positives that hurt precision rather than improving recall."
+      },
+      {
+        "id": "01-classical-text-retr-q9",
+        "question": "In a retriever-ranker pipeline, what is the role of the retriever?",
+        "options": [
+          "It scores and orders all documents in the collection by their estimated relevance",
+          "It quickly selects a candidate set of potentially relevant documents for the ranker",
+          "It removes stop words, stems the query, and reformulates it before matching",
+          "It presents results to the user with highlighted matches and relevance indicators"
+        ],
+        "correct": 1,
+        "explanation": "The retriever performs fast candidate selection (for example, Boolean OR on query terms). The ranker then scores and orders these candidates by estimated relevance."
+      },
+      {
+        "id": "01-classical-text-retr-q10",
+        "question": "A user searches for \"dog forest\" and marks two documents as relevant. Both relevant documents contain the word \"woodland\", while only 2 of the 10 non-relevant documents contain it. In the BIR feedback step, how should the system treat the term \"woodland\"?",
+        "options": [
+          "Ignore it because it was not part of the original query and only original terms should be scored",
+          "Use it as a negative signal to demote documents that contain it alongside the original query terms",
+          "Add it to the query with a high positive weight because it separates relevant from non-relevant documents",
+          "Replace \"forest\" with \"woodland\" in the query since the two words are synonyms in this context"
+        ],
+        "correct": 2,
+        "explanation": "BIR feedback computes weights for all terms, not just query terms. \"Woodland\" appears in 100% of relevant documents but only 20% of non-relevant documents. This is strong evidence that it helps identify relevant results, so the system should add it to the query with a positive weight."
+      },
+      {
+        "id": "01-classical-text-retr-q11",
+        "question": "A medical reference contains 500 pages covering dozens of conditions. The search system indexes the entire book as a single document. A user searches for \"ibuprofen dosage\". What is the practical consequence of this granularity choice?",
+        "options": [
+          "The system cannot index the book because it exceeds the maximum allowed document size for the index",
+          "The system returns the entire book and the user must locate the relevant page manually",
+          "The system returns only the page about ibuprofen because it can identify sub-document sections",
+          "The system cannot match the query because the book covers too many unrelated topics at once"
+        ],
+        "correct": 1,
+        "explanation": "Coarse retrieval granularity means the entire book is one retrieval unit. Since the book contains the query terms, it matches, but the system can only return the whole book. The user must then search within it to find the relevant passage. Finer granularity (per section or per page) would let the system point directly to the relevant content."
+      },
+      {
+        "id": "01-classical-text-retr-q12",
+        "question": "A search engine removes all stop words from its index to save storage space. A researcher then searches for the Stephen King novel titled \"It\". What happens?",
+        "options": [
+          "The query returns zero results because \"it\" was removed from the index during preprocessing",
+          "The query returns every document in the collection because \"it\" appears everywhere",
+          "The system detects that \"It\" is capitalized and treats it as a proper noun, bypassing stop word removal",
+          "Stop word removal only affects the display of results, not matching, so the search works normally"
+        ],
+        "correct": 0,
+        "explanation": "If \"it\" is on the stop word list, it was stripped from every document during indexing and no longer exists in the vocabulary. When the query arrives, the system cannot find any index entries for this term. This illustrates why aggressive stop word removal can be harmful. The modern approach keeps all terms in the index but assigns low IDF weights to common ones, so they contribute little to ranking without disappearing entirely."
+      },
+      {
+        "id": "01-classical-text-retr-q13",
+        "question": "In the Standard Boolean Model, the query \"climate AND biodiversity AND ocean\" returns zero results because no single document contains all three terms. Several documents contain two of the three. What does the Extended Boolean Model do differently in this situation?",
+        "options": [
+          "It automatically rewrites the AND query as an OR query so that any matching term produces a result",
+          "It assigns graded scores to each term, so partial matches receive positive scores instead of being excluded",
+          "It expands the query with synonyms for each term to increase the number of exact matches",
+          "It removes the least common query term one at a time until at least one document matches all remaining terms"
+        ],
+        "correct": 1,
+        "explanation": "The Extended Boolean Model replaces the hard true/false evaluation with graded scores between 0 and 1 for each term predicate. The p-norm operators combine these scores so that a document containing two of three query terms receives a positive (though not maximal) score. This produces a ranked list where partial matches appear below exact matches instead of being excluded entirely."
+      },
+      {
+        "id": "01-classical-text-retr-q17",
+        "question": "A company indexes its document collection every night at midnight. During the day, an employee uploads a new report and immediately searches for it. The search returns no results. Why?",
+        "options": [
+          "The report is too short for the system to include in its index and was filtered out automatically",
+          "The report was uploaded after the last indexing run and has not yet been added to the search index",
+          "New documents must be manually registered by an administrator before the indexer can process them",
+          "The system only indexes documents in PDF format and the report was uploaded in a different format"
+        ],
+        "correct": 1,
+        "explanation": "Retrieval is split into an offline indexing phase and an online query phase. The offline phase processes documents into searchable data structures before queries arrive. Documents added between indexing runs do not exist in the index yet and cannot be found, regardless of their content."
+      },
+      {
+        "id": "01-classical-text-retr-q18",
+        "question": "Two news articles are indexed using a bag-of-words representation with stop word removal but no further processing. Article A reports: \"Dog bites man\". Article B reports: \"Man bites dog\". A user searches for \"dog bites man\". How does the retrieval system distinguish between these two articles?",
+        "options": [
+          "TF-IDF weights differ because the terms appear in different syntactic positions within each article",
+          "It cannot distinguish them because bag-of-words discards word order, so both articles produce identical vectors",
+          "Cosine similarity uses word positions as a secondary signal when comparing documents to the query",
+          "The system detects that \"bites\" has different subjects in each article and creates separate token entries"
+        ],
+        "correct": 1,
+        "explanation": "The bag-of-words model represents each document as a vector of term frequencies. Both articles contain the same three content words (\"dog\", \"bites\", \"man\") with the same frequencies, so they produce identical vectors. The model has no mechanism to capture that the subject and object are swapped. Despite this limitation, bag-of-words works well in practice because term presence and frequency are strong relevance signals for most queries."
+      },
+      {
+        "id": "01-classical-text-retr-q19",
+        "question": "A document collection is indexed without stemming. A user issues the Boolean query \"cat AND trees\". Document A contains \"cat\" and \"trees\". Document B contains \"cats\" and \"tree\". Document C contains \"feline\" and \"forest\". Which documents does the query return?",
+        "options": [
+          "All three, because they all discuss cats and trees",
+          "Only Document A",
+          "Documents A and B",
+          "Documents A and C"
+        ],
+        "correct": 1,
+        "explanation": "Without stemming, each distinct surface form is an independent token in the vocabulary. \"cat\" and \"cats\" have different token IDs and do not match each other. The Boolean predicate requires both exact tokens \"cat\" and \"trees\" to be present. Only Document A satisfies this. Stemming would merge \"cat\"/\"cats\" and \"tree\"/\"trees\" into common stems, and synonym expansion could connect \"feline\" to \"cat\", but neither was applied here."
+      },
+      {
+        "id": "01-classical-text-retr-q21",
+        "question": "Two documents are scored with BM25 (k1=1.2, b=0.75) for the query \"climate\". The collection average document length is 100 tokens. Document M has 50 tokens and mentions \"climate\" 3 times. Document N has 200 tokens and mentions \"climate\" 6 times. Document N has twice the raw term frequency. Does it score higher than Document M?",
+        "options": [
+          "Yes, because double the raw occurrences produces roughly double the BM25 relevance score",
+          "No, because saturation limits extra repetitions and length normalization penalizes the longer document",
+          "They score equally because BM25 normalizes all documents to the same scale before comparing them",
+          "Yes, because BM25 always rewards higher raw term frequency regardless of the document's length"
+        ],
+        "correct": 1,
+        "explanation": "BM25 applies two corrections simultaneously. Term-frequency saturation means going from 3 to 6 occurrences adds far less than doubling the score. Document-length normalization penalizes Document N for being twice the average length: its denominator grows because 200/100 = 2.0, making each occurrence worth less. Together, these effects cause the shorter Document M to outscore Document N despite having half the raw term count."
+      },
+      {
+        "id": "01-classical-text-retr-q22",
+        "question": "A Boolean OR query for \"cat OR dog OR trees\" returns 11 of 12 documents. All returned documents are treated as equally relevant. What fundamental capability does the Vector Space Model add in this situation?",
+        "options": [
+          "It reduces the number of returned documents by applying stricter matching criteria to each candidate",
+          "It assigns relevance scores to all 11 documents and ranks them so the strongest matches appear first",
+          "It adds the ability to exclude unwanted results using NOT operators on individual query terms",
+          "It converts the query into a more precise Boolean expression that filters out weak matches automatically"
+        ],
+        "correct": 1,
+        "explanation": "Boolean retrieval only classifies documents as matching or not matching. The Vector Space Model represents both the query and documents as weighted vectors, then computes a similarity score for each match. Documents sharing more query terms or containing them more frequently score higher. This lets the user focus on the top-ranked results instead of scanning an unordered list of 11 documents."
+      },
+      {
+        "id": "01-classical-text-retr-q25",
+        "question": "A user wants documents about cats but not about the musical \"Cats\". They write the Boolean query \"cat AND NOT musical\". The collection contains a document about house cats that mentions \"this article appeared in Musical Notes magazine\". What happens to this document?",
+        "options": [
+          "It is returned because \"cat\" is present and \"musical\" appears in a completely different context",
+          "It is excluded because it contains the token \"musical\" and Boolean NOT cannot distinguish word meanings",
+          "It is returned with a lower relevance score because \"musical\" is present but used in a non-theatrical context",
+          "The system detects that \"musical\" refers to a magazine name and keeps the document in the results"
+        ],
+        "correct": 1,
+        "explanation": "Boolean NOT checks only whether the token is present, not what it means. Since the document contains \"musical\" (from the magazine name), the NOT predicate evaluates to false and the entire expression fails. The Standard Boolean Model has no mechanism to distinguish between the theatrical sense and the incidental use of the same word."
+      },
+      {
+        "id": "01-classical-text-retr-q26",
+        "question": "A search system normalizes all document vectors to unit length during indexing and stores only these unit vectors. At query time, it computes the raw inner product between the unnormalized query vector and each stored unit vector. A colleague argues this is wrong because \"cosine similarity divides by both norms, not just the document norm\". Is the colleague right?",
+        "options": [
+          "Yes, omitting the query norm produces a fundamentally different ranking than true cosine similarity",
+          "No, the query norm is a constant for all documents in the same query and does not change the ranking order",
+          "Yes, both the query and document vectors must be unit length for the inner product to equal cosine",
+          "No, normalizing the document vectors to unit length implicitly normalizes the query vector as well"
+        ],
+        "correct": 1,
+        "explanation": "Full cosine similarity divides the dot product by both norms. Pre-normalizing documents means the system computes dot(q, d/||d||) = dot(q,d)/||d||, which differs from cosine by the missing factor 1/||q||. But for a given query, ||q|| is the same constant for every document comparison. Dividing all scores by the same constant preserves ranking order. This optimization lets systems avoid recomputing document norms at query time."
+      },
+      {
+        "id": "01-classical-text-retr-q27",
+        "question": "In the original BM25 IDF formula, the weight depends on the ratio of documents that do not contain a term to those that do. A collection has 10,000 documents and a term appears in 8,000 of them. What happens to this term's IDF weight?",
+        "options": [
+          "It receives a large positive weight because the term is well-represented",
+          "It becomes negative, so a matching term would lower a document's score",
+          "It becomes exactly zero, contributing nothing to the score",
+          "The formula is undefined for terms with document frequency above N/2"
+        ],
+        "correct": 1,
+        "explanation": "Substituting into the BM25 IDF formula gives log((10000 - 8000 + 0.5) / (8000 + 0.5)) = log(2000.5 / 8000.5), which is approximately -0.60. A negative IDF means that finding this very common term in a document actively lowers its score. This is why many implementations (including Lucene) use an always-positive IDF variant instead."
+      },
+      {
+        "id": "01-classical-text-retr-q29",
+        "question": "A company splits every email into individual sentences and indexes each sentence as a separate document. A user searches for \"project deadline moved to Friday\". The relevant email discusses this change across three consecutive sentences: one mentions the project, another mentions the deadline, and a third mentions Friday. What problem does this granularity choice create?",
+        "options": [
+          "The system returns too many short results because sentence-level documents match partial queries very easily",
+          "No single sentence contains all query terms, so the relevant information is split across retrieval units",
+          "Sentence-level indexing requires far more storage than document-level and makes query processing slower",
+          "The system cannot assign meaningful term weights to individual sentences because they contain too few words"
+        ],
+        "correct": 1,
+        "explanation": "Overly fine granularity splits coherent content across multiple retrieval units. Each sentence is scored independently, and none contains all query terms. The system may return some sentences with low partial-match scores, but it has no mechanism to recognize that three adjacent sentences together answer the query. This is the opposite problem of too-coarse granularity, where the returned unit is too large to be useful."
+      },
+      {
+        "id": "01-classical-text-retr-q30",
+        "question": "A user searches for \"went hiking\" in two systems. System A uses Porter stemming. System B uses lemmatization. The collection contains documents with \"go hiking\" and \"goes for hikes\". Which system finds more of these documents, and why?",
+        "options": [
+          "System A, because stemming applies more aggressive reduction rules than lemmatization for all word forms",
+          "System B, because it maps \"went\" to \"go\" using a dictionary; stemming cannot reduce irregular forms",
+          "Both find identical results because \"went\" and \"go\" share a common stem after suffix stripping",
+          "Neither system matches \"went\" to \"go\" because the two words share no common surface-level pattern"
+        ],
+        "correct": 1,
+        "explanation": "Porter stemming applies rule-based suffix stripping. \"Went\" has no suffix to strip, so it stays \"went\" and never matches \"go\" or \"goes\". This is under-stemming: the failure to merge irregular forms. Lemmatization uses a dictionary to map \"went\" to its lemma \"go\", successfully connecting it to documents containing \"go\" and \"goes\". The trade-off is that lemmatization requires language-specific resources and is computationally more expensive."
+      },
+      {
+        "id": "01-classical-text-retr-q31",
+        "question": "A user searches a Boolean system for \"(cat AND dog) OR hound\". The collection is indexed without stemming. Document A contains \"cat\" and \"hound\". Document B contains \"dog\" and \"hound\". Document C contains \"cat\" and \"dog\". Document D contains only \"hound\". Which documents are returned?",
+        "options": [
+          "Only Document C, because it is the only one satisfying the AND clause",
+          "Documents C and D only",
+          "Documents A, B, C, and D",
+          "Documents A and B only"
+        ],
+        "correct": 2,
+        "explanation": "The OR operator requires only one side to be true. Document C satisfies the left side (cat AND dog). Documents A, B, and D each contain \"hound\", satisfying the right side. The trap is focusing only on the AND clause and forgetting that any document matching the OR alternative also qualifies."
+      },
+      {
+        "id": "01-classical-text-retr-q32",
+        "question": "A user searches the Vector Space Model for \"network network security\" (the term \"network\" typed twice). Compared to searching for \"network security\" (each term once), how does the repeated term affect the inner product ranking?",
+        "options": [
+          "No effect; the VSM removes duplicate terms from the query vector before scoring any documents",
+          "It doubles the query weight for \"network\", so documents strong in that term get a larger boost",
+          "It reduces the weight for \"network\" because the system penalizes repeated terms in the query",
+          "It triggers phrase matching and searches for the literal string \"network network security\""
+        ],
+        "correct": 1,
+        "explanation": "The query is processed through the same TF-IDF pipeline as documents. \"Network\" appears twice, so its query-vector component is 2 * idf(network), while \"security\" has 1 * idf(security). The inner product multiplies each document term weight by the corresponding query weight, so documents rich in \"network\" gain more than documents rich only in \"security\". This effectively lets users emphasize specific terms by repeating them."
+      },
+      {
+        "id": "01-classical-text-retr-q33",
+        "question": "In BM25, the parameter k1 controls how quickly the term-frequency component saturates. Higher k1 values let additional occurrences of a term contribute more before the ceiling is reached. What does setting k1 = 0 effectively turn BM25 into?",
+        "options": [
+          "A model equivalent to raw TF-IDF with no saturation",
+          "A binary model where only term presence matters, ignoring repetition count",
+          "A model that ranks all documents equally regardless of content",
+          "A model equivalent to cosine similarity with length normalization"
+        ],
+        "correct": 1,
+        "explanation": "With k1 = 0, the function becomes tf * 1 / (tf + 0) = 1 for any positive tf. Whether a term appears once or a thousand times, its contribution is the same. Combined with IDF, this produces a weighted set-of-words model: each query term present in the document contributes its IDF weight exactly once, regardless of frequency."
+      }
+    ]
+  }
+}
