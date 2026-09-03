@@ -5,21 +5,6 @@
     <loc>http://localhost:3001</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/overview</loc>
-  </url>
-  <url>
-    <loc>http://localhost:3001/the-long-road-to-modern-search</loc>
-  </url>
-  <url>
-    <loc>http://localhost:3001/breakthroughs-behind-modern-retrieval</loc>
-  </url>
-  <url>
-    <loc>http://localhost:3001/how-retrieval-systems-find-answers</loc>
-  </url>
-  <url>
-    <loc>http://localhost:3001/references-links</loc>
-  </url>
-  <url>
     <loc>http://localhost:3001/index-1</loc>
   </url>
   <url>
@@ -111,9 +96,6 @@
   </url>
   <url>
     <loc>http://localhost:3001/index-5</loc>
-  </url>
-  <url>
-    <loc>http://localhost:3001/introduction</loc>
   </url>
   <url>
     <loc>http://localhost:3001/latent-semantic-indexing</loc>

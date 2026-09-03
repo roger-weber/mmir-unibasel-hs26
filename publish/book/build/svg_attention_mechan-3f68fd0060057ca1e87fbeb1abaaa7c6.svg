@@ -1,0 +1,216 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 520" font-family="Arial, sans-serif" font-size="13">
+  <!-- Background -->
+  <rect width="900" height="520" fill="white"/>
+
+  <!-- Title -->
+  <text x="450" y="25" text-anchor="middle" font-size="16" font-weight="bold">Self-Attention: Computing context-aware representation z₂ for token "bank"</text>
+
+  <!-- Input embeddings row -->
+  <text x="50" y="75" font-size="12" fill="#666">Input embeddings:</text>
+
+  <!-- x1: The -->
+  <rect x="60" y="85" width="70" height="35" rx="4" fill="#e8f4fd" stroke="#4a90d9" stroke-width="1.5"/>
+  <text x="95" y="107" text-anchor="middle" font-size="12">x₁: "The"</text>
+
+  <!-- x2: bank (highlighted) -->
+  <rect x="150" y="85" width="80" height="35" rx="4" fill="#fff3cd" stroke="#d4a017" stroke-width="2"/>
+  <text x="190" y="107" text-anchor="middle" font-size="12" font-weight="bold">x₂: "bank"</text>
+
+  <!-- x3: approved -->
+  <rect x="250" y="85" width="95" height="35" rx="4" fill="#e8f4fd" stroke="#4a90d9" stroke-width="1.5"/>
+  <text x="297" y="107" text-anchor="middle" font-size="12">x₃: "approved"</text>
+
+  <!-- x4: the -->
+  <rect x="365" y="85" width="70" height="35" rx="4" fill="#e8f4fd" stroke="#4a90d9" stroke-width="1.5"/>
+  <text x="400" y="107" text-anchor="middle" font-size="12">x₄: "the"</text>
+
+  <!-- x5: loan -->
+  <rect x="455" y="85" width="75" height="35" rx="4" fill="#e8f4fd" stroke="#4a90d9" stroke-width="1.5"/>
+  <text x="492" y="107" text-anchor="middle" font-size="12">x₅: "loan"</text>
+
+  <!-- Arrows down from x2 to Q,K,V projections -->
+  <line x1="170" y1="120" x2="170" y2="160" stroke="#d4a017" stroke-width="1.5" marker-end="url(#arrow-gold)"/>
+  <line x1="190" y1="120" x2="190" y2="160" stroke="#d4a017" stroke-width="1.5" marker-end="url(#arrow-gold)"/>
+  <line x1="210" y1="120" x2="210" y2="160" stroke="#d4a017" stroke-width="1.5" marker-end="url(#arrow-gold)"/>
+
+  <!-- W_Q, W_K, W_V labels -->
+  <text x="160" y="150" font-size="11" fill="#666">W_Q</text>
+  <text x="183" y="150" font-size="11" fill="#666">W_K</text>
+  <text x="206" y="150" font-size="11" fill="#666">W_V</text>
+
+  <!-- Q, K, V for token 2 -->
+  <rect x="145" y="165" width="40" height="28" rx="3" fill="#ffcdd2" stroke="#c62828" stroke-width="1.5"/>
+  <text x="165" y="183" text-anchor="middle" font-size="11" font-weight="bold">q₂</text>
+
+  <rect x="195" y="165" width="40" height="28" rx="3" fill="#c8e6c9" stroke="#2e7d32" stroke-width="1.5"/>
+  <text x="215" y="183" text-anchor="middle" font-size="11" font-weight="bold">k₂</text>
+
+  <rect x="245" y="165" width="40" height="28" rx="3" fill="#bbdefb" stroke="#1565c0" stroke-width="1.5"/>
+  <text x="265" y="183" text-anchor="middle" font-size="11" font-weight="bold">v₂</text>
+
+  <!-- Keys from all tokens (row below) -->
+  <text x="50" y="240" font-size="12" fill="#666">All keys:</text>
+
+  <rect x="60" y="250" width="35" height="25" rx="3" fill="#c8e6c9" stroke="#2e7d32" stroke-width="1"/>
+  <text x="77" y="267" text-anchor="middle" font-size="10">k₁</text>
+
+  <rect x="105" y="250" width="35" height="25" rx="3" fill="#c8e6c9" stroke="#2e7d32" stroke-width="1"/>
+  <text x="122" y="267" text-anchor="middle" font-size="10">k₂</text>
+
+  <rect x="150" y="250" width="35" height="25" rx="3" fill="#c8e6c9" stroke="#2e7d32" stroke-width="1"/>
+  <text x="167" y="267" text-anchor="middle" font-size="10">k₃</text>
+
+  <rect x="195" y="250" width="35" height="25" rx="3" fill="#c8e6c9" stroke="#2e7d32" stroke-width="1"/>
+  <text x="212" y="267" text-anchor="middle" font-size="10">k₄</text>
+
+  <rect x="240" y="250" width="35" height="25" rx="3" fill="#c8e6c9" stroke="#2e7d32" stroke-width="1"/>
+  <text x="257" y="267" text-anchor="middle" font-size="10">k₅</text>
+
+  <!-- Dot products: q2 . kj -->
+  <text x="50" y="310" font-size="12" fill="#666">Dot products:</text>
+  <text x="50" y="325" font-size="11" fill="#666">q₂ᵀ · kⱼ / √d_k</text>
+
+  <rect x="60" y="335" width="50" height="25" rx="3" fill="#f5f5f5" stroke="#999" stroke-width="1"/>
+  <text x="85" y="352" text-anchor="middle" font-size="10">0.1</text>
+
+  <rect x="120" y="335" width="50" height="25" rx="3" fill="#f5f5f5" stroke="#999" stroke-width="1"/>
+  <text x="145" y="352" text-anchor="middle" font-size="10">0.5</text>
+
+  <rect x="180" y="335" width="50" height="25" rx="3" fill="#fff3cd" stroke="#d4a017" stroke-width="1.5"/>
+  <text x="205" y="352" text-anchor="middle" font-size="10" font-weight="bold">2.8</text>
+
+  <rect x="240" y="335" width="50" height="25" rx="3" fill="#f5f5f5" stroke="#999" stroke-width="1"/>
+  <text x="265" y="352" text-anchor="middle" font-size="10">0.2</text>
+
+  <rect x="300" y="335" width="50" height="25" rx="3" fill="#fff3cd" stroke="#d4a017" stroke-width="1.5"/>
+  <text x="325" y="352" text-anchor="middle" font-size="10" font-weight="bold">2.1</text>
+
+  <!-- Arrow to softmax -->
+  <line x1="200" y1="365" x2="200" y2="385" stroke="#333" stroke-width="1.5" marker-end="url(#arrow-black)"/>
+  <text x="230" y="380" font-size="11" fill="#333">softmax</text>
+
+  <!-- Attention weights -->
+  <text x="50" y="405" font-size="12" fill="#666">Attention weights α₂ⱼ:</text>
+
+  <rect x="60" y="410" width="50" height="25" rx="3" fill="#e8f4fd" stroke="#4a90d9" stroke-width="1"/>
+  <text x="85" y="427" text-anchor="middle" font-size="10">0.03</text>
+
+  <rect x="120" y="410" width="50" height="25" rx="3" fill="#e8f4fd" stroke="#4a90d9" stroke-width="1"/>
+  <text x="145" y="427" text-anchor="middle" font-size="10">0.05</text>
+
+  <rect x="180" y="410" width="50" height="25" rx="3" fill="#4a90d9" stroke="#2a5fa0" stroke-width="1.5"/>
+  <text x="205" y="427" text-anchor="middle" font-size="10" fill="white" font-weight="bold">0.52</text>
+
+  <rect x="240" y="410" width="50" height="25" rx="3" fill="#e8f4fd" stroke="#4a90d9" stroke-width="1"/>
+  <text x="265" y="427" text-anchor="middle" font-size="10">0.04</text>
+
+  <rect x="300" y="410" width="50" height="25" rx="3" fill="#4a90d9" stroke="#2a5fa0" stroke-width="1.5"/>
+  <text x="325" y="427" text-anchor="middle" font-size="10" fill="white" font-weight="bold">0.36</text>
+
+  <!-- Labels under weights -->
+  <text x="85" y="450" text-anchor="middle" font-size="9" fill="#666">"The"</text>
+  <text x="145" y="450" text-anchor="middle" font-size="9" fill="#666">"bank"</text>
+  <text x="205" y="450" text-anchor="middle" font-size="9" fill="#666">"approved"</text>
+  <text x="265" y="450" text-anchor="middle" font-size="9" fill="#666">"the"</text>
+  <text x="325" y="450" text-anchor="middle" font-size="9" fill="#666">"loan"</text>
+
+  <!-- Values row -->
+  <text x="50" y="475" font-size="12" fill="#666">Values:</text>
+
+  <rect x="60" y="478" width="35" height="22" rx="3" fill="#bbdefb" stroke="#1565c0" stroke-width="1"/>
+  <text x="77" y="493" text-anchor="middle" font-size="9">v₁</text>
+
+  <rect x="120" y="478" width="35" height="22" rx="3" fill="#bbdefb" stroke="#1565c0" stroke-width="1"/>
+  <text x="137" y="493" text-anchor="middle" font-size="9">v₂</text>
+
+  <rect x="180" y="478" width="35" height="22" rx="3" fill="#bbdefb" stroke="#1565c0" stroke-width="1.5"/>
+  <text x="197" y="493" text-anchor="middle" font-size="9">v₃</text>
+
+  <rect x="240" y="478" width="35" height="22" rx="3" fill="#bbdefb" stroke="#1565c0" stroke-width="1"/>
+  <text x="257" y="493" text-anchor="middle" font-size="9">v₄</text>
+
+  <rect x="300" y="478" width="35" height="22" rx="3" fill="#bbdefb" stroke="#1565c0" stroke-width="1.5"/>
+  <text x="317" y="493" text-anchor="middle" font-size="9">v₅</text>
+
+  <!-- Result -->
+  <text x="400" y="490" font-size="12" fill="#333">→  z₂ = 0.03·v₁ + 0.05·v₂ + 0.52·v₃ + 0.04·v₄ + 0.36·v₅</text>
+
+  <!-- Right panel: Multi-head -->
+  <rect x="570" y="60" width="310" height="440" rx="8" fill="#fafafa" stroke="#ddd" stroke-width="1"/>
+  <text x="725" y="85" text-anchor="middle" font-size="14" font-weight="bold">Multi-Head Attention</text>
+
+  <!-- Input -->
+  <rect x="665" y="100" width="120" height="30" rx="4" fill="#e8f4fd" stroke="#4a90d9" stroke-width="1.5"/>
+  <text x="725" y="120" text-anchor="middle" font-size="11">x₁, x₂, ..., xₙ</text>
+
+  <!-- Arrows to heads -->
+  <line x1="700" y1="130" x2="640" y2="165" stroke="#333" stroke-width="1" marker-end="url(#arrow-black)"/>
+  <line x1="725" y1="130" x2="725" y2="165" stroke="#333" stroke-width="1" marker-end="url(#arrow-black)"/>
+  <line x1="750" y1="130" x2="810" y2="165" stroke="#333" stroke-width="1" marker-end="url(#arrow-black)"/>
+
+  <!-- Head 1 -->
+  <rect x="600" y="170" width="80" height="90" rx="4" fill="#ffcdd2" stroke="#c62828" stroke-width="1"/>
+  <text x="640" y="190" text-anchor="middle" font-size="10" font-weight="bold">Head 1</text>
+  <text x="640" y="208" text-anchor="middle" font-size="9">W_Q¹, W_K¹, W_V¹</text>
+  <text x="640" y="225" text-anchor="middle" font-size="9">d_k = d/h = 64</text>
+  <text x="640" y="248" text-anchor="middle" font-size="9" fill="#666">syntactic</text>
+
+  <!-- Head 2 -->
+  <rect x="685" y="170" width="80" height="90" rx="4" fill="#c8e6c9" stroke="#2e7d32" stroke-width="1"/>
+  <text x="725" y="190" text-anchor="middle" font-size="10" font-weight="bold">Head 2</text>
+  <text x="725" y="208" text-anchor="middle" font-size="9">W_Q², W_K², W_V²</text>
+  <text x="725" y="225" text-anchor="middle" font-size="9">d_k = d/h = 64</text>
+  <text x="725" y="248" text-anchor="middle" font-size="9" fill="#666">semantic</text>
+
+  <!-- Head h -->
+  <rect x="770" y="170" width="80" height="90" rx="4" fill="#bbdefb" stroke="#1565c0" stroke-width="1"/>
+  <text x="810" y="190" text-anchor="middle" font-size="10" font-weight="bold">Head h</text>
+  <text x="810" y="208" text-anchor="middle" font-size="9">W_Qʰ, W_Kʰ, W_Vʰ</text>
+  <text x="810" y="225" text-anchor="middle" font-size="9">d_k = d/h = 64</text>
+  <text x="810" y="248" text-anchor="middle" font-size="9" fill="#666">positional</text>
+
+  <!-- ... between heads -->
+  <text x="682" y="215" font-size="14" fill="#666">...</text>
+  <text x="767" y="215" font-size="14" fill="#666">...</text>
+
+  <!-- Outputs from heads -->
+  <rect x="610" y="285" width="60" height="25" rx="3" fill="#ffcdd2" stroke="#c62828" stroke-width="1"/>
+  <text x="640" y="302" text-anchor="middle" font-size="9">d/h dim</text>
+
+  <rect x="695" y="285" width="60" height="25" rx="3" fill="#c8e6c9" stroke="#2e7d32" stroke-width="1"/>
+  <text x="725" y="302" text-anchor="middle" font-size="9">d/h dim</text>
+
+  <rect x="780" y="285" width="60" height="25" rx="3" fill="#bbdefb" stroke="#1565c0" stroke-width="1"/>
+  <text x="810" y="302" text-anchor="middle" font-size="9">d/h dim</text>
+
+  <!-- Concat -->
+  <line x1="640" y1="310" x2="640" y2="340" stroke="#333" stroke-width="1"/>
+  <line x1="725" y1="310" x2="725" y2="340" stroke="#333" stroke-width="1"/>
+  <line x1="810" y1="310" x2="810" y2="340" stroke="#333" stroke-width="1"/>
+
+  <rect x="620" y="340" width="210" height="30" rx="4" fill="#fff9c4" stroke="#f9a825" stroke-width="1.5"/>
+  <text x="725" y="360" text-anchor="middle" font-size="11">Concat → h × (d/h) = d dimensions</text>
+
+  <!-- W_O projection -->
+  <line x1="725" y1="370" x2="725" y2="400" stroke="#333" stroke-width="1.5" marker-end="url(#arrow-black)"/>
+  <text x="755" y="390" font-size="10" fill="#666">× W_O</text>
+
+  <!-- Output -->
+  <rect x="665" y="405" width="120" height="30" rx="4" fill="#fff3cd" stroke="#d4a017" stroke-width="2"/>
+  <text x="725" y="425" text-anchor="middle" font-size="11" font-weight="bold">z₁, z₂, ..., zₙ ∈ ℝᵈ</text>
+
+  <!-- Note -->
+  <text x="725" y="460" text-anchor="middle" font-size="10" fill="#666">Each zᵢ is context-aware:</text>
+  <text x="725" y="475" text-anchor="middle" font-size="10" fill="#666">same dimensionality d as input xᵢ</text>
+  <text x="725" y="490" text-anchor="middle" font-size="10" fill="#666">but informed by all other tokens</text>
+
+  <!-- Arrow markers -->
+  <defs>
+    <marker id="arrow-black" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#333"/>
+    </marker>
+    <marker id="arrow-gold" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#d4a017"/>
+    </marker>
+  </defs>
+</svg>

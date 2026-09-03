@@ -1,0 +1,72 @@
+---
+author: Roger Weber
+edition: HS26
+status: in-progress
+book_part: Search Systems
+chapter: Semantic Search
+order: "5"
+---
+
+# 5 - Semantic Search
+
+A user searching for "heart disease" expects to find documents about myocardial infarction, coronary artery conditions, and cardiology treatment, even when those documents share no keywords with the query. Classical retrieval models based on BM25 or the vector space model treat terms as independent symbols: they can match "heart" to "heart" but not to "cardiac". Stemming and lemmatization help at the surface level, and hand-curated ontologies can map synonyms, but these approaches are labor-intensive, language-specific, and break down quickly when facing the full diversity of natural language expression.
+
+Semantic search solves this problem by representing text as dense vectors in a continuous space where geometric proximity encodes meaning. Two words that never co-occur in a query-document pair can still be recognized as related if their embeddings point in similar directions. This shift from discrete term matching to continuous meaning matching is the central theme of this chapter.
+
+```{figure} images/figure_5_2.png
+:name: fig-keyword-vs-semantic
+:width: 90%
+
+Keyword matching operates on exact surface forms (left). Semantic matching maps terms into a continuous embedding space where conceptually related terms cluster together (right), enabling retrieval even when query and document share no words.
+```
+
+## The Evolution of Semantic Representations
+
+The path from keyword retrieval to modern semantic search spans three decades of research, each generation addressing limitations of its predecessor:
+
+1. **Latent Semantic Indexing** (Deerwester et al., 1988) applied Singular Value Decomposition to the term-document matrix, discovering latent topics that link related terms. LSI proved that dimensionality reduction could capture semantic relationships, but its computational cost and inability to use inverted indices limited practical adoption.
+
+2. **Static word embeddings** (Mikolov et al., 2013; Pennington et al., 2014) learned dense vector representations from local context windows. Word2Vec and GloVe showed that simple neural architectures trained on large corpora produce vectors where semantic similarity corresponds to geometric proximity. However, each word receives a single vector regardless of context: "bank" has the same representation whether it refers to a financial institution or a riverbank.
+
+3. **Contextual embeddings and transformers** (Vaswani et al., 2017; Devlin et al., 2019; Reimers and Gurevych, 2019) introduced attention mechanisms that produce different representations for the same word depending on its surrounding context. Sentence-BERT restructured transformers into efficient bi-encoders that generate high-quality sentence embeddings suitable for large-scale retrieval.
+
+4. **Modern retrieval architectures** (Khattab and Zaharia, 2020; Kusupati et al., 2022) introduced late interaction models like ColBERT that balance quality and efficiency, Matryoshka embeddings that enable multi-resolution search, and hybrid pipelines that combine sparse and dense retrieval for robustness.
+
+```{figure} images/figure_5_1.png
+:name: fig-retrieval-pipeline
+:width: 80%
+
+The modern retrieval pipeline: a fast retriever selects candidate documents from the index, then a re-ranker applies deeper semantic analysis to produce the final ranked list.
+```
+
+## How This Chapter Is Organized
+
+This chapter covers the full progression from early matrix methods to production-ready semantic search systems:
+
+- [](#latent-semantic-indexing) introduces dimensionality reduction via SVD and shows how LSI discovers latent topics that connect related terms.
+- [](#word-embeddings) presents Word2Vec, GloVe, and subword models that learn distributional word representations from context.
+- [](#transformer-embeddings) explains the attention mechanism, BERT, bi-encoders (SBERT), cross-encoders, and late interaction models (ColBERT).
+- [](#building-semantic-search) covers practical pipeline design: embedding model selection, document chunking, hybrid retrieval, and efficiency techniques.
+
+The next chapter ([Vector Search](#)) addresses the indexing problem: how to efficiently search through millions of embedding vectors using approximate nearest neighbor algorithms.
+
+```{admonition} What you'll learn
+:class: tip
+- Explain how SVD-based dimensionality reduction captures latent semantic relationships between terms
+- Compare static word embeddings (Word2Vec, GloVe) with contextual embeddings (BERT, SBERT) and articulate why context matters
+- Analyze the tradeoffs between bi-encoders, cross-encoders, and late interaction models in terms of quality, latency, and scalability
+- Design a multi-stage semantic search pipeline that combines sparse and dense retrieval with reranking
+- Evaluate embedding models using standardized benchmarks (MTEB) and select appropriate models for a given use case
+```
+
+```{admonition} Prerequisites
+:class: seealso
+- [Classical Text Retrieval (Ch. 1)](#): TF-IDF weighting, cosine similarity, the vector space model
+- [Advanced Text Processing (Ch. 3)](#): tokenization, subword segmentation (BPE, WordPiece)
+- [Indexing for Text Retrieval (Ch. 4)](#): inverted index, BM25 scoring
+- Basic linear algebra: matrix multiplication, eigenvalues, orthogonality
+- Basic neural networks: gradient descent, loss functions (see Appendix)
+```
+
+:::{toc}
+:::

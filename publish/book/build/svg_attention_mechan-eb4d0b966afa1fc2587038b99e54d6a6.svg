@@ -1,0 +1,164 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 580" font-family="Arial, sans-serif" font-size="12">
+  <rect width="700" height="580" fill="white"/>
+
+  <!-- Title -->
+  <text x="350" y="22" text-anchor="middle" font-size="14" font-weight="bold">Self-Attention: Computing z₂ for "bank"</text>
+
+  <!-- Word labels above boxes -->
+  <text x="80" y="55" text-anchor="middle" font-size="11" fill="#666">The</text>
+  <text x="200" y="55" text-anchor="middle" font-size="11" fill="#666" font-weight="bold">bank</text>
+  <text x="340" y="55" text-anchor="middle" font-size="11" fill="#666">approved</text>
+  <text x="480" y="55" text-anchor="middle" font-size="11" fill="#666">the</text>
+  <text x="600" y="55" text-anchor="middle" font-size="11" fill="#666">loan</text>
+
+  <!-- Input embedding boxes -->
+  <rect x="50" y="62" width="60" height="30" rx="4" fill="#e8f4fd" stroke="#4a90d9" stroke-width="1.5"/>
+  <text x="80" y="82" text-anchor="middle" font-size="11">x₁</text>
+
+  <rect x="170" y="62" width="60" height="30" rx="4" fill="#fff3cd" stroke="#d4a017" stroke-width="2"/>
+  <text x="200" y="82" text-anchor="middle" font-size="11" font-weight="bold">x₂</text>
+
+  <rect x="310" y="62" width="60" height="30" rx="4" fill="#e8f4fd" stroke="#4a90d9" stroke-width="1.5"/>
+  <text x="340" y="82" text-anchor="middle" font-size="11">x₃</text>
+
+  <rect x="450" y="62" width="60" height="30" rx="4" fill="#e8f4fd" stroke="#4a90d9" stroke-width="1.5"/>
+  <text x="480" y="82" text-anchor="middle" font-size="11">x₄</text>
+
+  <rect x="570" y="62" width="60" height="30" rx="4" fill="#e8f4fd" stroke="#4a90d9" stroke-width="1.5"/>
+  <text x="600" y="82" text-anchor="middle" font-size="11">x₅</text>
+
+  <!-- Arrow from x2 down to q2 -->
+  <line x1="200" y1="92" x2="200" y2="130" stroke="#d4a017" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="218" y="118" font-size="10" fill="#888">× W_Q</text>
+
+  <!-- q2 box -->
+  <rect x="170" y="135" width="60" height="30" rx="4" fill="#ffcdd2" stroke="#c62828" stroke-width="1.5"/>
+  <text x="200" y="155" text-anchor="middle" font-size="11" font-weight="bold">q₂</text>
+
+  <!-- Arrows from all x_i down to keys -->
+  <line x1="80" y1="92" x2="80" y2="130" stroke="#4a90d9" stroke-width="1" marker-end="url(#arr)"/>
+  <line x1="200" y1="92" x2="200" y2="200" stroke="#4a90d9" stroke-width="1" stroke-dasharray="3,3"/>
+  <line x1="340" y1="92" x2="340" y2="130" stroke="#4a90d9" stroke-width="1" marker-end="url(#arr)"/>
+  <line x1="480" y1="92" x2="480" y2="130" stroke="#4a90d9" stroke-width="1" marker-end="url(#arr)"/>
+  <line x1="600" y1="92" x2="600" y2="130" stroke="#4a90d9" stroke-width="1" marker-end="url(#arr)"/>
+
+  <!-- W_K labels -->
+  <text x="63" y="118" font-size="9" fill="#888">W_K</text>
+  <text x="323" y="118" font-size="9" fill="#888">W_K</text>
+  <text x="463" y="118" font-size="9" fill="#888">W_K</text>
+  <text x="583" y="118" font-size="9" fill="#888">W_K</text>
+
+  <!-- Key boxes -->
+  <rect x="50" y="135" width="60" height="30" rx="4" fill="#c8e6c9" stroke="#2e7d32" stroke-width="1.5"/>
+  <text x="80" y="155" text-anchor="middle" font-size="11">k₁</text>
+
+  <rect x="310" y="135" width="60" height="30" rx="4" fill="#c8e6c9" stroke="#2e7d32" stroke-width="1.5"/>
+  <text x="340" y="155" text-anchor="middle" font-size="11">k₃</text>
+
+  <rect x="450" y="135" width="60" height="30" rx="4" fill="#c8e6c9" stroke="#2e7d32" stroke-width="1.5"/>
+  <text x="480" y="155" text-anchor="middle" font-size="11">k₄</text>
+
+  <rect x="570" y="135" width="60" height="30" rx="4" fill="#c8e6c9" stroke="#2e7d32" stroke-width="1.5"/>
+  <text x="600" y="155" text-anchor="middle" font-size="11">k₅</text>
+
+  <!-- k2 (dashed, from same token) -->
+  <rect x="170" y="205" width="60" height="30" rx="4" fill="#c8e6c9" stroke="#2e7d32" stroke-width="1" stroke-dasharray="4,2"/>
+  <text x="200" y="225" text-anchor="middle" font-size="11" fill="#666">k₂</text>
+
+  <!-- Dot product arrows from q2 to all keys -->
+  <text x="350" y="195" text-anchor="middle" font-size="12" fill="#333">q₂ᵀ · kⱼ / √d_k</text>
+
+  <line x1="200" y1="165" x2="80" y2="195" stroke="#c62828" stroke-width="1" stroke-dasharray="2,2"/>
+  <line x1="200" y1="165" x2="200" y2="195" stroke="#c62828" stroke-width="1" stroke-dasharray="2,2"/>
+  <line x1="200" y1="165" x2="340" y2="195" stroke="#c62828" stroke-width="1" stroke-dasharray="2,2"/>
+  <line x1="200" y1="165" x2="480" y2="195" stroke="#c62828" stroke-width="1" stroke-dasharray="2,2"/>
+  <line x1="200" y1="165" x2="600" y2="195" stroke="#c62828" stroke-width="1" stroke-dasharray="2,2"/>
+
+  <!-- Raw scores row -->
+  <rect x="50" y="250" width="60" height="28" rx="3" fill="#f5f5f5" stroke="#999" stroke-width="1"/>
+  <text x="80" y="269" text-anchor="middle" font-size="10">0.1</text>
+
+  <rect x="170" y="250" width="60" height="28" rx="3" fill="#f5f5f5" stroke="#999" stroke-width="1"/>
+  <text x="200" y="269" text-anchor="middle" font-size="10">0.5</text>
+
+  <rect x="310" y="250" width="60" height="28" rx="3" fill="#fff3cd" stroke="#d4a017" stroke-width="1.5"/>
+  <text x="340" y="269" text-anchor="middle" font-size="10" font-weight="bold">2.8</text>
+
+  <rect x="450" y="250" width="60" height="28" rx="3" fill="#f5f5f5" stroke="#999" stroke-width="1"/>
+  <text x="480" y="269" text-anchor="middle" font-size="10">0.2</text>
+
+  <rect x="570" y="250" width="60" height="28" rx="3" fill="#fff3cd" stroke="#d4a017" stroke-width="1.5"/>
+  <text x="600" y="269" text-anchor="middle" font-size="10" font-weight="bold">2.1</text>
+
+  <!-- Arrow: softmax -->
+  <line x1="350" y1="283" x2="350" y2="310" stroke="#333" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="380" y="300" font-size="11" fill="#333">softmax</text>
+
+  <!-- Attention weights row -->
+  <text x="20" y="335" font-size="10" fill="#666">α₂ⱼ:</text>
+
+  <rect x="50" y="318" width="60" height="28" rx="3" fill="#e8f4fd" stroke="#4a90d9" stroke-width="1"/>
+  <text x="80" y="337" text-anchor="middle" font-size="10">0.03</text>
+
+  <rect x="170" y="318" width="60" height="28" rx="3" fill="#e8f4fd" stroke="#4a90d9" stroke-width="1"/>
+  <text x="200" y="337" text-anchor="middle" font-size="10">0.05</text>
+
+  <rect x="310" y="318" width="60" height="28" rx="3" fill="#1565c0" stroke="#0d47a1" stroke-width="1.5"/>
+  <text x="340" y="337" text-anchor="middle" font-size="10" fill="white" font-weight="bold">0.52</text>
+
+  <rect x="450" y="318" width="60" height="28" rx="3" fill="#e8f4fd" stroke="#4a90d9" stroke-width="1"/>
+  <text x="480" y="337" text-anchor="middle" font-size="10">0.04</text>
+
+  <rect x="570" y="318" width="60" height="28" rx="3" fill="#1565c0" stroke="#0d47a1" stroke-width="1.5"/>
+  <text x="600" y="337" text-anchor="middle" font-size="10" fill="white" font-weight="bold">0.36</text>
+
+  <!-- Multiply sign -->
+  <text x="350" y="365" text-anchor="middle" font-size="14" fill="#333">×</text>
+
+  <!-- Value boxes -->
+  <text x="20" y="395" font-size="10" fill="#666">vⱼ:</text>
+
+  <rect x="50" y="378" width="60" height="28" rx="3" fill="#bbdefb" stroke="#1565c0" stroke-width="1"/>
+  <text x="80" y="397" text-anchor="middle" font-size="11">v₁</text>
+
+  <rect x="170" y="378" width="60" height="28" rx="3" fill="#bbdefb" stroke="#1565c0" stroke-width="1"/>
+  <text x="200" y="397" text-anchor="middle" font-size="11">v₂</text>
+
+  <rect x="310" y="378" width="60" height="28" rx="3" fill="#bbdefb" stroke="#1565c0" stroke-width="1.5"/>
+  <text x="340" y="397" text-anchor="middle" font-size="11" font-weight="bold">v₃</text>
+
+  <rect x="450" y="378" width="60" height="28" rx="3" fill="#bbdefb" stroke="#1565c0" stroke-width="1"/>
+  <text x="480" y="397" text-anchor="middle" font-size="11">v₄</text>
+
+  <rect x="570" y="378" width="60" height="28" rx="3" fill="#bbdefb" stroke="#1565c0" stroke-width="1.5"/>
+  <text x="600" y="397" text-anchor="middle" font-size="11" font-weight="bold">v₅</text>
+
+  <!-- W_V labels above values -->
+  <text x="63" y="375" font-size="9" fill="#888">W_V·x₁</text>
+  <text x="183" y="375" font-size="9" fill="#888">W_V·x₂</text>
+  <text x="323" y="375" font-size="9" fill="#888">W_V·x₃</text>
+  <text x="463" y="375" font-size="9" fill="#888">W_V·x₄</text>
+  <text x="583" y="375" font-size="9" fill="#888">W_V·x₅</text>
+
+  <!-- Arrow to weighted sum -->
+  <line x1="350" y1="410" x2="350" y2="445" stroke="#333" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="400" y="433" font-size="11" fill="#333">weighted sum</text>
+
+  <!-- z2 output -->
+  <rect x="280" y="450" width="140" height="35" rx="5" fill="#fff3cd" stroke="#d4a017" stroke-width="2"/>
+  <text x="350" y="472" text-anchor="middle" font-size="12" font-weight="bold">z₂ ∈ ℝᵈ</text>
+
+  <!-- Interpretation note -->
+  <text x="350" y="510" text-anchor="middle" font-size="11" fill="#555">z₂ is dominated by "approved" (52%) and "loan" (36%)</text>
+  <text x="350" y="528" text-anchor="middle" font-size="11" fill="#555">→ "bank" in this context means financial institution</text>
+
+  <!-- Annotation: sum to 1 -->
+  <text x="350" y="555" text-anchor="middle" font-size="10" fill="#999">Σⱼ α₂ⱼ = 0.03 + 0.05 + 0.52 + 0.04 + 0.36 = 1.00</text>
+
+  <!-- Arrow marker -->
+  <defs>
+    <marker id="arr" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#333"/>
+    </marker>
+  </defs>
+</svg>

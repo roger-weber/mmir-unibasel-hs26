@@ -1,0 +1,37 @@
+---
+author: Roger Weber
+edition: HS26
+status: updated
+book_part: Foundations
+chapter: Advanced Text Processing
+order: "3"
+---
+
+(advanced-text-processing)=
+# 3 - Advanced Text Processing
+
+A user searches a bookshop's website for "car repair" and gets nothing useful. The catalog holds hundreds of matching titles, but their spines read "automobile repair", "auto repair", "Cars" (the Pixar film), or "car maintenance". The search index stores each of these as a separate token. "Car" and "automobile" never meet.
+
+A different user asks "Who won the F1 race on the weekend?" and gets nothing useful either. The answer sits in a race-results page that reads "Verstappen took the win at Silverstone on Sunday, 6 July". That page shares almost no tokens with the query. "Who" does not appear in it; "weekend" does not appear either (the report says Sunday and gives a date); even "race" is absent because the article calls it a "Grand Prix". The user asked a question and expected a fact back. The retriever received a bag of five keywords and matched them against pages that also contain the word "weekend".
+
+A third user types "Bücher von Goethe" and again gets unrelated results. Nothing in the pipeline noticed that "Bücher" is German for "books", that "Goethe" is a person's name, or that the sentence is a request for works by an author. All the structure the user provided was there in plain text and none of it was used.
+
+The three failures come from the same source. Classical retrieval treats text as a bag of exact tokens: one surface form is one term and a query is a bag of query terms. That model works for keyword searches over clean text and breaks in two directions. On the document side, one concept has many surface forms and recall collapses. On the query side, natural-language input has structure, meaning, and intent that do not map to tokens in the answer at all, and the retriever ignores every layer of that information.
+
+Advanced text processing addresses both. This chapter builds the classical toolbox that turns raw strings into features a retrieval and routing system can actually use: tokenization, normalization, sentence segmentation, stop words, stemming and lemmatization, phrase and compound detection, part-of-speech tagging, named entity recognition, and simple classifiers for language and intent. Together they close the recall gap on the document side and extract enough structure from queries that a retrieval system can route them, filter them, and rank the results.
+
+The three failure examples do not all fully resolve in this chapter. The bookshop's "car repair" query and the German "Bücher von Goethe" query are handled end to end here. The F1 question is harder: the classical pipeline can turn it into a targeted news-search query with a date filter, but delivering "Verstappen won" as a two-word answer rather than a list of pages is the work of semantic search and retrieval-augmented generation in later chapters. The F1 case will follow us through the book.
+
+```{tip} What you'll learn
+- Tokenize and normalize text for retrieval, including case folding, Unicode and accent handling, sentence segmentation, and language detection
+- Compare stemming and lemmatization strategies and choose the right one for a given retrieval scenario
+- Detect meaningful multi-word phrases and split compound words with pointwise mutual information, likelihood ratios, and log-frequency scoring
+- Extract structure from free-text queries with part-of-speech tagging and named entity recognition
+- Turn extracted features into decisions with a Naive Bayes classifier, applied to language detection and query intent routing
+```
+
+```{seealso} Prerequisites
+- The retrieval architectures and text-processing basics introduced in [](#classical-text-retrieval)
+- The evaluation framework from [](#performance-evaluation), used to compare classifiers in the last section
+- Basic probability and Bayes' rule, at the level covered in the ML foundations appendix
+```

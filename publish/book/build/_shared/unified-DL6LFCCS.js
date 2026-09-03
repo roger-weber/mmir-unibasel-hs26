@@ -1,1 +1,1 @@
-import{b as a}from"/mmir-unibasel-hs26/build/_shared/chunk-7SAO57PG.js";import"/mmir-unibasel-hs26/build/_shared/chunk-O4VQNZ62.js";import"/mmir-unibasel-hs26/build/_shared/chunk-OZE3FFNP.js";export{a as unified};
+import{b as a}from"/mmir-unibasel-hs26/book/build/_shared/chunk-7SAO57PG.js";import"/mmir-unibasel-hs26/book/build/_shared/chunk-O4VQNZ62.js";import"/mmir-unibasel-hs26/book/build/_shared/chunk-OZE3FFNP.js";export{a as unified};

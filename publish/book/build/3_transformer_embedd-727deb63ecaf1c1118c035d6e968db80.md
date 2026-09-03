@@ -1,0 +1,388 @@
+---
+author: Roger Weber
+edition: HS26
+status: in-progress
+book_part: Search Systems
+chapter: Semantic Search
+section: Transformer Embeddings
+order: "5.3"
+---
+
+(transformer-embeddings)=
+# Transformer Embeddings
+
+Word embeddings gave us dense vector representations of individual words, but three fundamental limitations remain before we can build effective neural models for text understanding. This section traces the solutions to each limitation, culminating in the transformer architecture and the retrieval models built on top of it: bi-encoders, cross-encoders, and late interaction models.
+
+## Three Challenges of Word Embeddings for Neural Models
+
+Word2Vec, GloVe, and fastText produce useful word vectors, but using them as input to deeper neural networks reveals structural problems:
+
+1. **Fixed vocabulary**: Word2Vec and GloVe assign vectors only to words seen during training. A new brand name, a misspelling, or a word from another language has no representation. fastText addresses this with sub-word decomposition, but its character n-grams (3-6 characters) are not linguistically motivated, and the number of possible n-grams is enormous (up to $3 \times 10^8$ for English 6-grams), making it impractical as input to a neural network.
+
+2. **Variable vocabulary size**: neural networks require fixed-size input layers. If the vocabulary has 500,000 words, the input layer needs 500,000 dimensions. Changing the vocabulary (adding words, switching language) means rebuilding the model. We need a representation scheme where the vocabulary size is decoupled from the model architecture.
+
+3. **Narrow context window**: Word2Vec operates within a window of 5-10 words, strictly within sentence boundaries. It cannot connect information across sentences. Consider: "The car arrived. It was red and made a lot of noise." The embeddings for the second sentence cannot encode that "red" and "noise" refer to "car", because the context window never reaches back into the first sentence. A retrieval system searching for "noisy red car" would not match the second sentence on its own.
+
+## One-Hot Vectors and Why They Fail at Scale
+
+Before solving these problems, we need to understand how discrete tokens are fed into neural networks. The naive approach assigns each token a unique integer ID: "the" → 1, "cat" → 2, "and" → 3, "dog" → 4. The sentence "the cat and the dog" becomes the sequence [1, 2, 3, 1, 4].
+
+This does not work. Integer IDs impose artificial relationships: if "cat" is 2 and "dog" is 4, the arithmetic 2 × cat = dog is meaningless but implied by the representation. "And" at 3 sits numerically between "cat" and "dog", suggesting a relationship that does not exist.
+
+The standard solution is **one-hot encoding**: represent each token as a vector of length $|\mathbb{T}|$ (the vocabulary size) with all zeros except a single 1 at the position of the token ID. For a vocabulary of 4 words:
+
+$$
+\text{"the"} = [1, 0, 0, 0], \quad \text{"cat"} = [0, 1, 0, 0], \quad \text{"and"} = [0, 0, 1, 0], \quad \text{"dog"} = [0, 0, 0, 1]
+$$
+
+One-hot vectors are orthogonal: no token is numerically "closer" to another. This removes the false relationships. It is exactly what Skip-Gram uses: the one-hot input selects a row from the weight matrix, which is the embedding vector for that token.
+
+One-hot vectors have two problems. First, they encode term independence: every token is equally different from every other token. But we know from LSI and word embeddings that terms are not independent; semantically related tokens reside in a lower-dimensional subspace. A 500,000-dimensional one-hot space is excessive because the true information content requires far fewer dimensions. LSI solved this with SVD, but we do not want to pay the computational cost of SVD for every new corpus. Instead, we will learn this dimensionality reduction as part of the model training (see learned embeddings below).
+
+Second, the vocabulary size directly determines the input layer size, and vocabularies vary across languages, domains, and corpora. A model trained with 500,000 English words cannot accept input from a 600,000-word corpus without rebuilding the input layer and retraining.
+
+## Sub-Word Tokenization
+
+Sub-word tokenization addresses the variable vocabulary problem by fixing the vocabulary size regardless of the corpus. Instead of one token per word, text is split into smaller pieces from a compact vocabulary of a predetermined size (typically 30k-50k tokens). Any word, including one never seen during training, can be decomposed into known sub-word pieces. This is similar to fastText's sub-word idea, but with two differences: the sub-word units are variable in length (not fixed 3-6 character n-grams), and they are determined by a data-driven algorithm that adapts to the frequency distribution of the training corpus.
+
+### Byte Pair Encoding (BPE)
+
+BPE builds its vocabulary iteratively:
+
+1. Start with all individual characters as the initial vocabulary.
+2. Count the frequency of all adjacent pairs of vocabulary items across the corpus. In the first iteration these are character pairs; in later iterations a "pair" can consist of multi-character tokens from previous merges.
+3. Merge the most frequent pair into a new vocabulary entry.
+4. Update all word representations by replacing occurrences of that pair with the new token.
+5. Repeat steps 2-4 until the desired vocabulary size is reached.
+
+````{note} Example
+For the sentence "this course is about this topic" (after lowercasing):
+
+Initial vocabulary: `a, b, c, e, h, i, o, p, r, s, t, u`
+
+Word representations with frequencies:
+```
+this     (×2):   t, h, i, s
+course   (×1):   c, o, u, r, s, e
+is       (×1):   i, s
+about    (×1):   a, b, o, u, t
+topic    (×1):   t, o, p, i, c
+```
+
+All adjacent pairs with counts: `is` (3), `th` (2), `hi` (2), `ou` (2), `co` (1), ...
+
+Most frequent pair: `i, s` (3 times: twice in "this", once in "is"). Merge into token `is`:
+```
+this     (×2):   t, h, is
+is       (×1):   is
+```
+
+Next round: `th` (2), `his` (2), `ou` (2), ... Merge `th`:
+```
+this     (×2):   th, is
+```
+
+Continue until the target vocabulary size is reached. Final encoding:
+```
+this | course | is | a·b·ou·t | this | t·o·p·i·c
+```
+
+Words not in the vocabulary are decomposed into whatever sub-word pieces exist.
+````
+
+Newer BPE variants operate at the byte level (starting with 256 initial entries), enabling them to handle any Unicode script without reserving the full character set in the vocabulary.
+
+### WordPiece
+
+WordPiece follows the same iterative process but differs in two ways:
+
+1. It distinguishes word-initial characters from word-internal ones using a "##" prefix. The starting vocabulary for our example becomes: `a, c, i, t, ##b, ##c, ##e, ##h, ##i, ##o, ##p, ##r, ##s, ##t, ##u`. This preserves prefix information: "un" in "unhappy" becomes a different token from "##un" in "running", capturing that prefixes often carry shared meaning across words.
+
+2. Instead of merging the most frequent pair, it merges the pair whose components appear together disproportionately often compared to their individual frequencies: $\text{score}(a, b) = \text{tf}(a, b) / (\text{tf}(a) \cdot \text{tf}(b))$. This is the same Pointwise Mutual Information criterion used for n-gram extraction. It prefers pairs that are strongly associated rather than merely frequent. A minimum frequency filter is needed to avoid favoring pairs that appear only once.
+
+BERT (2019) uses WordPiece with a 30,000-token vocabulary. GPT models use BPE with 50,000 tokens. The word "playing" becomes ["play", "##ing"] in WordPiece or ["play", "ing"] in BPE.
+
+### SentencePiece
+
+SentencePiece (Kudo and Richardson, 2018) is a language-independent tokenization framework that treats the input as a raw byte stream rather than pre-tokenized words. Unlike BPE and WordPiece, which first split text into words at whitespace and then decompose words into sub-word pieces, SentencePiece operates directly on the character sequence, including spaces (represented as a special "▁" character). This makes it suitable for languages without clear word boundaries (Chinese, Japanese, Thai) and avoids language-specific pre-processing rules.
+
+SentencePiece supports two sub-word algorithms: BPE (same merge-by-frequency strategy as above) and **Unigram**, which takes the opposite approach. Instead of building up from characters, Unigram starts with a large candidate vocabulary and iteratively removes tokens whose removal least reduces the likelihood of the training corpus. The final vocabulary contains tokens that together best explain the corpus under a unigram language model. XLM-RoBERTa and models built on it (such as BGE-M3) use SentencePiece with Unigram and a 250k vocabulary, enabling them to handle over 100 languages.
+
+In practice, all modern language models use some variant of BPE or SentencePiece. WordPiece remains in use only through BERT-based models. Vocabulary sizes range from 30k to 250k tokens. The exact size is a design choice: larger vocabularies represent more words as single tokens (faster encoding, more parameters in the embedding matrix), while smaller vocabularies decompose more aggressively (fewer parameters, but longer token sequences).
+
+| Algorithm | Used by | Vocab size | Merge criterion |
+|---|---|---|---|
+| WordPiece | BERT, MiniLM, Nomic Embed | 30k | PMI (association strength) |
+| BPE | GPT, Mistral, Qwen, Kimi | 32k-160k | Frequency (most common pair) |
+| SentencePiece (Unigram) | XLM-RoBERTa, BGE-M3 | 250k | Likelihood (corpus probability) |
+
+```{warning} Two meanings of "embedding"
+The term "embedding" is overloaded. (1) The **input embedding layer** maps tokens to vectors as the first step of a neural network. (2) A **semantic embedding** is a vector representation of an entire text passage produced by the full model for retrieval. In this subsection, we discuss the input embedding (meaning 1). The retrieval embeddings (meaning 2) are the output of the complete architecture discussed later in this section.
+```
+
+## Learned Embeddings
+
+With a fixed-size sub-word vocabulary, we can map each token to a one-hot vector of manageable size (30k-50k dimensions). But one-hot vectors are still sparse and high-dimensional. The next step is to learn a dense, lower-dimensional representation, exactly as Word2Vec does.
+
+An **embedding layer** is a weight matrix $\mathbf{E} \in \mathbb{R}^{|\mathbb{T}| \times d}$ where row $j$ is the $d$-dimensional embedding for token $j$. Multiplying a one-hot vector by $\mathbf{E}$ simply selects the corresponding row, which is a fast lookup operation. The embedding dimensionality $d$ (typically 768 for BERT-Base) is independent of the vocabulary size.
+
+The key difference from Word2Vec: these embeddings are not trained separately. They are initialized randomly and refined during the training of the full model. The embedding layer is the first component of the transformer architecture; its weights are updated by the same gradient descent that trains the attention layers, so the embeddings co-adapt with the rest of the model.
+
+This solves the variable-vocabulary problem: the embedding matrix is the only component whose size depends on $|\mathbb{T}|$. Everything downstream operates in $d$ dimensions regardless of vocabulary size.
+
+
+## From Sequential to Parallel Context
+
+The remaining challenge is context. Word embeddings are context-free. To understand "bank" in "The bank approved the loan", the model needs to attend to "approved" and "loan". Earlier neural approaches tried to solve this:
+
+**Recurrent Neural Networks (RNNs)** process tokens one at a time, carrying an internal hidden state that accumulates context from previous tokens. After reading "The", the state captures some information about the first word. After "The bank", it captures both. By the end of the sentence, the hidden state theoretically encodes the full context. LSTMs and GRUs improved on vanilla RNNs by better preserving long-range information.
+
+RNNs had two critical limitations. First, they are inherently sequential: token $i$ cannot be processed until token $i-1$ is finished. This prevents parallelization and makes training on long sequences very slow. Second, despite LSTM improvements, the hidden state still degrades over long distances. In a 500-word document, information from the first sentence is heavily diluted by the time the model reaches the last sentence.
+
+### Self-Attention: The Breakthrough
+
+The 2017 paper "Attention Is All You Need" (Vaswani et al.) introduced the transformer, arguably the most consequential architecture in modern AI. Every large language model (GPT, Claude, Gemini, Llama), every modern embedding model (SBERT, GTE, Nomic), and every state-of-the-art retrieval system is built on transformers. The core innovation is **self-attention**: instead of processing tokens sequentially, every token directly attends to every other token in parallel.
+
+Self-attention solves both RNN limitations at once. It processes all positions in parallel (enabling GPU acceleration over long sequences), and every token can directly access every other token regardless of distance (no information degradation over long sequences). The model itself learns which tokens are relevant to which other tokens, rather than relying on a fixed context window or a sequential accumulation of state.
+
+Concretely, self-attention transforms each token embedding $\mathbf{x}_i \in \mathbb{R}^d$ into a new, context-aware representation $\mathbf{z}_i \in \mathbb{R}^d$. The output has the same dimensionality as the input, but now "bank" at position 2 will have a different $\mathbf{z}_2$ depending on whether the surrounding words are about finance or rivers.
+
+````{note} How self-attention works: Q/K/V mechanism (optional reading)
+Self-attention computes context-aware representations through three steps: project, score, and aggregate.
+
+**1. Project** each token embedding $\mathbf{x}_i \in \mathbb{R}^d$ into three vectors using learned linear mappings $\mathbf{W}_Q \in \mathbb{R}^{d_k \times d}$, $\mathbf{W}_K \in \mathbb{R}^{d_k \times d}$, $\mathbf{W}_V \in \mathbb{R}^{d_v \times d}$:
+
+$$
+\mathbf{q}_i = \mathbf{W}_Q \mathbf{x}_i \in \mathbb{R}^{d_k}, \quad \mathbf{k}_i = \mathbf{W}_K \mathbf{x}_i \in \mathbb{R}^{d_k}, \quad \mathbf{v}_i = \mathbf{W}_V \mathbf{x}_i \in \mathbb{R}^{d_v}
+$$
+
+The query $\mathbf{q}_i$ is used to compare (via dot product) against the keys $\mathbf{k}_j$ of all other tokens: a high dot product $\mathbf{q}_i^\top \mathbf{k}_j$ means token $j$ is relevant to token $i$. The value $\mathbf{v}_j$ is the contribution that token $j$ makes to the new representation of token $i$ when the attention weight is high. Queries and keys must share the same dimensionality $d_k$ (so the dot product is defined). In practice, $d_k = d_v = d / h$ where $h$ is the number of attention heads. For BERT-Base: $d = 768$, $h = 12$, so each head operates in $d_k = 64$ dimensions.
+
+**2. Compute attention weights** for token $i$ over all positions $j$. The raw compatibility between query $i$ and key $j$ is their scaled dot product $\mathbf{q}_i^\top \mathbf{k}_j / \sqrt{d_k}$. To convert these into a probability distribution, we apply the softmax function, which exponentiates each score and normalizes by the sum:
+
+$$
+\alpha_{ij} = \text{softmax}_j\!\left(\frac{\mathbf{q}_i^\top \mathbf{k}_j}{\sqrt{d_k}}\right) = \frac{\exp\!\left(\mathbf{q}_i^\top \mathbf{k}_j / \sqrt{d_k}\right)}{\sum_{l=1}^{n} \exp\!\left(\mathbf{q}_i^\top \mathbf{k}_l / \sqrt{d_k}\right)}
+$$
+
+The exponential ensures all weights are positive, and dividing by the sum ensures $\sum_j \alpha_{ij} = 1$. A high $\alpha_{ij}$ means token $i$ attends strongly to token $j$.
+
+**3. Aggregate** by attention pooling: each token $j$ contributes its value $\mathbf{v}_j$ proportionally to its attention weight, producing the context-aware representation:
+
+$$
+\mathbf{z}_i = \sum_{j=1}^{n} \alpha_{ij} \mathbf{v}_j
+$$
+
+**Matrix form.** All three steps can be computed in one expression using matrices $\mathbf{Q}$, $\mathbf{K}$, $\mathbf{V}$ (whose rows are the individual query, key, and value vectors):
+
+$$
+\text{Attention}(\mathbf{Q}, \mathbf{K}, \mathbf{V}) = \text{softmax}\left(\frac{\mathbf{Q}\mathbf{K}^\top}{\sqrt{d_k}}\right) \mathbf{V}
+$$
+
+Here $\mathbf{Q}\mathbf{K}^\top$ is an $n \times n$ matrix of all pairwise dot products. The softmax is applied to each row independently (normalizing across columns). Multiplying by $\mathbf{V}$ computes all weighted sums in parallel. The division by $\sqrt{d_k}$ prevents dot products from growing too large with increasing dimension, which would push the softmax into near-zero gradients and slow training.
+
+
+[](#fig-attention-mechanism) illustrates this process for computing z₂ ("bank") in "The bank approved the loan". The query for "bank" is compared against all keys; "approved" and "loan" receive the highest attention weights because their keys are most compatible with "bank" in a financial context.
+
+```{figure} images/figure_5_19.png
+:name: fig-attention-mechanism
+:width: 70%
+
+Self-attention computing z₂ for "bank". The query q₂ is compared against all keys to produce attention weights. "Approved" (0.52) and "loan" (0.36) dominate, so z₂ is primarily a blend of their values, making "bank" context-aware as a financial institution.
+```
+
+**Multi-head attention** runs $h$ parallel attention operations with different projection matrices, allowing the model to attend to different types of relationships simultaneously. The outputs are concatenated and projected back to $d$ dimensions:
+
+$$
+\text{MultiHead}(\mathbf{Q}, \mathbf{K}, \mathbf{V}) = \text{Concat}(\text{head}_1, \ldots, \text{head}_h) \mathbf{W}_O
+$$
+
+Each head operates in $d/h$ dimensions; concatenating $h$ heads recovers the full $d$-dimensional output. [](#fig-multihead-attention) shows how multi-head attention works within one layer: $h$ parallel heads each run self-attention in $d/h$ dimensions with independent projections, then their outputs are concatenated and projected back to $d$ dimensions.
+
+```{figure} images/figure_5_20.png
+:name: fig-multihead-attention
+:width: 70%
+
+Multi-head attention: h parallel heads each run self-attention in d/h dimensions with independent projections. Concatenating all heads recovers the full d-dimensional output.
+```
+
+````
+
+
+### Positional Encoding
+
+Self-attention is permutation-invariant: the formula $\mathbf{z}_i = \sum_j \alpha_{ij} \mathbf{v}_j$ depends on token content but not on position. "Dog bites man" and "man bites dog" would produce identical representations without additional information. To preserve sequence order, a positional encoding $\mathbf{p}_i \in \mathbb{R}^d$ is added to each token embedding before the first attention layer:
+
+$$
+\mathbf{x}_i = \mathbf{E}[\text{token}_i] + \mathbf{p}_i
+$$
+
+The original transformer uses fixed sinusoidal functions at different frequencies for each dimension. BERT uses learned position vectors (one per position up to 512). Both approaches add position information without increasing the embedding dimensionality.
+
+### The Transformer Architecture
+
+A single self-attention layer produces one round of contextualization, but it has a fundamental limitation: the aggregation $\mathbf{z}_i = \sum_j \alpha_{ij} \mathbf{v}_j$ is a weighted sum, linear in the value vectors. While the attention weights themselves are non-linear (due to softmax), stacking multiple attention layers alone would still produce representations that are largely linear combinations of the inputs. To model complex, non-linear relationships between tokens, two additional components are needed.
+
+The **feed-forward network (FFN)** applies a non-linear transformation to each token independently: $\text{FFN}(\mathbf{z}) = \text{ReLU}(\mathbf{z}\mathbf{W}_1 + \mathbf{b}_1)\mathbf{W}_2 + \mathbf{b}_2$. The ReLU (or GELU in newer models) is where the non-linearity enters the transformer. Without it, the model could not learn complex token interactions regardless of depth.
+
+**Residual connections** add the input of each sub-layer directly to its output ($\mathbf{x} + \text{SubLayer}(\mathbf{x})$), creating shortcut paths through the network. During backpropagation, gradients flow through these shortcuts without passing through the attention or FFN computations, which prevents vanishing gradients and allows transformers to be stacked 12 to 96 layers deep (this idea originates from ResNets in computer vision). **Layer normalization** normalizes the activations at each layer, stabilizing training and reducing sensitivity to weight initialization.
+
+Together, one transformer layer consists of: multi-head self-attention → Add & Norm → feed-forward network → Add & Norm. [](#fig-transformers) shows the full architecture with these components stacked into an encoder and a decoder.
+
+The left side is the **encoder**: it processes the full input sequence bidirectionally (each token attends to all others) and produces contextualized representations. The right side is the **decoder**: it generates output tokens one at a time, using masked self-attention (each token can only attend to previous positions) plus cross-attention to the encoder output. For embedding and retrieval, we use only the encoder side.
+
+
+```{figure} images/transformers.png
+:name: fig-transformers
+:width: 50%
+
+The transformer architecture (Vaswani et al., 2017). Left: the encoder processes input bidirectionally through stacked layers of multi-head self-attention and feed-forward networks. Right: the decoder generates output auto-regressively with masked attention. For text embeddings, only the encoder is used.
+```
+
+
+## BERT: Bidirectional Context
+
+BERT (Devlin et al., 2019) applies the transformer encoder to produce contextualized token representations. Unlike GPT, which processes text left-to-right (suitable for generation), BERT attends to context from both directions simultaneously, making it better suited for understanding and representation tasks.
+
+BERT uses WordPiece tokenization, learned positional encodings, and adds one BERT-specific element: **segment encodings** that mark whether a token belongs to sentence A or sentence B when processing sentence pairs. Two special tokens frame the input: `[CLS]` at the start (whose final hidden state serves as a sequence-level representation) and `[SEP]` separating segments. The maximum sequence length is 512 tokens; shorter sequences are padded, longer ones truncated.
+
+[](#fig-bert-input) shows the complete input construction for an example sentence. The three embeddings (token, position, segment) are summed element-wise to form the input to the first encoder layer. BERT-Base stacks 12 encoder layers with 12 attention heads per layer; BERT-Large uses 24 layers with 16 heads.
+
+```{figure} images/figure_5_15.png
+:name: fig-bert-input
+:width: 95%
+
+BERT input construction for "the cat that chased the mouse was black". Token embeddings, positional encodings, and segment encodings are summed to produce the encoder input. After 12/24 layers, each token has a contextualized output vector. Option 1: use the `[CLS]` encoding as the sequence embedding. Option 2: pool over all non-masked token encodings.
+```
+
+### Pre-training
+
+BERT is pre-trained on two self-supervised tasks:
+- **Masked Language Modeling (MLM)**: randomly mask 15% of input tokens and predict them from context.
+- **Next Sentence Prediction (NSP)**: given two sentences, predict whether the second follows the first in the original text.
+
+After pre-training on large corpora (Wikipedia + BookCorpus), BERT's encoder produces 768-dimensional (Base) or 1024-dimensional (Large) contextualized vectors for each token. The same word receives different representations depending on its surrounding context.
+
+### From BERT to sentence embeddings
+
+BERT produces rich contextualized token representations, but these are internal states optimized for the pre-training objectives (predicting masked tokens and sentence adjacency), not for representing the overall meaning of a passage. The `[CLS]` token's hidden state encodes whatever information the Next Sentence Prediction task required, which is not the same as a general semantic summary. Using it directly as a sentence embedding for retrieval produces results worse than simple Word2Vec averaging. Mean pooling over all token outputs is marginally better but still underperforms static embeddings on semantic similarity benchmarks. Extracting useful sentence-level representations from BERT required a different training approach: Sentence-BERT.
+
+## Bi-Encoders: Sentence-BERT
+
+Sentence-BERT (Reimers and Gurevych, 2019) restructures BERT into a **bi-encoder** (also called dual-encoder or siamese network): two sentences are encoded independently by the same transformer, then compared via dot product (equivalent to cosine similarity because the embeddings are normalized to unit length). [](#fig-four-architectures) contrasts this with the simpler approaches discussed earlier in this chapter.
+
+```{figure} images/figure_5_16.png
+:name: fig-four-architectures
+:width: 95%
+
+Four architectures for sentence similarity, progressing from simple to powerful: (1) pooling static word embeddings, (2) pooling BERT token outputs, (3) bi-encoder with independently encoded sentences compared via learned similarity, (4) cross-encoder that jointly processes both sentences for maximum accuracy.
+```
+
+### Architecture and training
+
+The bi-encoder produces fixed-size sentence embeddings:
+1. Pass a sentence through BERT (or any transformer encoder).
+2. Apply mean pooling over the non-masked token outputs to produce a single $d$-dimensional vector.
+3. Normalize the vector to unit length.
+
+Training uses similarity-based losses on labeled sentence pairs:
+- **Contrastive loss**: pulls similar pairs close, pushes dissimilar pairs apart with a margin.
+- **Triplet loss**: given an anchor, a positive, and a negative, ensures $\text{sim}(a, p) > \text{sim}(a, n) + \epsilon$.
+- **Multiple negatives ranking loss (MNRL)**: treats all other examples in the batch as negatives, maximizing efficiency of each training step.
+
+Hard negative mining (selecting negatives that are challenging but incorrect) is critical for training high-quality bi-encoders.
+
+### Inference efficiency
+
+The bi-encoder's key advantage for retrieval: documents are encoded once during indexing. At query time, only the query needs encoding. Comparison is a dot product (equivalent to cosine similarity for normalized vectors), enabling sub-millisecond ranking over millions of pre-computed embeddings.
+
+### Modern bi-encoder variants
+
+Since SBERT, the field has advanced significantly:
+
+- **Instruction-tuned embeddings**: models like E5-Mistral, GTE-Qwen2, and Nomic Embed accept a task instruction prefix (e.g., "Represent this document for retrieval:") that adapts the embedding to the downstream task without retraining.
+- **Decoder-based encoders**: Qwen3-Embedding and similar models build on decoder transformers (using the final `[EOS]` token representation instead of `[CLS]`), achieving state-of-the-art quality at the cost of larger models (0.6B to 8B parameters).
+- **Extended context**: modern embedding models support 8k-32k token inputs, enabling direct encoding of longer passages without chunking. However, longer context does not come for free: compressing 30k tokens into a single $d$-dimensional vector loses more information than compressing 512 tokens into the same space. Research on long-context LLMs shows that attention disproportionately favors tokens near the beginning and end of the sequence, losing information from the middle. In practice, chunking a long document into shorter passages and retrieving at chunk level often outperforms encoding the full document as one vector. We return to this tradeoff in the next section.
+
+## Cross-Encoders and Reranking
+
+A cross-encoder processes the query and document together as a single input sequence, separated by `[SEP]`:
+
+```text
+[CLS] query [SEP] document [SEP]
+```
+
+The `[CLS]` token's final hidden state passes through a classification layer to produce a relevance score between 0 and 1. Because all tokens from both query and document attend to each other through every transformer layer, the cross-encoder captures fine-grained token-level interactions that bi-encoders miss.
+
+### Quality vs efficiency tradeoff
+
+| Property | Bi-Encoder | Cross-Encoder |
+|----------|-----------|---------------|
+| Encoding | Query and document separately | Query and document jointly |
+| Pre-computation | Documents encoded at index time | Every pair must be processed at query time |
+| Complexity per query | $O(1)$ per document (dot product) | $O(n \cdot L)$ per document ($L$ = sequence length) |
+| Semantic depth | Good (independent representations) | Excellent (full token-level interaction) |
+| Typical use | First-stage retrieval | Reranking top-$k$ candidates |
+
+### Two-stage pipeline
+
+Cross-encoders are too expensive for exhaustive search over large collections. The standard deployment pattern is:
+
+1. **Retrieve**: a bi-encoder (or BM25) selects the top-$k$ candidates (typically $k = 100\text{-}1000$).
+2. **Rerank**: a cross-encoder scores each candidate with full token interaction and reorders the list.
+
+This hybrid approach achieves near cross-encoder quality at near bi-encoder speed.
+
+## Late Interaction: ColBERT
+
+ColBERT (Khattab and Zaharia, 2020) occupies the middle ground between bi-encoders and cross-encoders by computing interaction at the token level while still allowing document pre-computation.
+
+### Architecture
+
+Unlike bi-encoders (which compress each text into a single vector) or cross-encoders (which process both texts jointly), ColBERT:
+
+1. **Encodes** query and document independently through a transformer, retaining all token-level embeddings (not pooling to a single vector).
+2. **Interacts** via late interaction: each query token computes maximum similarity against all document tokens.
+3. **Scores** by summing these maximum similarities across query tokens:
+
+```{note} Key Formula: ColBERT MaxSim Scoring
+\text{score}(q, d) = \sum_{i=1}^{|q|} \max_{j=1}^{|d|} \mathbf{q}_i^\top \mathbf{d}_j
+$$
+
+Each query token finds its best-matching document token (MaxSim), and the total score sums these per-token matches. This captures fine-grained term-level alignment without requiring joint encoding.
+```
+
+```{figure} images/figure_5_21.png
+:name: fig-colbert-architecture
+:width: 100%
+
+ColBERT architecture: query and document are encoded independently (allowing document pre-computation), but scoring uses token-level MaxSim interaction rather than a single-vector dot product.
+```
+
+### Training
+
+As with SBERT, raw BERT token outputs are not directly useful for MaxSim comparison. ColBERT uses a shared BERT encoder for both queries and documents, followed by a small linear projection that reduces each token embedding from 768 to 128 dimensions (reducing storage and comparison cost). The full system is trained end-to-end on triples of (query, relevant document, irrelevant document) with a ranking loss that maximizes the MaxSim score for the relevant document and minimizes it for the irrelevant one. Because the MaxSim scoring function is differentiable, gradients flow through it back into the encoder, teaching the model to produce token embeddings where semantically matching query-document token pairs have high dot products.
+
+### Why late interaction works
+
+At first glance, ColBERT's per-token matching looks similar to comparing word embeddings. The critical difference is that each token vector is a BERT output, not a static word embedding. Each $\mathbf{q}_i$ and $\mathbf{d}_j$ has been contextualized by self-attention over the entire query or document. The token "bank" in the document already encodes whether it means a financial institution or a riverbank, based on its surrounding context. When a query token matches a document token via dot product, it is comparing two context-aware representations, not two static word vectors.
+
+This means the MaxSim operation captures phenomena that neither static word embeddings nor single-vector bi-encoders can:
+
+- **Context-sensitive matching**: a query token "treatment" will match strongly with "treatment" in a medical document but weakly with "treatment" in a document about surface treatment of metals, because the BERT outputs differ despite the word being the same.
+- **Semantic matching**: a query token "automobile" will have high similarity with the document token "car" because the ranking loss during training explicitly pushed embeddings of semantically related tokens closer together.
+- **Partial matching**: not every query token needs to match strongly; the sum allows documents to score well by matching the most important query aspects.
+
+Unlike bi-encoders, ColBERT does not suffer from the compression problem discussed earlier. Each token retains its own vector, so no information is lost by squeezing an entire passage into a single representation. This is why ColBERT can use much lower-dimensional embeddings (128 dimensions per token, projected down from BERT's 768) than bi-encoders (which typically need 768-4096 dimensions per passage): representing one contextualized token requires far fewer dimensions than representing an entire document.
+
+The tradeoff is storage and search cost. A 500-token document produces 500 vectors instead of one. Searching requires computing $|q| \times 500$ dot products per document instead of a single one. Chunking remains useful not for avoiding information compression, but for limiting the number of vectors per unit and keeping semantically related tokens together for more focused matching. ColBERT v2 (Santhanam et al., 2022) addresses the storage cost of retaining per-token embeddings for every document through **residual compression**: token embeddings are quantized by storing only the residual from the nearest centroid, reducing storage by 6-10x while maintaining quality.
+
+
+### Architecture comparison
+
+| Architecture | Document representation | Query-time cost | Quality |
+|---|---|---|---|
+| Bi-encoder | 1 vector per document | 1 dot product per doc | Good |
+| ColBERT | $n$ vectors per document | $\|q\| \times n$ dot products | Very good |
+| Cross-encoder | None (must re-encode) | Full transformer pass per doc | Excellent |
+
+ColBERT achieves 95-98% of cross-encoder quality with 100-1000x faster query processing, making it practical for direct retrieval (not just reranking) over moderately large collections.

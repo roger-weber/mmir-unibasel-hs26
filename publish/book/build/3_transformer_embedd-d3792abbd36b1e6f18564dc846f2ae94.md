@@ -1,0 +1,215 @@
+---
+author: Roger Weber
+edition: HS26
+status: in-progress
+book_part: Search Systems
+chapter: Semantic Search
+section: Transformer Embeddings
+order: "5.3"
+---
+
+(transformer-embeddings)=
+# Transformer Embeddings
+
+Static word embeddings assign a single vector to each word regardless of context. This fails for words with multiple meanings and ignores the compositional meaning that emerges from word combinations. The transformer architecture (Vaswani et al., 2017) solved this by introducing self-attention: a mechanism that lets each token's representation be influenced by every other token in the sequence. This section traces the path from the attention mechanism through BERT to the modern retrieval architectures: bi-encoders, cross-encoders, and late interaction models.
+
+## The Attention Mechanism
+
+The core idea of self-attention is that a word's meaning in context depends on its relationships with all other words in the sequence. In "The bank approved the loan", the meaning of "bank" is determined by its relationship with "approved" and "loan". Self-attention computes these relationships explicitly.
+
+For a sequence of $n$ token embeddings, self-attention transforms each token by three steps:
+
+1. **Project** each token embedding $\mathbf{x}_i$ into three vectors: a query $\mathbf{q}_i$, a key $\mathbf{k}_i$, and a value $\mathbf{v}_i$ using learned weight matrices $\mathbf{W}_Q$, $\mathbf{W}_K$, $\mathbf{W}_V$:
+
+$$
+\mathbf{q}_i = \mathbf{W}_Q \mathbf{x}_i, \quad \mathbf{k}_i = \mathbf{W}_K \mathbf{x}_i, \quad \mathbf{v}_i = \mathbf{W}_V \mathbf{x}_i
+$$
+
+2. **Score** how much each token should attend to every other token via scaled dot products between queries and keys:
+
+$$
+\alpha_{ij} = \text{softmax}\left(\frac{\mathbf{q}_i^\top \mathbf{k}_j}{\sqrt{d_k}}\right)
+$$
+
+3. **Aggregate** the values weighted by attention scores to produce the new representation:
+
+$$
+\mathbf{z}_i = \sum_{j=1}^{n} \alpha_{ij} \mathbf{v}_j
+$$
+
+```{admonition} Key Formula: Scaled Dot-Product Attention
+:class: important
+
+$$
+\text{Attention}(\mathbf{Q}, \mathbf{K}, \mathbf{V}) = \text{softmax}\left(\frac{\mathbf{Q}\mathbf{K}^\top}{\sqrt{d_k}}\right) \mathbf{V}
+$$
+
+The division by $\sqrt{d_k}$ prevents the dot products from growing too large, which would push the softmax into regions with vanishing gradients. The result is a weighted combination of value vectors where weights reflect semantic relevance between token pairs.
+```
+
+```{figure} images/figure_5_19_attention_placeholder.png
+:name: fig-attention-mechanism
+:width: 80%
+
+**[PLACEHOLDER]** Self-attention mechanism: each token produces a query, key, and value vector. Attention weights (computed from query-key dot products) determine how much each token's value contributes to the output representation. Multi-head attention runs $h$ parallel attention operations with different projections, then concatenates results.
+```
+
+**Multi-head attention** runs $h$ parallel attention operations with different projection matrices, allowing the model to attend to different types of relationships simultaneously (syntactic, semantic, positional). The outputs are concatenated and projected:
+
+$$
+\text{MultiHead}(\mathbf{Q}, \mathbf{K}, \mathbf{V}) = \text{Concat}(\text{head}_1, \ldots, \text{head}_h) \mathbf{W}_O
+$$
+
+A transformer encoder stacks multiple layers of multi-head self-attention followed by feed-forward networks. BERT-Base uses 12 layers with 12 attention heads per layer; BERT-Large uses 24 layers with 16 heads.
+
+## BERT: Bidirectional Context
+
+BERT (Devlin et al., 2019) applies the transformer encoder to produce contextualized token representations. Unlike GPT, which processes text left-to-right (suitable for generation), BERT attends to context from both directions simultaneously, making it better suited for understanding and representation tasks.
+
+### Input construction
+
+BERT processes input through three summed embeddings:
+
+1. **Token embeddings**: WordPiece sub-word units (vocabulary of ~30,000 tokens). The word "playing" becomes ["play", "##ing"].
+2. **Positional encodings**: learned position vectors that preserve sequence order.
+3. **Segment encodings**: markers distinguishing sentence A from sentence B when processing sentence pairs.
+
+Two special tokens frame the input: `[CLS]` at the start (whose final hidden state serves as a sequence-level representation) and `[SEP]` separating segments. Sequences are padded to 512 tokens maximum.
+
+```{figure} images/figure_5_15.png
+:name: fig-bert-input
+:width: 95%
+
+BERT input construction for "the cat that chased the mouse was black". Token embeddings, positional encodings, and segment encodings are summed to form the encoder input. The 12/24-layer encoder produces contextualized output vectors. Option 1: use the `[CLS]` token encoding as the sequence embedding. Option 2: pool (average or max) over all non-masked token encodings.
+```
+
+### Pre-training
+
+BERT is pre-trained on two self-supervised tasks:
+- **Masked Language Modeling (MLM)**: randomly mask 15% of input tokens and predict them from context.
+- **Next Sentence Prediction (NSP)**: given two sentences, predict whether the second follows the first in the original text.
+
+After pre-training on large corpora (Wikipedia + BookCorpus), BERT's encoder produces 768-dimensional (Base) or 1024-dimensional (Large) contextualized vectors for each token. The same word receives different representations depending on its surrounding context.
+
+### From BERT to sentence embeddings
+
+Using raw BERT output for retrieval was initially disappointing. The `[CLS]` token, while designed for classification, produces poor sentence embeddings without task-specific fine-tuning. Mean pooling over token outputs performs marginally better but still underperforms even simple Word2Vec averaging on semantic similarity benchmarks. The breakthrough came with Sentence-BERT.
+
+## Bi-Encoders: Sentence-BERT
+
+Sentence-BERT (Reimers and Gurevych, 2019) restructures BERT into a **bi-encoder** (also called dual-encoder or siamese network): two sentences are encoded independently by the same transformer, then compared via cosine similarity.
+
+```{figure} images/figure_5_16.png
+:name: fig-four-architectures
+:width: 95%
+
+Four architectures for sentence similarity, progressing from simple to powerful: (1) pooling static word embeddings, (2) pooling BERT token outputs, (3) bi-encoder with independently encoded sentences compared via learned similarity, (4) cross-encoder that jointly processes both sentences for maximum accuracy.
+```
+
+### Architecture and training
+
+The bi-encoder produces fixed-size sentence embeddings:
+1. Pass a sentence through BERT (or any transformer encoder).
+2. Apply mean pooling over the non-masked token outputs to produce a single $d$-dimensional vector.
+3. Normalize the vector to unit length.
+
+Training uses similarity-based losses on labeled sentence pairs:
+- **Contrastive loss**: pulls similar pairs close, pushes dissimilar pairs apart with a margin.
+- **Triplet loss**: given an anchor, a positive, and a negative, ensures $\text{sim}(a, p) > \text{sim}(a, n) + \epsilon$.
+- **Multiple negatives ranking loss (MNRL)**: treats all other examples in the batch as negatives, maximizing efficiency of each training step.
+
+Hard negative mining (selecting negatives that are challenging but incorrect) is critical for training high-quality bi-encoders.
+
+### Inference efficiency
+
+The bi-encoder's key advantage for retrieval: documents are encoded once during indexing. At query time, only the query needs encoding. Comparison is a dot product (equivalent to cosine similarity for normalized vectors), enabling sub-millisecond ranking over millions of pre-computed embeddings.
+
+### Modern bi-encoder variants
+
+Since SBERT, the field has advanced significantly:
+
+- **Instruction-tuned embeddings**: models like E5-Mistral, GTE-Qwen2, and Nomic Embed accept a task instruction prefix (e.g., "Represent this document for retrieval:") that adapts the embedding to the downstream task without retraining.
+- **Decoder-based encoders**: Qwen3-Embedding and similar models build on decoder transformers (using the final `[EOS]` token representation instead of `[CLS]`), achieving state-of-the-art quality at the cost of larger models (0.6B to 8B parameters).
+- **Extended context**: modern embedding models support 8k-32k token inputs, enabling direct encoding of long documents without chunking.
+
+## Cross-Encoders and Reranking
+
+A cross-encoder processes the query and document together as a single input sequence, separated by `[SEP]`:
+
+```text
+[CLS] query [SEP] document [SEP]
+```
+
+The `[CLS]` token's final hidden state passes through a classification layer to produce a relevance score between 0 and 1. Because all tokens from both query and document attend to each other through every transformer layer, the cross-encoder captures fine-grained token-level interactions that bi-encoders miss.
+
+### Quality vs efficiency tradeoff
+
+| Property | Bi-Encoder | Cross-Encoder |
+|----------|-----------|---------------|
+| Encoding | Query and document separately | Query and document jointly |
+| Pre-computation | Documents encoded at index time | Every pair must be processed at query time |
+| Complexity per query | $O(1)$ per document (dot product) | $O(n \cdot L)$ per document ($L$ = sequence length) |
+| Semantic depth | Good (independent representations) | Excellent (full token-level interaction) |
+| Typical use | First-stage retrieval | Reranking top-$k$ candidates |
+
+### Two-stage pipeline
+
+Cross-encoders are too expensive for exhaustive search over large collections. The standard deployment pattern is:
+
+1. **Retrieve**: a bi-encoder (or BM25) selects the top-$k$ candidates (typically $k = 100\text{-}1000$).
+2. **Rerank**: a cross-encoder scores each candidate with full token interaction and reorders the list.
+
+This hybrid approach achieves near cross-encoder quality at near bi-encoder speed.
+
+## Late Interaction: ColBERT
+
+ColBERT (Khattab and Zaharia, 2020) occupies the middle ground between bi-encoders and cross-encoders by computing interaction at the token level while still allowing document pre-computation.
+
+### Architecture
+
+Unlike bi-encoders (which compress each text into a single vector) or cross-encoders (which process both texts jointly), ColBERT:
+
+1. **Encodes** query and document independently through a transformer, retaining all token-level embeddings (not pooling to a single vector).
+2. **Interacts** via late interaction: each query token computes maximum similarity against all document tokens.
+3. **Scores** by summing these maximum similarities across query tokens:
+
+```{admonition} Key Formula: ColBERT MaxSim Scoring
+:class: important
+
+$$
+\text{score}(q, d) = \sum_{i=1}^{|q|} \max_{j=1}^{|d|} \mathbf{q}_i^\top \mathbf{d}_j
+$$
+
+Each query token finds its best-matching document token (MaxSim), and the total score sums these per-token matches. This captures fine-grained term-level alignment without requiring joint encoding.
+```
+
+```{figure} images/figure_5_20_colbert_placeholder.png
+:name: fig-colbert-architecture
+:width: 80%
+
+**[PLACEHOLDER]** ColBERT architecture: query and document are encoded independently (allowing document pre-computation), but scoring uses token-level MaxSim interaction rather than a single-vector dot product.
+```
+
+### Why late interaction works
+
+The MaxSim operation captures important phenomena that single-vector similarity misses:
+
+- **Exact term matching**: a query token "Python" will have very high similarity with the document token "Python", directly contributing to the score.
+- **Semantic matching**: a query token "automobile" will have high similarity with the document token "car" through their embedding proximity.
+- **Partial matching**: not every query token needs to match strongly; the sum allows documents to score well by matching the most important query aspects.
+
+### ColBERT v2 and efficiency
+
+ColBERT v2 (Santhanam et al., 2022) addresses the storage cost of retaining per-token embeddings for every document through **residual compression**: token embeddings are quantized by storing only the residual from the nearest centroid, reducing storage by 6-10x while maintaining quality.
+
+The PLAID engine further accelerates retrieval by using centroid interaction for candidate generation before computing full MaxSim only on the top candidates.
+
+### Architecture comparison
+
+| Architecture | Document representation | Query-time cost | Quality |
+|---|---|---|---|
+| Bi-encoder | 1 vector per document | 1 dot product per doc | Good |
+| ColBERT | $n$ vectors per document | $|q| \times n$ dot products | Very good |
+| Cross-encoder | None (must re-encode) | Full transformer pass per doc | Excellent |
+
+ColBERT achieves 95-98% of cross-encoder quality with 100-1000x faster query processing, making it practical for direct retrieval (not just reranking) over moderately large collections.
