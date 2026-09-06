@@ -39,7 +39,7 @@ Each session focuses on the listed chapter but may include review of the previou
 | Nov 06 | Retrieval-Augmented Generation | Online (Zoom) | |
 | Nov 13 | Web Search | Online (Zoom) | Exam preparation |
 | Nov 20 | Content Analysis | University | |
-| ==Nov 27== | ==*Dies Academicus*== |  | ==No lecture== |
+| Nov 27 | *Dies Academicus* |  | No lecture |
 | Dec 04 | Visual Features | University | Evaluation |
 | Dec 11 | Audio Features | University | |
 | Dec 18 | Video & Structural Features | University | Feedback for course |
