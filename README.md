@@ -25,22 +25,22 @@ By the end of this course, you will be able to:
 
 Fridays, 15:00–18:00
 
-| Date | Ch | Title | Location | Notes |
-|------:|---:|-------|----------|-------|
-| Sep 18 | 01 | Classical Text Retrieval | University | Course intro |
-| Sep 25 | 01–02 | Classical Text Retrieval / Performance Evaluation | University | |
-| Oct 02 | 02–03 | Performance Evaluation / Advanced Text Processing | University | |
-| Oct 09 | 03 | Advanced Text Processing | University | |
-| Oct 16 | 04 | Index for Text Retrieval | University | |
-| Oct 23 | 05 | Semantic Search | University | |
-| Oct 30 | 06 | Vector Search | Online (Zoom) | |
-| Nov 06 | 07 | Retrieval Augmented Generation | Online (Zoom) | |
-| Nov 13 | 08 | Web Search | Online (Zoom) | Exam preparation |
-| Nov 20 | 09 | Content Analysis | University | |
-| ==Nov 27== |  | ==*Dies Academicus*== |  | ==No lecture== |
-| Dec 04 | 10 | Visual Features | University | Evaluation |
-| Dec 11 | 11 | Audio Features | University | |
-| Dec 18 | 12 | Video & Structural Features | University | Feedback for Course |
+| Date | Title | Location | Notes |
+|------:|-------|----------|-------|
+| Sep 18 | [Classical Text Retrieval](https://roger-weber.github.io/mmir-unibasel-hs26/book/index-1/) ([pdf](chapters/ch01-classical-text-retrieval.pdf)) | University | Course intro |
+| Sep 25 | [Classical Text Retrieval](https://roger-weber.github.io/mmir-unibasel-hs26/book/index-1/) / Performance Evaluation | University | |
+| Oct 02 | Performance Evaluation / Advanced Text Processing | University | |
+| Oct 09 | Advanced Text Processing | University | |
+| Oct 16 | Index for Text Retrieval | University | |
+| Oct 23 | Semantic Search | University | |
+| Oct 30 | Vector Search | Online (Zoom) | |
+| Nov 06 | Retrieval-Augmented Generation | Online (Zoom) | |
+| Nov 13 | Web Search | Online (Zoom) | Exam preparation |
+| Nov 20 | Content Analysis | University | |
+| ==Nov 27== | ==*Dies Academicus*== |  | ==No lecture== |
+| Dec 04 | Visual Features | University | Evaluation |
+| Dec 11 | Audio Features | University | |
+| Dec 18 | Video & Structural Features | University | Feedback for course |
 
 
 
