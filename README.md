@@ -25,11 +25,13 @@ By the end of this course, you will be able to:
 
 Fridays, 15:00–18:00
 
+Each session focuses on the listed chapter but may include review of the previous chapter or a brief preview of the next.
+
 | Date | Title | Location | Notes |
 |------:|-------|----------|-------|
-| Sep 18 | [Classical Text Retrieval](https://roger-weber.github.io/mmir-unibasel-hs26/book/index-1/) ([pdf](chapters/ch01-classical-text-retrieval.pdf)) | University | Course intro |
-| Sep 25 | [Classical Text Retrieval](https://roger-weber.github.io/mmir-unibasel-hs26/book/index-1/) / Performance Evaluation | University | |
-| Oct 02 | Performance Evaluation / Advanced Text Processing | University | |
+| Sep 18 | [Overview](https://roger-weber.github.io/mmir-unibasel-hs26/book/) ([pdf](chapters/ch00-overview.pdf)) | University | Course intro |
+| Sep 25 | [Classical Text Retrieval](https://roger-weber.github.io/mmir-unibasel-hs26/book/index-1/) ([pdf](chapters/ch01-classical-text-retrieval.pdf)) | University | |
+| Oct 02 | Performance Evaluation | University | |
 | Oct 09 | Advanced Text Processing | University | |
 | Oct 16 | Index for Text Retrieval | University | |
 | Oct 23 | Semantic Search | University | |
