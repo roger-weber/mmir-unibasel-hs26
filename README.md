@@ -29,8 +29,8 @@ Each session focuses on the listed chapter but may include review of the previou
 
 | Date | Title | Location | Notes |
 |------:|-------|----------|-------|
-| Sep 18 | [Overview](https://roger-weber.github.io/mmir-unibasel-hs26/book/) ([pdf](chapters/ch00-overview.pdf), [slides](slides/ch00-overview.pdf)) | University | Course intro |
-| Sep 25 | [Classical Text Retrieval](https://roger-weber.github.io/mmir-unibasel-hs26/book/index-1/) ([pdf](chapters/ch01-classical-text-retrieval.pdf)) | University | |
+| Sep 18 | [Overview](https://roger-weber.github.io/mmir-unibasel-hs26/book/) ([pdf](https://roger-weber.github.io/mmir-unibasel-hs26/chapters/ch00-overview.pdf), [slides](https://roger-weber.github.io/mmir-unibasel-hs26/slides/ch00-overview.pdf)) | University | Course intro |
+| Sep 25 | [Classical Text Retrieval](https://roger-weber.github.io/mmir-unibasel-hs26/book/index-1/) ([pdf](https://roger-weber.github.io/mmir-unibasel-hs26/chapters/ch01-classical-text-retrieval.pdf)) | University | |
 | Oct 02 | Performance Evaluation | University | |
 | Oct 09 | Advanced Text Processing | University | |
 | Oct 16 | Index for Text Retrieval | University | |
