@@ -2,8 +2,8 @@
   "meta-data": {
     "title": "Multimedia Retrieval HS26",
     "description": "Exercise questions for MMIR HS26, University Basel",
-    "version": "2026-09-03",
-    "lastUpdated": "2026-09-03"
+    "version": "2026-09-13",
+    "lastUpdated": "2026-09-13"
   },
   "questions": {
     "01 - Classical Text Retrieval": [
@@ -246,6 +246,248 @@
         ],
         "correct": 1,
         "explanation": "With k1 = 0, the function becomes tf * 1 / (tf + 0) = 1 for any positive tf. Whether a term appears once or a thousand times, its contribution is the same. Combined with IDF, this produces a weighted set-of-words model: each query term present in the document contributes its IDF weight exactly once, regardless of frequency."
+      }
+    ],
+    "02 - Performance Evaluation": [
+      {
+        "id": "02-performance-evaluat-q1",
+        "question": "A benchmark deliberately separates the \"information need\" from the \"query\". Why does this distinction matter when assessors label documents?",
+        "options": [
+          "Assessors judge documents against the underlying need, so the need must be written unambiguously",
+          "The literal query keywords are used for judging, while the need is shown only to users",
+          "Queries must be frozen for reproducibility, whereas the need may change over time",
+          "The separation matters for ranked retrieval but not for set-based retrieval"
+        ],
+        "correct": 0,
+        "explanation": "Relevance is judged against what the user actually wants, not the keywords they happen to type. Two assessors must interpret the need the same way, which is only possible if the need is written out clearly. Vague needs produce inconsistent labels that no metric can repair."
+      },
+      {
+        "id": "02-performance-evaluat-q2",
+        "question": "An evaluation pools true positives and false negatives across all 40 needs before computing a single recall figure. One need contains more relevant documents than the other 39 combined. What does the resulting recall value mainly reflect?",
+        "options": [
+          "The dominant need alone, because it supplies most of the counts that go into the pool",
+          "An equal blend of all needs, because pooling gives every need the same weight",
+          "The 39 smaller needs, because together they outnumber the single large one",
+          "Only the needs on which the system found no relevant documents"
+        ],
+        "correct": 0,
+        "explanation": "Pooling counts before dividing (micro-averaging) weights every document equally, so a need that supplies most of the relevant documents dominates the result. The many small needs barely register. This is why retrieval evaluation usually prefers macro-averaging, where each need contributes equally regardless of its size."
+      },
+      {
+        "id": "02-performance-evaluat-q3",
+        "question": "A search task typically returns many relevant documents per query, and the user wants all of them, not just the first. An engineer summarises ranking quality with mean reciprocal rank. Why is this the wrong tool here?",
+        "options": [
+          "Reciprocal rank cannot be averaged across a set of multiple queries",
+          "It reflects only the first relevant result and ignores all relevant documents below it",
+          "It needs graded relevance judgments that this particular task does not provide",
+          "It actively penalises any system that returns more than one relevant document"
+        ],
+        "correct": 1,
+        "explanation": "Reciprocal rank only measures how far down the first relevant result sits. A system that places five relevant documents at the top scores the same as one that places a single relevant document there and nothing else. When many relevant documents matter, a measure that values the whole ranking, such as average precision, is the right choice."
+      },
+      {
+        "id": "02-performance-evaluat-q4",
+        "question": "A metric adds up the relevance grades of the documents in the top k positions, ignoring their order within that window. Which existing measure is it best understood as a refinement of?",
+        "options": [
+          "Precision at k, refined to weight each result by its degree of relevance",
+          "Recall at k, refined to weight each result by its degree of relevance",
+          "Discounted cumulative gain, simplified to run faster by dropping the discount",
+          "Reciprocal rank, extended to look beyond just the first relevant result"
+        ],
+        "correct": 0,
+        "explanation": "Cumulative gain counts the relevant material sitting in the top k, just as precision at k does, but instead of treating every relevant item alike it weights each by its grade. So it reads as a graded refinement of precision at k. It is not recall, which divides by the total relevant in the collection. And dropping the discount from DCG is not an efficiency trick: it removes position sensitivity, giving a different measure rather than a faster one."
+      },
+      {
+        "id": "02-performance-evaluat-q5",
+        "question": "A classifier is evaluated on a dataset where only 2% of items belong to the positive class, and it reports 96% accuracy. Why can this number be misleading?",
+        "options": [
+          "Accuracy simply cannot be computed when the two classes are heavily imbalanced",
+          "A model that always predicts the majority class could match it while finding no positives",
+          "High accuracy on imbalanced data guarantees high precision on the positive class",
+          "Accuracy overweights the rare positive class here, which artificially inflates the score"
+        ],
+        "correct": 1,
+        "explanation": "When one class dominates, accuracy is driven by the majority. A trivial model that always predicts the majority class would score close to 98% here while never detecting a single positive item. Accuracy hides this failure, so precision, recall, and specificity must be reported separately on imbalanced data."
+      },
+      {
+        "id": "02-performance-evaluat-q6",
+        "question": "A biometric unlock system must almost never accept an impostor, though occasionally rejecting the real owner is tolerable. When picking an operating point on the ROC curve, which properties should the designers prioritise?",
+        "options": [
+          "A low false-positive rate and high positive predictive value on accepted attempts",
+          "A high true-positive rate, accepting more impostors as an unavoidable cost",
+          "The threshold that maximises overall accuracy across all unlock attempts",
+          "A high true-negative rate paired with a deliberately high false-positive rate"
+        ],
+        "correct": 0,
+        "explanation": "A false positive here is a security breach, so the system needs a very low false-positive rate: it should hardly ever accept the wrong person. It also wants high positive predictive value, so that an accepted face is almost certainly the owner. Maximising accuracy or the true-positive rate would let more impostors through, which is exactly the error this application cannot afford."
+      },
+      {
+        "id": "02-performance-evaluat-q7",
+        "question": "A new retrieval algorithm is tested on a reused benchmark whose relevance judgments were built years earlier by pooling other systems' results. The new algorithm surfaces useful documents no earlier system had found. How does the score treat them?",
+        "options": [
+          "They raise the score, since finding any relevant document improves recall",
+          "They count as non-relevant, so the system is penalised for finding new material",
+          "They are automatically sent for fresh judging before the final score is computed",
+          "They are excluded and change neither precision nor recall in any direction"
+        ],
+        "correct": 1,
+        "explanation": "Pooling judges only the documents that participating systems retrieved and treats everything unjudged as not relevant. A later system that finds genuinely relevant documents outside that pool gets no credit for them; they score as misses. The novel system is penalised for its originality, which is a systematic bias of reused benchmarks."
+      },
+      {
+        "id": "02-performance-evaluat-q8",
+        "question": "One team reports that system P beats system Q on mean average precision, while another reports that Q beats P on nDCG at rank 10. Both numbers are computed correctly. What is the most likely explanation?",
+        "options": [
+          "One team made an arithmetic mistake, because the two metrics must always agree",
+          "P finds more relevant documents overall, while Q fills the very top of the list",
+          "The two metrics measure the same property, so the disagreement is only random noise",
+          "Q used graded relevance and P used binary, so the comparison is not valid"
+        ],
+        "correct": 1,
+        "explanation": "Mean average precision integrates precision over the full result list and heavily penalises missed relevant documents, so it rewards a system that finds more of them. nDCG at rank 10 evaluates only a short window and rewards packing high-value documents near the very top, ignoring what lies beyond the cutoff. The two measures answer different questions, so a system can win on one and lose on the other."
+      },
+      {
+        "id": "02-performance-evaluat-q9",
+        "question": "A spam filter is tuned on a balanced test set and reports high precision. It is then deployed on real mail, where spam is only a small fraction of messages. Its recall and specificity are unchanged, yet users complain that many flagged messages are actually legitimate. What happened?",
+        "options": [
+          "The same specificity now flags a fixed share of a much larger legitimate pool",
+          "Recall fell in deployment, so far more spam now slips past into the inbox",
+          "The decision threshold shifted on its own when the filter reached production",
+          "Deployment raised the overall accuracy, which forces precision down in exchange"
+        ],
+        "correct": 0,
+        "explanation": "Precision depends on class balance; recall and specificity do not. Specificity is a rate over the negatives, so when legitimate mail vastly outnumbers spam, that fixed rate produces many false positives in absolute terms, and they come to outnumber the true positives. Precision drops even though the classifier is unchanged. This is the test-versus-production prevalence mismatch: a benchmark whose class balance differs from deployment reports a precision the live system will not reproduce."
+      },
+      {
+        "id": "02-performance-evaluat-q12",
+        "question": "A compliance team wants one number to compare two filters on an unordered result set. For them, missing a relevant document is about four times as costly as returning an irrelevant one, and they want that priority built into the score. Which metric fits?",
+        "options": [
+          "Precision",
+          "F-score",
+          "Recall",
+          "Fallout"
+        ],
+        "correct": 1,
+        "explanation": "The team wants a single number that combines precision and recall for an unordered set, with recall weighted more heavily because misses are costlier. The F-score does this, and its beta parameter lets the weighting favour recall. Precision or recall alone captures only one side, and fallout measures irrelevant intake rather than a balance of the two."
+      },
+      {
+        "id": "02-performance-evaluat-q15",
+        "question": "An evaluation spans many needs, and the number of relevant documents varies widely from one need to the next. The team wants a single-point precision summary per need whose cutoff adjusts automatically to how many relevant documents that need has. Which metric fits?",
+        "options": [
+          "Precision at 10",
+          "Average precision",
+          "R-precision",
+          "Fallout"
+        ],
+        "correct": 2,
+        "explanation": "The team wants one precision value per need at a cutoff that matches how many relevant documents the need has. R-precision evaluates precision after exactly R documents, where R is the number of relevant documents, so its cutoff self-adjusts. Precision at 10 fixes the cutoff regardless of the need; average precision summarises the full curve rather than one point; fallout measures irrelevant intake."
+      },
+      {
+        "id": "02-performance-evaluat-q17",
+        "question": "A vendor advertises that its search engine is 40% more accurate than a rival, but does not say which document collection was used, which queries were run, who judged the results, or what \"accurate\" means. Beyond the missing details, what is the fundamental reason this claim carries little weight?",
+        "options": [
+          "Accuracy is never a valid measure for comparing two search systems",
+          "It cannot be reproduced or independently challenged by anyone else",
+          "A gain of 40% is too large to be plausible for a real engine",
+          "It would be valid had the vendor reported precision and recall"
+        ],
+        "correct": 1,
+        "explanation": "A scientific comparison fixes the collection, the queries, the judgments, and the measure in advance, so anyone can rerun it and get the same numbers. A claim that names none of these cannot be checked or contested, and it is easy to manufacture by selecting the queries where your system happens to win. The problem is not the size of the number or the choice of measure, but that it is not reproducible."
+      },
+      {
+        "id": "02-performance-evaluat-q18",
+        "question": "In a two-stage pipeline, an early retriever selects candidate documents and a later ranker reorders them for the user. The designers tune the retriever to favour recall, even though this lets in many irrelevant candidates. Why is this the right choice?",
+        "options": [
+          "The ranker needs irrelevant documents present in order to score at all",
+          "Recall matters more than precision in every possible retrieval setting",
+          "A dropped relevant document can never be recovered by the ranker",
+          "More candidates make the ranker run faster on the same query"
+        ],
+        "correct": 2,
+        "explanation": "The ranker can only reorder documents the retriever passed forward, so a relevant document missed at the first stage is lost for good. An irrelevant candidate, by contrast, can still be pushed down or removed by the ranker. This asymmetry is why the retriever is optimized for recall and the ranker for precision, and it is specific to this pipeline rather than a universal rule that recall beats precision."
+      },
+      {
+        "id": "02-performance-evaluat-q19",
+        "question": "A system returns a short, very clean ranking: the few documents it retrieves are almost all relevant and sit at the very top, but it misses most of the relevant documents in the collection. Its average precision comes out surprisingly low. Why?",
+        "options": [
+          "Average precision divides by every relevant document, so misses count as zeros",
+          "Average precision only rewards long lists and caps short rankings low",
+          "Average precision skips the top positions and averages the lower ranks",
+          "Average precision counts each irrelevant document twice, halving the score"
+        ],
+        "correct": 0,
+        "explanation": "Average precision sums the precision at each rank where a relevant document appears, then divides by the total number of relevant documents in the collection, not by the number found. A document that is never retrieved contributes nothing to the sum but is still counted in the denominator, acting as an implicit zero. A system that finds only a few of many relevant documents therefore scores low, however clean its short list is."
+      },
+      {
+        "id": "02-performance-evaluat-q20",
+        "question": "A team computes discounted cumulative gain at rank 10 for each query and notices the raw values swing wildly between queries, even for a system that behaves consistently. They switch to the normalized version. What problem does normalization solve?",
+        "options": [
+          "The discount factor only becomes correct after dividing by the rank",
+          "Raw discounted gain ignores position, and normalization restores it",
+          "Normalization removes the need to assign graded relevance judgments",
+          "Different queries have different relevant counts and grades, so raw scores differ"
+        ],
+        "correct": 3,
+        "explanation": "Raw discounted cumulative gain depends on how many relevant documents a query has and how high their grades are, so a query with several high-grade documents can score far above another regardless of system quality. Normalizing by the ideal ranking's gain places every query on a 0-to-1 scale, making scores comparable and averageable across queries. Discounting already handles position, and normalization does not remove the need for graded judgments."
+      },
+      {
+        "id": "02-performance-evaluat-q21",
+        "question": "An intent router handles four categories. One is rare but critical: misrouting it produces a confidently wrong answer. Overall accuracy is high, yet the team suspects the rare category performs badly. Which summary would expose this, and why?",
+        "options": [
+          "Accuracy at a higher threshold recounts the rare category more fairly",
+          "Macro averaging weights every category equally, regardless of its size",
+          "Micro-averaged precision gives the rare category more pooled influence",
+          "The largest category's false-positive rate dominates the overall total"
+        ],
+        "correct": 1,
+        "explanation": "Accuracy and micro-averaging weight each item equally, so the common categories dominate and a rare category's failure is invisible. Macro-averaging computes the metric per category and then averages, giving the rare category the same weight as the common ones. Its poor recall then pulls the macro score down, exposing the failure that accuracy hides."
+      },
+      {
+        "id": "02-performance-evaluat-q22",
+        "question": "An engineer sweeps a classifier's decision threshold to find the value that gives the best results, then reports that same value's performance as the system's final score. A reviewer objects. What is the flaw?",
+        "options": [
+          "A threshold should never change once the classifier is trained",
+          "Sweeping the threshold alters the classifier's underlying score distribution",
+          "The score was tuned and reported on the very same data",
+          "The best threshold can only be found by maximising accuracy"
+        ],
+        "correct": 2,
+        "explanation": "Choosing the threshold to maximise performance on a dataset and then reporting performance on that same dataset optimises against the answers, which inflates the score. Threshold selection must happen on a separate validation set, with the test set used only once for the final report. Sweeping the threshold changes only the decision boundary, not the underlying scores, and any metric can guide the choice."
+      },
+      {
+        "id": "02-performance-evaluat-q24",
+        "question": "Across 50 needs, system X reaches a mean average precision of 0.42 and system Y reaches 0.41. Per-need scores for both systems range from near zero to above 0.8. Before claiming X is better, what should the analyst check?",
+        "options": [
+          "Whether X retrieved more documents in total than Y overall",
+          "Whether the gap would grow with more relevant documents per need",
+          "Whether the two systems used different relevance judgment scales",
+          "Whether the gap survives a paired significance test across the needs"
+        ],
+        "correct": 3,
+        "explanation": "Per-need scores vary enormously, so a one-point difference in the mean can easily be swamped by that spread. A paired significance test on the per-need average precision values, such as a paired t-test or Wilcoxon signed-rank test, checks whether the difference is consistent across needs rather than the product of a few easy or hard queries. Total documents retrieved, denser judgments, or the grading scale do not settle whether the mean gap is real."
+      },
+      {
+        "id": "02-performance-evaluat-q25",
+        "question": "A system retrieves almost every relevant document for each query, so its recall is excellent. Yet users on the results page complain they cannot find anything useful near the top. Which measure would reveal the problem that recall hides?",
+        "options": [
+          "Fallout, the count of irrelevant documents in the whole collection",
+          "Precision at the first few ranks, where users actually look",
+          "Recall at a larger cutoff, confirming the documents were retrieved",
+          "The total number of documents the system retrieved per query"
+        ],
+        "correct": 1,
+        "explanation": "Recall counts whether relevant documents were found anywhere in the list; it says nothing about where they sit. If they are buried below many irrelevant results, users reading from the top never reach them. Precision at the first few ranks measures exactly the region users inspect, exposing the poor ordering that high recall conceals. Fallout, deeper recall, and result-set size do not describe the top of the list."
+      },
+      {
+        "id": "02-performance-evaluat-q29",
+        "question": "A large language model scores very high on a public multiple-choice exam benchmark. Before treating this as evidence of reasoning ability, what should you consider?",
+        "options": [
+          "Multiple-choice benchmarks cannot measure a model's ability at all",
+          "A high benchmark score always proves genuine generalisation",
+          "The model must have tuned its answers on a validation split",
+          "The questions and answers may have been in the training data"
+        ],
+        "correct": 3,
+        "explanation": "Models trained on web-scale text may have seen public exam questions and their answers during training. A high score can then reflect memorisation of the answers rather than reasoning about the task. This is benchmark contamination, and it means the score is not evidence of generalisation to unseen problems."
       }
     ]
   }

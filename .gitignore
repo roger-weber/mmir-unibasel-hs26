@@ -10,3 +10,5 @@ books
 movie_index
 lucene
 pdfs
+# Exercise solutions — published separately after the deadline (use --publish-solution)
+exercises/*/solution/
