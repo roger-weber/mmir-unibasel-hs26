@@ -25,4 +25,31 @@
   <url>
     <loc>http://localhost:3001/summary</loc>
   </url>
+  <url>
+    <loc>http://localhost:3001/index-2</loc>
+  </url>
+  <url>
+    <loc>http://localhost:3001/designing-a-benchmark</loc>
+  </url>
+  <url>
+    <loc>http://localhost:3001/precision-and-recall</loc>
+  </url>
+  <url>
+    <loc>http://localhost:3001/evaluating-ranked-results</loc>
+  </url>
+  <url>
+    <loc>http://localhost:3001/evaluating-graded-relevance</loc>
+  </url>
+  <url>
+    <loc>http://localhost:3001/evaluating-text-classifiers</loc>
+  </url>
+  <url>
+    <loc>http://localhost:3001/scores-thresholds-and-roc</loc>
+  </url>
+  <url>
+    <loc>http://localhost:3001/when-evaluation-misleads</loc>
+  </url>
+  <url>
+    <loc>http://localhost:3001/summary-1</loc>
+  </url>
 </urlset>
