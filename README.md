@@ -19,6 +19,27 @@ By the end of this course, you will be able to:
 - Apply retrieval techniques to images, audio, and video
 - Choose the right retrieval architecture for a given problem
 
+### Setup
+
+The demos and exercises run on Python 3.12 in an environment managed by [uv](https://docs.astral.sh/uv/). Clone the repository and run `uv sync` — this creates `.venv` and installs the pinned dependencies:
+
+```bash
+git clone https://github.com/roger-weber/mmir-unibasel-hs26.git
+cd mmir-unibasel-hs26
+uv sync
+```
+
+A few things cannot be installed that way: NLTK and spaCy ship their corpora and models separately, and the document collections download lecture PDFs and datasets on first use. Open [setup.ipynb](setup.ipynb) in the repository root, select `.venv` as the notebook kernel, and run all cells. It explains each step, is safe to re-run at any time, and ends with a smoke test that confirms you are ready to work through the notebooks in [demos/](demos/) and [exercises/](exercises/).
+
+The setup is not a one-time step. Later chapters bring in new dependencies — embedding models, vector indexes, audio and image processing — so the dependency list grows as the course progresses. If a notebook fails with an unknown module or a missing corpus, pull the latest changes and repeat both steps:
+
+```bash
+git pull
+uv sync
+```
+
+Then re-run [setup.ipynb](setup.ipynb) to fetch any new data. Both commands and the notebook are safe to run repeatedly; they only add what is missing.
+
 
 
 ## Schedule
