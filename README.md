@@ -23,6 +23,8 @@ By the end of this course, you will be able to:
 
 ## Schedule
 
+Now in its **23rd edition**, the course has been continuously updated to track the evolution of the field.
+
 Fridays, 15:00–18:00
 
 Each session focuses on the listed chapter but may include review of the previous chapter or a brief preview of the next.
