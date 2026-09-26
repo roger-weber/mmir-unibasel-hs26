@@ -35,5 +35,6 @@ On the start screen, pick the topic that matches the chapter (for example *"01 -
 |---|---|---|
 | [ch01/](ch01/) | [Classical Text Retrieval](https://roger-weber.github.io/mmir-unibasel-hs26/book/index-1/) | Reading a BM25 ranking that looks wrong; building a text-extraction pipeline that makes queries find their documents; implementing a full `BM25Scorer` over ~500 movies; why scoring every document does not scale. |
 | [ch02/](ch02/) | [Performance Evaluation](https://roger-weber.github.io/mmir-unibasel-hs26/book/index-2/) | Why average precision and nDCG can disagree about the same two systems; implementing a reusable `Evaluator` (P@k, AP, MAP, graded nDCG); why precision cannot be promised from recall and specificity alone; how a better ranker can score worse on an old benchmark. |
+| [ch03/](ch03/) | [Advanced Text Processing](https://roger-weber.github.io/mmir-unibasel-hs26/book/index-3/) | Diagnosing an intent router that a skewed prior hijacks; building a few-shot `IntentClassifier` whose text pipeline (stop-words, stemming, lemmatization) you tune; why normalization helps most when labels are scarce and the prior does not; weighing an LLM's accuracy against its latency and cost. |
 
 Exercises for the later chapters follow the [course schedule](../README.md#schedule). The demos that go with each chapter are in [demos/](../demos/).
