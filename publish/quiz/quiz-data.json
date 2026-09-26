@@ -2,8 +2,8 @@
   "meta-data": {
     "title": "Multimedia Retrieval HS26",
     "description": "Exercise questions for MMIR HS26, University Basel",
-    "version": "2026-09-13",
-    "lastUpdated": "2026-09-13"
+    "version": "2026-09-26",
+    "lastUpdated": "2026-09-26"
   },
   "questions": {
     "01 - Classical Text Retrieval": [
@@ -488,6 +488,248 @@
         ],
         "correct": 3,
         "explanation": "Models trained on web-scale text may have seen public exam questions and their answers during training. A high score can then reflect memorisation of the answers rather than reasoning about the task. This is benchmark contamination, and it means the score is not evidence of generalisation to unseen problems."
+      }
+    ],
+    "03 - Advanced Text Processing": [
+      {
+        "id": "03-advanced-text-proces-q1",
+        "question": "A search system folds every accent to its base letter before indexing. For a collection in a single European language where an accented spelling and its unaccented spelling can be two different words, what is the main consequence?",
+        "options": [
+          "Precision drops, because distinct words collapse into one token",
+          "Recall drops, because accented documents stop matching accented queries",
+          "The index grows, because each word stores several accented variants",
+          "Latency rises, because every token needs Unicode normalization"
+        ],
+        "correct": 0,
+        "explanation": "Folding maps different words that differ only by an accent onto the same token, so a query for one retrieves documents about the other. That is a precision loss; recall is unaffected or slightly helped. The trade is recall gained for precision lost."
+      },
+      {
+        "id": "03-advanced-text-proces-q2",
+        "question": "A film's title consists entirely of common function words. What happens if the pipeline strips stop words before indexing the title?",
+        "options": [
+          "The title becomes empty and cannot be found by title",
+          "The title is indexed under its first content-bearing word",
+          "The title survives intact, because titles skip stop-word removal",
+          "The title matches nearly every document in the collection"
+        ],
+        "correct": 0,
+        "explanation": "Stop-word removal deletes high-frequency function words. A title built only from those words leaves nothing behind, so the exact phrase becomes unsearchable. This is why stop words must not be stripped from phrase or title queries."
+      },
+      {
+        "id": "03-advanced-text-proces-q3",
+        "question": "On a large corpus, two adjacent words each occur thousands of times and nearly always appear together as a well-known company name. One collocation measure ranks the pair near the top, another buries it far down. Which behaviour belongs to which measure?",
+        "options": [
+          "Likelihood ratio ranks it high; pointwise mutual information ranks it low",
+          "Pointwise mutual information ranks it high; likelihood ratio ranks it low",
+          "Both measures rank the pair near the top",
+          "Both measures push the pair far down"
+        ],
+        "correct": 0,
+        "explanation": "The likelihood ratio measures evidence for dependence, which grows with frequency, so a frequent tight pair sits at the top. Pointwise mutual information measures association strength relative to how common each word is, so common words drag its score down even for a genuine pair. The two fail in opposite directions."
+      },
+      {
+        "id": "03-advanced-text-proces-q4",
+        "question": "A one-word query is submitted that has several unrelated meanings, with no other words attached. The system uses classical, context-based sense disambiguation. What is the realistic outcome?",
+        "options": [
+          "Neither classical technique resolves it from the query alone",
+          "Part-of-speech tagging picks the correct sense on its own",
+          "Restoring the surrounding stop words fixes the sense",
+          "A synonym list expands the query to its most frequent sense"
+        ],
+        "correct": 0,
+        "explanation": "Classical sense disambiguation reads the words around the ambiguous term. A bare one-word query supplies none, so the sense cannot be fixed from the query itself. The standard response is to return results for both senses or offer a 'did you mean' prompt. Genuine ambiguity with no context is inherent to language and no classical technique removes it."
+      },
+      {
+        "id": "03-advanced-text-proces-q5",
+        "question": "A team trains a Naive Bayes intent router on past query logs, where most historical traffic went to general web search, and uses the empirical class prior from that data. What goes wrong?",
+        "options": [
+          "New queries are routed to web search almost regardless of their features",
+          "Rare intents can never be assigned to any query",
+          "Training fails, because the class counts are imbalanced",
+          "The router stays accurate but grows slow on the rarer intents"
+        ],
+        "correct": 0,
+        "explanation": "The prior term encodes each class's base rate. When one class dominates the logs, its large prior swamps the feature evidence, so almost everything is routed there. The fix is a uniform prior, or balancing the training data before estimating priors."
+      },
+      {
+        "id": "03-advanced-text-proces-q6",
+        "question": "A pipeline detects language with a few hand-written rules (script, diacritics, function-word counts). It works well on full documents but fails on very short queries. What is the standard fix?",
+        "options": [
+          "Replace the rules with a classifier over character n-grams",
+          "Add more hand-written rules until short queries are covered",
+          "Match the query against a dictionary of every word per language",
+          "Skip detection for short queries and run every language pipeline"
+        ],
+        "correct": 0,
+        "explanation": "Hand rules need several signals to fire, which long text provides but short queries do not. A character n-gram classifier weighs whatever partial evidence exists and returns the most probable language with a confidence score, so it degrades gracefully on short input instead of failing outright."
+      },
+      {
+        "id": "03-advanced-text-proces-q7",
+        "question": "Across phrase indexing, compound splitting, and spelling correction, the same choice recurs: store the original token and also add the derived tokens (the phrase, the parts, or the corrected form) instead of replacing the original. What does this choice protect, and at what cost?",
+        "options": [
+          "It protects recall, at the cost of index size and some precision",
+          "It protects precision, at the cost of lower recall",
+          "It protects ranking quality, at the cost of slower queries",
+          "It protects storage, at the cost of missing partial matches"
+        ],
+        "correct": 0,
+        "explanation": "Keeping the original alongside the derived tokens lets a query match through any of them, an over-indexing strategy that preserves recall. The price is a larger index and some incidental matches that lower precision. The same pattern appears wherever the pipeline adds tokens rather than rewriting in place."
+      },
+      {
+        "id": "03-advanced-text-proces-q9",
+        "question": "A team switches to a very aggressive stemmer that reduces words to short stems. Two unrelated words now share the same stem. What is the practical consequence for retrieval?",
+        "options": [
+          "Precision drops, as documents about one word match queries for the other",
+          "Recall drops, as the two words no longer share an index entry",
+          "Query latency rises, as the stemmer runs more rule scans",
+          "The index grows, as each word stores several candidate stems"
+        ],
+        "correct": 0,
+        "explanation": "Over-stemming collapses distinct words onto one token, so a query for one retrieves documents about the other. That is a precision loss. Aggressive stemmers trade precision for speed and higher recall, acceptable only when collisions rarely affect ranking."
+      },
+      {
+        "id": "03-advanced-text-proces-q10",
+        "question": "A decompounder splits every compound into its parts and indexes those parts. It processes a compound whose meaning is not the sum of its parts (a term that is not actually a kind of the thing its last part names). What is the risk?",
+        "options": [
+          "Precision drops, as the wrong-sense parts match unrelated queries",
+          "Recall drops, as the full compound is removed from the index",
+          "The compound can no longer be found by its exact spelling",
+          "Query latency rises, as every compound is split at search time"
+        ],
+        "correct": 0,
+        "explanation": "Endocentric compounds (a bookcase is a kind of case) split safely. Exocentric compounds do not: splitting adds parts with the wrong meaning, so the document matches queries about those parts and precision falls. Whether to split depends on the collection."
+      },
+      {
+        "id": "03-advanced-text-proces-q11",
+        "question": "A spell-checker rewrites every variant spelling of a personal name to one canonical form, at both index and query time. Why is this risky for name search?",
+        "options": [
+          "Distinct people can be merged into one and some become unfindable",
+          "Recall drops, as the canonical spelling matches fewer documents",
+          "The name can no longer be found under its original spelling",
+          "Query latency rises, as every name triggers a phonetic lookup"
+        ],
+        "correct": 0,
+        "explanation": "A single canonical rewrite treats every variant as a typo of one name. But some variants are themselves other people's genuine names, so those people get folded into the wrong identity and become unfindable. The safer approach keeps the original spelling and expands to variants at query time rather than rewriting."
+      },
+      {
+        "id": "03-advanced-text-proces-q12",
+        "question": "An intent router should treat 'contains a person entity together with a leading WH-word' as a combined signal that means more than either feature alone. Why does a Naive Bayes classifier handle this poorly?",
+        "options": [
+          "It scores each feature independently and cannot represent their combination",
+          "It drops one of the two features to keep the feature space small",
+          "It requires the two features to be perfectly correlated in training",
+          "It treats WH-words as stop words and removes them before scoring"
+        ],
+        "correct": 0,
+        "explanation": "Naive Bayes assumes features are conditionally independent given the class, so it multiplies per-feature likelihoods and cannot express that two features together carry extra signal. Conjunctions like this are why production routers move to a small neural classifier that models feature interactions."
+      },
+      {
+        "id": "03-advanced-text-proces-q13",
+        "question": "In the query pipeline, named entity recognition runs before intent classification. What breaks if these two steps are swapped?",
+        "options": [
+          "The classifier loses the entity-type features it depends on",
+          "The entity recognizer loses the language label it depends on",
+          "Both steps produce the same result, so the order does not matter",
+          "Spell correction can no longer run on the extracted entities"
+        ],
+        "correct": 0,
+        "explanation": "Intent classification uses entity types (has-PERSON, has-DATE, has-LOCATION) as input features. If classification runs first, those features do not exist yet, so the router decides on weaker signals. This is why NER precedes intent classification in the pipeline."
+      },
+      {
+        "id": "03-advanced-text-proces-q15",
+        "question": "A system indexes text as overlapping character trigrams instead of whole words. A query arrives with a small typo and a different word ending. What does this representation make possible?",
+        "options": [
+          "Most trigrams still match, so partial matching retrieves the passage",
+          "Every trigram must match, so the typo blocks all retrieval",
+          "The typo is corrected automatically before any trigrams are formed",
+          "Only the unchanged suffix trigrams are used for matching"
+        ],
+        "correct": 0,
+        "explanation": "Shingling text into overlapping trigrams means a typo or an inflected ending changes only a few trigrams, leaving most shared between query and document. A retrieval model that supports partial matching then finds the passage without an explicit spell-checker or stemmer."
+      },
+      {
+        "id": "03-advanced-text-proces-q16",
+        "question": "A dictionary lemmatizer is given a word that can be either a noun or a verb, but it receives the wrong part-of-speech tag. What is the effect?",
+        "options": [
+          "It returns the wrong base form, because the lemma depends on the tag",
+          "It returns the token unchanged, because the tag is ignored",
+          "It returns both possible base forms and lets the ranker choose",
+          "It raises an error, because the tag does not match the word"
+        ],
+        "correct": 0,
+        "explanation": "A lemmatizer uses the part-of-speech tag to pick the right base form; the noun and verb readings of one surface form have different lemmas. A wrong tag therefore yields the wrong lemma, which is why accurate POS tagging must precede lemmatization."
+      },
+      {
+        "id": "03-advanced-text-proces-q18",
+        "question": "In a specialist search domain, users type a short community term while the documents use a completely different full name for the same thing. A general-purpose thesaurus does not link them. What restores recall?",
+        "options": [
+          "A hand-maintained domain synonym list mapping the term to the full name",
+          "A stemmer configured for the domain's most frequent language",
+          "A stop-word list extended with the community term",
+          "A phonetic code shared by the term and the full name"
+        ],
+        "correct": 0,
+        "explanation": "General thesauri cover linguistic synonyms, not domain shorthand, so they miss the mapping. A synonym list maintained by the search team links the community term to the document term, and query expansion then reaches documents that never use the typed term. Dense embeddings are the modern alternative for the long tail."
+      },
+      {
+        "id": "03-advanced-text-proces-q20",
+        "question": "A pipeline already applies stemming and lemmatization to every token. Why does it still need separate phrase detection and compound splitting?",
+        "options": [
+          "Stemming and lemmatization act only on single words, not multi-word or in-token meaning",
+          "Stemming and lemmatization lower recall, which phrases and compounds restore",
+          "Phrase and compound steps replace stemming for languages without inflection",
+          "Phrase and compound steps run only when no stop-word list is available"
+        ],
+        "correct": 0,
+        "explanation": "Stemming and lemmatization decide which single-word forms are equivalent. They cannot join 'New York' into one concept or split a compound into its parts, because those cases involve meaning across or inside token boundaries. Phrase detection and compound splitting handle exactly that."
+      },
+      {
+        "id": "03-advanced-text-proces-q21",
+        "question": "A code-search index stores each multi-word identifier (written in camelCase or with underscores) as a single token. A user searches for one of the words inside such an identifier. What happens?",
+        "options": [
+          "The search misses it, because the sub-word is not a token on its own",
+          "The search finds it, because identifiers are split on case changes by default",
+          "The search finds it, because underscores are always treated as spaces",
+          "The search misses it, because identifiers are dropped as stop words"
+        ],
+        "correct": 0,
+        "explanation": "Storing an identifier whole means its component words are not separate tokens, so a query for one of them cannot match. Splitting identifiers on case changes and underscores at index time adds the sub-words and fixes this."
+      },
+      {
+        "id": "03-advanced-text-proces-q23",
+        "question": "A two-word place name is made of two otherwise common words. Under a plain bag-of-words index, a search for the name also retrieves documents where the two words appear unrelated. What restores precision?",
+        "options": [
+          "Indexing the two words together as a single phrase token",
+          "Dropping the more common of the two words as a stop word",
+          "Stemming both words to their shortest common form",
+          "Lowering the weight of both words in the ranking"
+        ],
+        "correct": 0,
+        "explanation": "A bag-of-words index cannot tell a genuine name from an incidental co-occurrence of its two words. Adding the pair as one phrase token gives the ranker a clean signal that the words appeared together, which raises precision without hurting recall."
+      },
+      {
+        "id": "03-advanced-text-proces-q25",
+        "question": "A team can route every query with a single large-language-model call that extracts entities, detects language, and classifies intent. Why do production stacks still run the classical pipeline first and use the model only for hard cases?",
+        "options": [
+          "The classical pipeline is far cheaper and faster per query, so it handles the bulk",
+          "The model cannot detect language, so the classical step must do it",
+          "The model cannot output structured fields, so the classical step is required",
+          "The classical pipeline is more accurate on every query than the model"
+        ],
+        "correct": 0,
+        "explanation": "A model call costs measurable money and adds hundreds of milliseconds, while the classical stack runs in well under a millisecond at no per-query cost and returns calibrated confidences. Stacks therefore run the classical pipeline on all traffic and escalate to the model only where confidence is low or the value is high."
+      },
+      {
+        "id": "03-advanced-text-proces-q26",
+        "question": "Besides labelling entities, how does named entity recognition help the phrase-indexing step?",
+        "options": [
+          "It proposes multi-word entities as ready-made phrases to index as units",
+          "It removes entity words from the phrase candidates to save space",
+          "It replaces the frequency filters used to score candidate phrases",
+          "It lowers the weight of entity phrases so common words rank higher"
+        ],
+        "correct": 0,
+        "explanation": "When the recognizer marks several words as one entity, such as a person or a place, those words already form a phrase. The pipeline can index that phrase as a unit straight away. This is faster and more targeted than scoring every word pair in the corpus, because named entities are the phrases that entity search cares about."
       }
     ]
   }
