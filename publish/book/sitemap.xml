@@ -52,4 +52,25 @@
   <url>
     <loc>http://localhost:3001/summary-1</loc>
   </url>
+  <url>
+    <loc>http://localhost:3001/index-3</loc>
+  </url>
+  <url>
+    <loc>http://localhost:3001/tokenization-and-normalization</loc>
+  </url>
+  <url>
+    <loc>http://localhost:3001/stemming-and-lemmatization</loc>
+  </url>
+  <url>
+    <loc>http://localhost:3001/phrases-and-compounds</loc>
+  </url>
+  <url>
+    <loc>http://localhost:3001/query-understanding</loc>
+  </url>
+  <url>
+    <loc>http://localhost:3001/intent-routing-and-classification</loc>
+  </url>
+  <url>
+    <loc>http://localhost:3001/summary-2</loc>
+  </url>
 </urlset>
