@@ -4,6 +4,7 @@
 # Core
 numpy
 pandas
+kagglehub
 matplotlib
 seaborn
 ipywidgets
@@ -22,7 +23,6 @@ torch
 langchain
 langchain-text-splitters
 langchain-core
-whoosh
 psycopg2-binary
 faiss-cpu
 
