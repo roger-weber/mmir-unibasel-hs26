@@ -1,0 +1,1 @@
+import{a}from"/mmir-unibasel-hs26/book/build/_shared/chunk-CPC5XKYF.js";import"/mmir-unibasel-hs26/book/build/_shared/chunk-IZYYG5VI.js";import"/mmir-unibasel-hs26/book/build/_shared/chunk-QAB7VALF.js";import"/mmir-unibasel-hs26/book/build/_shared/chunk-RAQ24GF6.js";export default a();
