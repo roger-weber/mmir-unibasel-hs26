@@ -110,6 +110,15 @@ pre code {
   margin-right: 0 !important;
 }
 
+/* Search modal input: the global .p-2 override above also matches this input
+   (its theme classes are `p-2 ps-10`). Our .p-2 padding shorthand resets the
+   `ps-10` inline-start padding that reserves 2.5rem for the absolutely
+   positioned search icon (label#search-label, start-0), so typed text slid
+   under the icon. Restore the icon gutter. */
+.myst-search-input {
+  padding-inline-start: 2.5rem !important;
+}
+
 /* Hide the entire downloads control (button + menu) in the book header.
    mystmd always renders a downloads dropdown — the PDF exports from
    pdf-exports.yml plus an automatic per-page .md source export — with no
