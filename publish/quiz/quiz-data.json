@@ -2,8 +2,8 @@
   "meta-data": {
     "title": "Multimedia Retrieval HS26",
     "description": "Exercise questions for MMIR HS26, University Basel",
-    "version": "2026-09-26",
-    "lastUpdated": "2026-09-26"
+    "version": "2026-09-27",
+    "lastUpdated": "2026-09-27"
   },
   "questions": {
     "01 - Classical Text Retrieval": [
@@ -730,6 +730,248 @@
         ],
         "correct": 0,
         "explanation": "When the recognizer marks several words as one entity, such as a person or a place, those words already form a phrase. The pipeline can index that phrase as a unit straight away. This is faster and more targeted than scoring every word pair in the corpus, because named entities are the phrases that entity search cares about."
+      }
+    ],
+    "04 - Index for Text Retrieval": [
+      {
+        "id": "04-index-for-text-retri-q1",
+        "question": "An inverted index is built over a document collection. What does it map, and to what?",
+        "options": [
+          "Each term to the list of documents that contain it",
+          "Each document to the list of terms it contains",
+          "Each term to its total frequency across the collection",
+          "Each document to its relevance score for a query"
+        ],
+        "correct": 0,
+        "explanation": "An inverted index is organised around terms. Each term (the lookup key in the vocabulary) points to a postings list of the document identifiers where it occurs. Mapping documents to their terms is the non-inverted layout that forces a full scan."
+      },
+      {
+        "id": "04-index-for-text-retri-q2",
+        "question": "A retrieval system ranks candidates with cosine similarity. It stores each document's precomputed vector length in a table indexed by document ID and looks it up once per candidate, instead of deriving it while scanning postings. What makes this separate lookup necessary?",
+        "options": [
+          "Scoring touches only a document's query-term entries, so the rest of its vector is never read",
+          "Postings lists are compressed with d-gaps, which hide the absolute term counts",
+          "The average document length is a corpus statistic that no single posting carries",
+          "The query vector's norm cannot be combined with per-term contributions in one pass"
+        ],
+        "correct": 0,
+        "explanation": "During the postings merge the ranker only sees the components of a document that overlap the query terms. The full vector length depends on all of the document's terms, most of which are never read, so it must be precomputed and stored separately. The query norm, by contrast, is known in full and computed once per query."
+      },
+      {
+        "id": "04-index-for-text-retri-q3",
+        "question": "A search system must return documents matching \"climate policy\" that also belong to a category for which no index or sorted attribute exists. Which filtering strategy fits?",
+        "options": [
+          "A posteriori: rank the candidates first, then test the predicate on the top results in score order",
+          "A priori: resolve the predicate to a set of IDs first, then pass that set into the retriever",
+          "Inline: test the predicate during the merge using a metadata stream aligned to the postings",
+          "Clustered: group documents by shared attribute values so their postings share a reference list"
+        ],
+        "correct": 0,
+        "explanation": "A priori and inline filtering both need the attribute indexed or stored in a stream aligned with the postings. When neither exists, the system ranks first and checks the predicate only on the documents it is about to return, walking deeper into the heap when the predicate is selective. That is still cheaper than testing every document."
+      },
+      {
+        "id": "04-index-for-text-retri-q4",
+        "question": "A team adds full-text search using PostgreSQL's tsvector column, a GIN index, and ts_rank for scoring. A reviewer warns that relevance ranking may disappoint compared to a Lucene-based engine. What is the underlying reason?",
+        "options": [
+          "ts_rank scores by in-document term frequency and ignores corpus-wide inverse document frequency",
+          "The GIN index cannot intersect more than two posting lists in a single query",
+          "tsvector discards stop words, so multi-word queries lose their rarest terms",
+          "ts_rank recomputes document lengths on every query, which slows scoring under load"
+        ],
+        "correct": 0,
+        "explanation": "ts_rank weights a match by how often the query lexemes appear in the document, optionally by field label, but it never uses a collection-wide inverse document frequency. Without IDF it is neither TF-IDF nor BM25, so it cannot let a rare, discriminative term dominate the ranking the way BM25 does."
+      },
+      {
+        "id": "04-index-for-text-retri-q5",
+        "question": "A collection is split across eight shards, each an independent Lucene index. The same document, indexed identically, can receive a slightly different score depending on which shard it lands in. What causes this?",
+        "options": [
+          "Each shard derives IDF from its local document frequencies",
+          "Each shard applies a different analyzer chosen when its segment was flushed",
+          "Shards cap term frequencies at different bit widths during compression",
+          "The coordinator rescales scores only after gathering results from every shard"
+        ],
+        "correct": 0,
+        "explanation": "Each shard keeps its own term statistics, so a term's document frequency, and therefore its IDF, varies between shards. Since IDF feeds the score, the same document can score slightly differently per shard. Search tolerates these small differences as long as the overall ranking is not distorted."
+      },
+      {
+        "id": "04-index-for-text-retri-q6",
+        "question": "In both Boolean and ranked retrieval, the retriever gathers candidates by taking the union of the query terms' postings lists. Why is a document that contains none of the query terms safe to exclude from ranking under BIR, the vector space model, and BM25 alike?",
+        "options": [
+          "All three score a document from its query terms alone",
+          "All three require at least one exact phrase match to assign a score",
+          "The union operation deletes term-free documents from the index",
+          "Documents without query terms have an undefined length for normalization"
+        ],
+        "correct": 0,
+        "explanation": "All three classical models assume terms contribute independently and score a document only from the query terms it contains. A document with no query term contributes nothing and scores zero, so the retriever can ignore it and score only the small candidate set. This is the same efficiency property that makes the inverted index fast."
+      },
+      {
+        "id": "04-index-for-text-retri-q8",
+        "question": "On a very large web collection, even after removing stop words, a two-word query stays expensive to evaluate over an inverted index. What best explains the remaining cost?",
+        "options": [
+          "The surviving content words are themselves frequent, with very long postings lists",
+          "The vocabulary is too large to fit the term lookup in memory",
+          "Removing stop words forces the postings lists to be re-sorted at query time",
+          "Each removed stop word must still be scored with a zero weight"
+        ],
+        "correct": 0,
+        "explanation": "Query read cost scales with postings length, roughly N times K over M per term. Stop-word removal helps only if the remaining terms are rare. When the discriminative words are themselves common, their postings lists are still very long, so no amount of stop-word removal rescues a plain scan."
+      },
+      {
+        "id": "04-index-for-text-retri-q9",
+        "question": "A ranker must return the top 10 documents for a query that includes a very common term with a huge postings list, on a memory-constrained node. Why is document-at-a-time (DAAT) evaluation the safer choice over term-at-a-time (TAAT) here?",
+        "options": [
+          "DAAT bounds memory by the heap size and can prune candidates",
+          "TAAT must load every postings list fully into memory before it can score",
+          "DAAT reads strictly fewer postings than TAAT for the same query",
+          "TAAT cannot rank its output, because its scores are only partial"
+        ],
+        "correct": 0,
+        "explanation": "TAAT accumulates a score dictionary that grows with the candidate set, which a common term inflates, and it cannot prune because a score is incomplete until the last term is processed. DAAT emits each document with its full score as it appears, so memory stays bounded by the heap and hopeless candidates can be skipped. Both read the same postings, so DAAT does not read strictly fewer."
+      },
+      {
+        "id": "04-index-for-text-retri-q10",
+        "question": "To compress a postings list, a system stores the differences between consecutive document IDs instead of the IDs themselves. Why does this reduce storage?",
+        "options": [
+          "The gaps are smaller numbers than the IDs, requiring fewer bits",
+          "The gaps are always powers of two, which pack into single bytes",
+          "Differences remove the need to keep the list sorted",
+          "Storing gaps lets the list be read without decompression"
+        ],
+        "correct": 0,
+        "explanation": "A postings list is sorted, so the gaps (d-gaps) between consecutive IDs are much smaller than the absolute values, especially for frequent terms whose IDs are densely packed. Small integers encode in fewer bits under schemes like variable-byte, which is where the saving comes from."
+      },
+      {
+        "id": "04-index-for-text-retri-q11",
+        "question": "In a Lucene-based system, documents were indexed with an analyzer that lowercases and stems, but the query path only lowercases. What is the likely consequence?",
+        "options": [
+          "Inflected query words miss documents whose terms were stemmed",
+          "The index must be rebuilt before every query to realign the analyzers",
+          "Every query returns the whole collection, since tokenization is skipped",
+          "Stored fields become unreadable until both analyzers match"
+        ],
+        "correct": 0,
+        "explanation": "The analyzer must be identical for indexing and querying. If the index stores a stemmed term but a query is only lowercased, the two never match, so relevant documents are missed. The fix is to align the query analyzer with the index analyzer, not to rebuild the index on every query."
+      },
+      {
+        "id": "04-index-for-text-retri-q12",
+        "question": "An operator doubles the number of replicas of each shard in a search cluster. What does this primarily improve?",
+        "options": [
+          "The number of concurrent queries the cluster can serve",
+          "The latency of an individual query",
+          "The maximum number of documents the collection can hold",
+          "The relevance of the ranking through more term statistics"
+        ],
+        "correct": 0,
+        "explanation": "Replicas hold identical copies of a shard, so a query for that shard can be routed to any of them. Adding replicas raises concurrent-query capacity and availability. It does not speed up a single query, and it does not raise the document ceiling; adding shards is what does that."
+      },
+      {
+        "id": "04-index-for-text-retri-q13",
+        "question": "A single Lucene index searches its immutable segments in parallel and merges the partial results. How does a distributed, sharded deployment relate to this?",
+        "options": [
+          "It repeats the scatter-gather at a higher level and across shards",
+          "It replaces segment parallelism with a single sequential scan per shard",
+          "It removes segments entirely, storing one flat index per shard",
+          "It requires every shard to hold an identical copy of all segments"
+        ],
+        "correct": 0,
+        "explanation": "Segment-level parallelism inside one node is a scatter-gather: map the query across segments, reduce the partial results. Sharding adds a second level of the same pattern, scattering across shards and then across each shard's segments before merging bottom-up. This is why per-segment search is called the seed of distributed scaling."
+      },
+      {
+        "id": "04-index-for-text-retri-q15",
+        "question": "A Boolean search engine over an inverted index refuses to evaluate a query that negates a term on its own, such as \"NOT sale\", and only allows negation combined with a non-negated term under AND. What is the main reason?",
+        "options": [
+          "Materializing a lone negation would enumerate almost the entire collection",
+          "Postings lists are not sorted, so set difference cannot be computed",
+          "Negated terms have no document frequency, so they cannot be merged",
+          "The parser cannot tell NOT from AND NOT without a leading term"
+        ],
+        "correct": 0,
+        "explanation": "The complement of a term's postings can contain almost the whole collection, so a lone negation would force the system to enumerate millions of identifiers. NOT is therefore allowed only inside an AND with at least one non-negated operand, applied last as a subtraction from the candidates already found."
+      },
+      {
+        "id": "04-index-for-text-retri-q17",
+        "question": "A shopping site shows a list of brands with the number of matching products next to each. Which index design produces those counts directly?",
+        "options": [
+          "A separate postings list per brand, whose length is the count",
+          "A B-tree over prices that returns brand totals as a side effect",
+          "A posteriori filtering, which counts brands among the returned page",
+          "Recomputing document frequencies for each brand at query time"
+        ],
+        "correct": 0,
+        "explanation": "Faceted search is a priori filtering specialised to categories. The index keeps one postings list per facet value, so filtering by a facet is an intersection with that list and the facet count is simply that list's length. No extra scan or recomputation is needed."
+      },
+      {
+        "id": "04-index-for-text-retri-q20",
+        "question": "A team compresses their postings lists by a factor of four. Beyond saving disk, why does this often lower query latency on a large index?",
+        "options": [
+          "More of the index fits in memory, cutting bytes read from disk",
+          "Compressed postings can be intersected without any decoding step",
+          "Compression re-sorts the postings, speeding the merge",
+          "Smaller postings let more shards run on one node"
+        ],
+        "correct": 0,
+        "explanation": "Compression is high-leverage because it lets more of the index sit in memory and reduces the bytes read from disk per query, and disk reads dominate latency on a large index. Postings still have to be decoded before intersection, and compression does not change their order."
+      },
+      {
+        "id": "04-index-for-text-retri-q21",
+        "question": "In a Lucene query, a clause marked as a FILTER must be satisfied but contributes 0 to the document's score, while a normal clause adds its BM25 weight. Which earlier filtering strategy does this match?",
+        "options": [
+          "Inline filtering: the predicate is tested during the scoring pass",
+          "A posteriori filtering: the predicate is checked on the returned page",
+          "A priori filtering: matching IDs are resolved before the query runs",
+          "Faceted navigation: the clause reports counts per category"
+        ],
+        "correct": 0,
+        "explanation": "A FILTER clause is evaluated together with the scoring clauses during query execution, admitting or rejecting each candidate as it is considered but adding nothing to the score. That matches inline filtering, where the predicate is tested during the merge in lockstep with scoring. A priori resolves the set beforehand, and a posteriori tests only the returned results."
+      },
+      {
+        "id": "04-index-for-text-retri-q22",
+        "question": "Two sorted postings lists are merged to compute an AND. Once the shorter list is fully consumed, the merge stops even though the longer list still has entries. Why is this correct?",
+        "options": [
+          "No remaining entry can be in both lists once the shorter one ends",
+          "The longer list's remaining entries are all stop words",
+          "The result is capped at the length of the shorter list by definition",
+          "The remaining entries were already emitted earlier in the merge"
+        ],
+        "correct": 0,
+        "explanation": "An AND emits a document only when it appears in both lists. Once the shorter list is exhausted, no document remaining in the longer list can also be in the finished list, so no further match is possible and the merge can stop immediately."
+      },
+      {
+        "id": "04-index-for-text-retri-q25",
+        "question": "A Lucene body field is configured as tokenized and indexed but with Store.NO. What is the effect?",
+        "options": [
+          "The text is searchable but not returned from results",
+          "The text is returned in results but excluded from search",
+          "The field is neither searchable nor retrievable",
+          "The field is searchable only for exact phrases"
+        ],
+        "correct": 0,
+        "explanation": "Tokenizing, indexing, and storing are three independent choices. A field that is indexed but not stored can be searched, but its original text is not kept for retrieval, so the application fetches it from its own database. This keeps the stored-fields footprint small for large body text."
+      },
+      {
+        "id": "04-index-for-text-retri-q26",
+        "question": "A globally distributed search service runs each query entirely within one region rather than splitting it across regions. Given inter-region latencies of 100 to 200 ms, why is this the right design?",
+        "options": [
+          "Splitting a query across regions costs more latency than it saves",
+          "A query cannot be serialized for transmission between regions",
+          "Term statistics differ too much between regions to merge results correctly",
+          "Cross-region queries would violate the append-only index rule"
+        ],
+        "correct": 0,
+        "explanation": "With inter-region latencies of 100 to 200 ms, fanning one query across regions would add more round-trip time than the extra parallelism saves. Regional distribution instead buys more total concurrent capacity, higher availability, and lower latency for clients near a region, not a faster single query."
+      },
+      {
+        "id": "04-index-for-text-retri-q27",
+        "question": "An index stores each term frequency in just four bits, capping it at 15, and retrieval accuracy barely changes. Which property of BM25 justifies this aggressive capping?",
+        "options": [
+          "Its term-frequency factor saturates above a modest ceiling",
+          "Its inverse document frequency ignores term frequency entirely",
+          "Its length normalization already divides out large frequencies",
+          "Its per-clause boost overrides any stored frequency"
+        ],
+        "correct": 0,
+        "explanation": "BM25's term-frequency factor saturates, so once a term appears more than a modest number of times its contribution barely grows. Values above that ceiling change the score negligibly, which means term frequencies can be capped and stored in a few bits without noticeably hurting retrieval accuracy."
       }
     ]
   }
