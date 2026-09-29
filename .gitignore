@@ -10,8 +10,13 @@ books
 movie_index
 lucene
 pdfs
+# The `lucene` rule above ignores locally downloaded Lucene jars/indexes, but the ch04
+# exercise ships a student-facing Lucene project skeleton that must be published. Its own
+# .gitignore keeps its build output (target/) out.
+!exercises/**/lucene/
+
 # Exercise solutions — published separately after the deadline (use --publish-solution)
-exercises/*/solution/
+exercises/**/solution/
 
 # Per-page PDF/Markdown download artifacts in the built book: the theme's download
 # menu is hidden via custom CSS, so these are never reachable by users. Chapter PDFs
