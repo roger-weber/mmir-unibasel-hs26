@@ -1,0 +1,87 @@
+{
+  "collection": {
+    "name": "movies-small",
+    "n_docs": 500,
+    "mean_tokens_per_doc": 96.3
+  },
+  "index_build": {
+    "bm25": {
+      "build_s": 0.825,
+      "n_terms": 9727,
+      "storage_note": "sparse inverted index; dominated by postings, not stored as dense vectors"
+    },
+    "all-MiniLM-L6-v2": {
+      "encode_s": 3.093,
+      "dim": 384,
+      "bytes_per_doc_float32": 1536,
+      "total_bytes_float32": 768000,
+      "total_mb_float32": 0.768
+    },
+    "Qwen3-Embedding-0.6B": {
+      "encode_s": 736.472,
+      "dim": 1024,
+      "bytes_per_doc_float32": 4096,
+      "total_bytes_float32": 2048000,
+      "total_mb_float32": 2.048
+    }
+  },
+  "matryoshka_storage_large_model": {
+    "1024": {
+      "bytes_per_doc_float32": 4096,
+      "total_bytes_float32": 2048000,
+      "total_mb_float32": 2.048,
+      "pct_of_full": 100.0
+    },
+    "512": {
+      "bytes_per_doc_float32": 2048,
+      "total_bytes_float32": 1024000,
+      "total_mb_float32": 1.024,
+      "pct_of_full": 50.0
+    },
+    "256": {
+      "bytes_per_doc_float32": 1024,
+      "total_bytes_float32": 512000,
+      "total_mb_float32": 0.512,
+      "pct_of_full": 25.0
+    },
+    "128": {
+      "bytes_per_doc_float32": 512,
+      "total_bytes_float32": 256000,
+      "total_mb_float32": 0.256,
+      "pct_of_full": 12.5
+    },
+    "64": {
+      "bytes_per_doc_float32": 256,
+      "total_bytes_float32": 128000,
+      "total_mb_float32": 0.128,
+      "pct_of_full": 6.2
+    }
+  },
+  "quantization_large_model": {
+    "float32_full": {
+      "bytes_per_doc": 4096,
+      "total_mb": 2.048
+    },
+    "int8_full": {
+      "bytes_per_doc": 1024,
+      "total_mb": 0.512,
+      "reduction_vs_float32": "4x"
+    },
+    "binary_full": {
+      "bytes_per_doc": 128,
+      "total_mb": 0.064,
+      "reduction_vs_float32": "32x"
+    }
+  },
+  "per_query_latency_ms": {
+    "A-bm25": 2.56,
+    "B-bm25+crossenc": 299.55,
+    "C-dense-small": 6.23,
+    "C-dense-large": 225.33,
+    "D-hybrid-small": 9.25,
+    "D-hybrid-large": 239.57,
+    "D-hybrid-large+crossenc": 623.33,
+    "E-matryoshka-large": 230.93,
+    "E-matryoshka-large+crossenc": 624.4
+  }
+}

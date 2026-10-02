@@ -1,0 +1,50 @@
+{
+  "model": "Qwen/Qwen3-Embedding-0.6B",
+  "label": "Qwen3-Embedding-0.6B",
+  "full_dim": 1024,
+  "reference": "full-dimension dense top-10 per query",
+  "metric": "mean recall@10 of the truncated top-10 against the full-dim top-10, averaged over the query set",
+  "n_queries": 14,
+  "per_dim": {
+    "1024": {
+      "dim": 1024,
+      "pct_of_full_dim": 100.0,
+      "mean_recall_at_10_vs_full": 1.0,
+      "bytes_per_doc_float32": 4096,
+      "total_mb_float32": 2.048,
+      "storage_pct_of_full": 100.0
+    },
+    "512": {
+      "dim": 512,
+      "pct_of_full_dim": 50.0,
+      "mean_recall_at_10_vs_full": 0.771,
+      "bytes_per_doc_float32": 2048,
+      "total_mb_float32": 1.024,
+      "storage_pct_of_full": 50.0
+    },
+    "256": {
+      "dim": 256,
+      "pct_of_full_dim": 25.0,
+      "mean_recall_at_10_vs_full": 0.607,
+      "bytes_per_doc_float32": 1024,
+      "total_mb_float32": 0.512,
+      "storage_pct_of_full": 25.0
+    },
+    "128": {
+      "dim": 128,
+      "pct_of_full_dim": 12.5,
+      "mean_recall_at_10_vs_full": 0.5,
+      "bytes_per_doc_float32": 512,
+      "total_mb_float32": 0.256,
+      "storage_pct_of_full": 12.5
+    },
+    "64": {
+      "dim": 64,
+      "pct_of_full_dim": 6.2,
+      "mean_recall_at_10_vs_full": 0.4,
+      "bytes_per_doc_float32": 256,
+      "total_mb_float32": 0.128,
+      "storage_pct_of_full": 6.2
+    }
+  }
+}
