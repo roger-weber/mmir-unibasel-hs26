@@ -1,0 +1,91 @@
+{
+  "collection": "movies-small",
+  "note": "Realistic queries over the first 500 movies (years 1964-1997). Each query deliberately probes an aspect where the five pipelines and the two embedding models should diverge: exact title match, exact actor/cast name, genre plus plot semantics, paraphrased plot with little shared vocabulary, and mixed cases. Target titles were confirmed to exist in the 500-movie slice. Queries flagged \"open\": true have no single gold target; the judging step scores whatever on-theme films surface rather than forcing one correct answer.",
+  "queries": [
+    {
+      "id": "q01",
+      "text": "GoldenEye",
+      "probe": "exact-title",
+      "note": "Single distinctive title token. Tests whether BM25 ranks the exact title first and whether dense retrieval dilutes a bare title with no plot context."
+    },
+    {
+      "id": "q02",
+      "text": "Twelve Monkeys",
+      "probe": "exact-title",
+      "note": "Exact multi-word title. The word monkeys may pull animal or jungle films in dense retrieval, while BM25 keys on the literal title tokens."
+    },
+    {
+      "id": "q03",
+      "text": "Heat",
+      "probe": "exact-title-ambiguous",
+      "note": "Common-word title. BM25 may be swamped by the word heat appearing in many overviews, and dense retrieval may read it literally rather than as a film title. Strong divergence probe."
+    },
+    {
+      "id": "q04",
+      "text": "Samuel L. Jackson",
+      "probe": "exact-cast-name",
+      "note": "Exact actor name present in roughly nine of the 500 movies. BM25 matches the name tokens directly, while dense retrieval may not localise a proper noun."
+    },
+    {
+      "id": "q05",
+      "text": "movies starring Robin Williams",
+      "probe": "cast-name-nl",
+      "note": "Actor name wrapped in natural-language intent. Tests cast search when the query carries filler words that dense models may latch onto."
+    },
+    {
+      "id": "q06",
+      "text": "Robert De Niro as a Las Vegas casino boss",
+      "probe": "mixed-cast-plot",
+      "note": "Actor name plus plot and setting. Targets Casino, with Heat and Taxi Driver as De Niro distractors. Tests whether a pipeline can combine an exact name with semantic plot cues."
+    },
+    {
+      "id": "q07",
+      "text": "animated film about toys that come to life",
+      "probe": "genre-plot-semantic",
+      "note": "Genre plus plot. Targets Toy Story. The word toys gives BM25 some surface overlap, so this is a softer semantic case."
+    },
+    {
+      "id": "q08",
+      "text": "a dark thriller about a detective hunting a serial killer",
+      "probe": "genre-plot-semantic",
+      "note": "Genre plus plot with no single title token. Several candidates fit (Se7en, Copycat, Nick of Time). Tests semantic grouping by theme."
+    },
+    {
+      "id": "q09",
+      "text": "two investigators track a methodical murderer punishing people for the cardinal vices",
+      "probe": "paraphrase-noshare",
+      "note": "Paraphrase of the Se7en plot with almost no vocabulary shared with its overview (investigators not detectives, murderer not serial killer, cardinal vices not seven deadly sins). Dense retrieval should win decisively."
+    },
+    {
+      "id": "q10",
+      "text": "a prisoner is sent to the past to trace a plague that almost exterminated the human race",
+      "probe": "paraphrase-noshare",
+      "note": "Paraphrase of Twelve Monkeys avoiding its overview words (prisoner not convict, past not time, plague not virus, exterminated not wiped out). Dense retrieval should beat BM25."
+    },
+    {
+      "id": "q11",
+      "text": "a self-destructive man bent on ending his life bonds with a sex worker during his final days",
+      "probe": "paraphrase-noshare",
+      "note": "Paraphrase of Leaving Las Vegas via plot only (sex worker not prostitute). The city is left out on purpose so the query does not collide with Casino; no vocabulary is shared with the overview, so dense retrieval should win."
+    },
+    {
+      "id": "q12",
+      "text": "a medieval highland warrior rallies his people to overthrow their foreign rulers",
+      "probe": "paraphrase-noshare",
+      "note": "Paraphrase of Braveheart avoiding Scottish, English, and revolt. Tests whether dense retrieval recovers the film from meaning alone."
+    },
+    {
+      "id": "q13",
+      "text": "secret agent spy thriller with gadgets and a villain plotting global sabotage",
+      "probe": "open-semantic",
+      "open": true,
+      "note": "Open semantic query with no single gold target. It describes a spy thriller archetype (James Bond style) that several films in the slice fit: GoldenEye, True Lies, and other spy or action titles. The judging step treats whatever spy films surface as candidates rather than forcing one correct answer; it probes how each pipeline groups a broad theme."
+    },
+    {
+      "id": "q14",
+      "text": "a lighthearted comedy about a failed athlete who becomes an unlikely golf star",
+      "probe": "paraphrase-plot",
+      "note": "Paraphrase of Happy Gilmore (failed hockey player turned golf whiz). The word golf gives mild overlap; mostly a genre plus plot semantic test."
+    }
+  ]
+}
