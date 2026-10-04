@@ -18,8 +18,10 @@ dependencies = [
     "numpy>=2.5.3",
     "pypdf2>=3.0.1",
     "scikit-learn>=1.9.1",
+    "sentence-transformers>=3.0.0",
     "spacy>=3.8.16",
     "tabulate>=0.10.0",
+    "torch>=2.2.0",
     "unidecode>=1.4.0",
     "wordfreq>=3.1.1",
 ]
