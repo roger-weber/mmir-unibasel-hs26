@@ -2,8 +2,8 @@
   "meta-data": {
     "title": "Multimedia Retrieval HS26",
     "description": "Exercise questions for MMIR HS26, University Basel",
-    "version": "2026-09-27",
-    "lastUpdated": "2026-09-27"
+    "version": "2026-10-04",
+    "lastUpdated": "2026-10-04"
   },
   "questions": {
     "01 - Classical Text Retrieval": [
@@ -972,6 +972,248 @@
         ],
         "correct": 0,
         "explanation": "BM25's term-frequency factor saturates, so once a term appears more than a modest number of times its contribution barely grows. Values above that ceiling change the score negligibly, which means term frequencies can be capped and stored in a few bits without noticeably hurting retrieval accuracy."
+      }
+    ],
+    "05 - Semantic Search": [
+      {
+        "id": "05-semantic-search-q1",
+        "question": "A retrieval method projects a term-document matrix into a small number of latent dimensions using matrix factorisation. A document that shares no words with the query still ranks near the top. What makes this possible?",
+        "options": [
+          "Its terms co-occur with the query terms across other collection documents",
+          "It contains more total terms than other documents, raising its similarity",
+          "The query was expanded with thesaurus synonyms before the matching step",
+          "Its length is closer to the average document length in the collection"
+        ],
+        "correct": 0,
+        "explanation": "Reducing the dimensionality forces terms that appear in similar document contexts into shared latent topics. A document can therefore rank highly because its terms co-occur with the query terms elsewhere in the collection, even if that document contains none of the query terms itself."
+      },
+      {
+        "id": "05-semantic-search-q3",
+        "question": "In a transformer encoder, the word \"spring\" in a sentence about mountain water and the word \"spring\" in a sentence about metal coils receive different output vectors. Which mechanism produces this difference?",
+        "options": [
+          "Each token's representation is updated using the other tokens in the same sequence",
+          "Each token is assigned a fixed vector looked up from a static table",
+          "The tokenizer splits the word into different sub-word pieces in each sentence",
+          "A positional encoding is added so identical words at different positions differ"
+        ],
+        "correct": 0,
+        "explanation": "Self-attention lets each token combine information from every other token in the sequence, so the output vector for a word depends on its surrounding words. This is why a transformer produces a context-aware representation, unlike a static embedding that gives the same word one fixed vector."
+      },
+      {
+        "id": "05-semantic-search-q4",
+        "question": "A team replaces their keyword search with a pure dense bi-encoder retriever. Natural-language queries improve, but users searching for exact product codes such as \"A1B2C3\" now often get wrong results. Why does the exact-code case degrade?",
+        "options": [
+          "Dense retrieval matches on meaning, so an exact rare string is unreliable",
+          "The bi-encoder truncates any query shorter than its context window",
+          "Product codes are stripped by the tokenizer before the query is encoded",
+          "Dense retrieval works only when query and document share no vocabulary"
+        ],
+        "correct": 0,
+        "explanation": "A bi-encoder compares vectors that capture overall meaning, so it may return semantically similar but wrong results for a query whose value is an exact, rare string. Exact-match lookups such as product IDs or error codes are cases where sparse keyword retrieval remains stronger, which is one reason hybrid pipelines exist."
+      },
+      {
+        "id": "05-semantic-search-q5",
+        "question": "A model learns dense vectors by factorising a single collection's term-document matrix. A colleague argues these vectors can be reused as-is on a completely different collection in another domain. Why is this expectation usually wrong?",
+        "options": [
+          "The latent dimensions came from that collection's own documents and terms",
+          "Dense vectors cannot be compared with cosine similarity across collections",
+          "The factorisation always produces vectors of a different length per collection",
+          "Matrix factorisation discards the singular values needed for any reuse"
+        ],
+        "correct": 0,
+        "explanation": "The latent structure from matrix factorisation depends on the specific terms and documents in the collection it was built from, so it does not transfer to a different domain. This corpus-specificity is a key difference from neural word embeddings, which are learned at the language level and transfer across collections."
+      },
+      {
+        "id": "05-semantic-search-q6",
+        "question": "A search system uses a model that encodes the query and each document jointly in one pass to score relevance. It gives excellent ranking quality but cannot search a ten-million-document collection directly. What is the standard way to still benefit from it?",
+        "options": [
+          "Use a cheap first-stage retriever to shortlist, then apply this model",
+          "Pre-compute and store one vector per document with this model at index time",
+          "Run this model on a truncated 128-dimension version of each document",
+          "Replace its scoring layer with a plain cosine over stored document vectors"
+        ],
+        "correct": 0,
+        "explanation": "A model that encodes query and document together cannot pre-compute document representations, so scoring every document at query time is too expensive at scale. The standard two-stage pattern uses a cheaper retriever to select a small candidate set, then applies this expensive model only to rerank those candidates."
+      },
+      {
+        "id": "05-semantic-search-q7",
+        "question": "An engineer builds a latent-topic index by keeping almost all dimensions of a factorised term-document matrix rather than a small subset. What is the likely consequence?",
+        "options": [
+          "The representation can no longer be compared with cosine similarity",
+          "The representation keeps noise instead of merging related terms",
+          "The representation drops the rare terms that distinguish documents",
+          "The representation becomes identical to a plain bag-of-words vector"
+        ],
+        "correct": 1,
+        "explanation": "The point of truncating to a few dimensions is to merge co-occurring terms into latent topics. Keeping nearly all dimensions reconstructs the original sparse matrix, so the model retains noise, loses the semantic smoothing, and costs more to store and search."
+      },
+      {
+        "id": "05-semantic-search-q8",
+        "question": "A retrieval system represents each word with a pre-trained vector learned from a large corpus. It fails to separate the financial sense of a word from its everyday sense, always treating them the same. What is the underlying reason?",
+        "options": [
+          "The vectors are too low-dimensional to store more than one meaning",
+          "Cosine similarity cannot distinguish between two senses of a word",
+          "Each word is given one fixed vector, ignoring its context",
+          "The training corpus did not contain enough examples of the word"
+        ],
+        "correct": 2,
+        "explanation": "Static embeddings assign one vector per word type regardless of surrounding words. A word with several senses collapses them into a single point, so the model cannot tell the senses apart."
+      },
+      {
+        "id": "05-semantic-search-q9",
+        "question": "A dense retrieval system encodes every document into a vector when the collection is first indexed, and at search time it only encodes the incoming query. Why does this design scale to millions of documents?",
+        "options": [
+          "Each query is compared against only a small random sample of documents",
+          "The documents are re-encoded together with the query in a single pass",
+          "The query and documents are reduced to the same single shared vector",
+          "Document vectors are precomputed, leaving only a cheap comparison per query"
+        ],
+        "correct": 3,
+        "explanation": "Because document embeddings are computed once at index time, each query needs only one encoding pass plus a dot product against the stored vectors. A model that re-reads the query and document together would instead require a full pass for every document."
+      },
+      {
+        "id": "05-semantic-search-q10",
+        "question": "When indexing long documents for a dense bi-encoder, a team splits them into much smaller passages than they use for their keyword index. Why do the dense vectors benefit from the smaller passages?",
+        "options": [
+          "A long passage is squeezed into one vector, blurring relevant content",
+          "A long passage exceeds the dot-product limit of the vector index",
+          "Shorter passages let the keyword index and the dense index share one score",
+          "Shorter passages are required for cosine similarity to stay below one"
+        ],
+        "correct": 0,
+        "explanation": "A bi-encoder compresses an entire passage into a single fixed vector. A long passage mixes many topics, so relevant content gets diluted by unrelated text. A keyword index scores individual terms, so it tolerates much larger chunks."
+      },
+      {
+        "id": "05-semantic-search-q12",
+        "question": "Both an early latent-topic method and a modern dense retriever produce documents as dense vectors rather than sparse term lists. Compared with a classical keyword system, what cost do both pay at search time?",
+        "options": [
+          "Each query must be re-encoded once for every document in the collection",
+          "Each query must be compared against every document, without index pruning",
+          "Each document must be re-indexed whenever a new query arrives",
+          "Each query returns fewer documents than the keyword system allows"
+        ],
+        "correct": 1,
+        "explanation": "Dense vectors are not sparse, so the inverted-index pruning tricks (skip pointers, early termination) do not apply. Both approaches must in principle compare the query against every stored document vector, which is why brute-force dense search costs one dot product per document."
+      },
+      {
+        "id": "05-semantic-search-q13",
+        "question": "In a latent-topic retrieval model, how is a new search query placed into the same low-dimensional space as the stored documents?",
+        "options": [
+          "It is matched directly in the original high-dimensional term space",
+          "It is projected with the mapping that places documents there",
+          "It is re-trained into the model by recomputing the full factorisation",
+          "It is averaged from the vectors of the documents it most resembles"
+        ],
+        "correct": 1,
+        "explanation": "A query is treated as a short document and folded into the latent space with the same transformation applied to documents. This avoids recomputing the decomposition for every query."
+      },
+      {
+        "id": "05-semantic-search-q14",
+        "question": "Two word-embedding models are tested on a rare, misspelled term that neither saw during training. The first returns nothing useful; the second still produces a sensible vector. What ability explains the second model's behaviour?",
+        "options": [
+          "It builds the term's vector from smaller character fragments it has seen",
+          "It falls back to the single most frequent word in its vocabulary",
+          "It looks the term up in an external spelling-correction dictionary",
+          "It averages the vectors of every word in the training corpus"
+        ],
+        "correct": 0,
+        "explanation": "A sub-word model composes a word's vector from character n-gram vectors. Because those fragments recur across many known words, an unseen or misspelled term can still be assembled into a meaningful vector, while a pure word-level model has no entry for it."
+      },
+      {
+        "id": "05-semantic-search-q15",
+        "question": "A retrieval model keeps a separate vector per document token and matches each query token to its best document token, rather than compressing each document into one vector. This costs more storage and more comparisons. What retrieval benefit justifies that cost?",
+        "options": [
+          "It removes the need to encode documents before queries arrive",
+          "It captures fine-grained semantic matches a single vector would blur",
+          "It guarantees exact-string matches such as identifiers and codes",
+          "It shrinks each document to fewer dimensions than a keyword index"
+        ],
+        "correct": 1,
+        "explanation": "Compressing a whole passage into one vector loses detail. Keeping a vector per token lets each query token find its best-matching document token, capturing fine-grained semantic alignment close to a cross-encoder's quality, while documents can still be encoded ahead of time. The extra storage and comparison cost is the price paid for that quality."
+      },
+      {
+        "id": "05-semantic-search-q16",
+        "question": "To save storage and speed up search, a team compresses every embedding down to a single bit per dimension. This strong approximation introduces ranking errors. How is that error typically compensated in the pipeline?",
+        "options": [
+          "Increase the single-bit vectors to two bits per dimension",
+          "Discard the full-precision vectors once the bits are computed",
+          "Encode each query jointly with every document in the collection",
+          "Rescore the top candidates with the full-precision vectors afterwards"
+        ],
+        "correct": 3,
+        "explanation": "The compressed vectors act as a coarse first-stage filter. Because the approximation drops precision, the surviving top candidates are rescored with the full-precision embeddings to recover ranking quality. This is the same two-stage idea used with Matryoshka embeddings, where a truncated prefix filters and the full vector reranks; a cross-encoder reranker plays the same corrective role."
+      },
+      {
+        "id": "05-semantic-search-q17",
+        "question": "A search team finds that their keyword engine misses paraphrased queries, while their dense engine mishandles exact identifiers like serial numbers. They want one system that handles both query types well. Which design most directly achieves this?",
+        "options": [
+          "Replace both engines with a single larger dense embedding model",
+          "Increase the number of latent dimensions in the dense engine",
+          "Apply a cross-encoder to the keyword engine's results only",
+          "Run both engines in parallel and fuse their result lists"
+        ],
+        "correct": 3,
+        "explanation": "A hybrid pipeline runs sparse (keyword) and dense retrieval in parallel and merges the two lists, for example with reciprocal rank fusion. Sparse retrieval captures exact identifiers and rare terms; dense retrieval captures paraphrases. A bigger model or more dimensions still struggles with exact strings, and reranking the keyword results alone cannot recover documents the keyword engine never retrieved."
+      },
+      {
+        "id": "05-semantic-search-q18",
+        "question": "An embedding model is trained so that the first part of each vector is already useful on its own. A team uses the short prefix to scan the whole collection quickly, then the full vector to re-rank the survivors. What advantage does this give over keeping two separate models?",
+        "options": [
+          "The short prefix captures more detail than the full-length vector",
+          "The full vector can be discarded once the prefix is computed",
+          "Both stages share one model, needing no extra encoder",
+          "The prefix and full vector must be stored in two different indexes"
+        ],
+        "correct": 2,
+        "explanation": "Because truncated prefixes of a Matryoshka embedding are themselves usable, the cheap first stage and the precise rerank stage come from a single model and a single stored vector. No separate small-model index or extra encoder is required."
+      },
+      {
+        "id": "05-semantic-search-q20",
+        "question": "After training on a large corpus, a word-vector space lets you take the vector for a capital city, subtract its country, add a different country, and land near that country's capital. What property of the embeddings does this illustrate?",
+        "options": [
+          "Relational patterns are encoded as consistent directions in the space",
+          "Each word vector stores an explicit list of its dictionary senses",
+          "The vectors are sorted alphabetically along one of the axes",
+          "Every city shares an identical vector with its own country"
+        ],
+        "correct": 0,
+        "explanation": "Training on co-occurrence produces a space where relationships such as country-to-capital appear as roughly constant offset directions. Vector arithmetic can therefore move from one word to a related one, which is why analogies work."
+      },
+      {
+        "id": "05-semantic-search-q21",
+        "question": "An engineer takes a pre-trained masked-language transformer, mean-pools its token outputs into one vector per sentence, and uses cosine similarity for retrieval. The results are worse than averaging simple static word vectors. Why does the raw transformer disappoint here?",
+        "options": [
+          "Its token outputs are identical for every sentence it processes",
+          "Mean pooling cannot be applied to transformer outputs at all",
+          "Cosine similarity is undefined for vectors above a certain dimension",
+          "Its token states were tuned for pre-training, not sentence comparison"
+        ],
+        "correct": 3,
+        "explanation": "A masked-language model's internal states are shaped by its pre-training objectives (predicting masked tokens and sentence adjacency), not by making whole-sentence vectors comparable by cosine. Without fine-tuning on sentence pairs, as Sentence-BERT does, pooling those states compares poorly, sometimes worse than averaging static word vectors."
+      },
+      {
+        "id": "05-semantic-search-q22",
+        "question": "When choosing an embedding model, a team considers moving from a 384-dimensional model to a 4096-dimensional one. What is the main downside of the higher-dimensional choice?",
+        "options": [
+          "It can only be used for multilingual collections",
+          "It cannot be combined with a keyword index",
+          "It raises storage and search cost per vector",
+          "It prevents any form of quantization later"
+        ],
+        "correct": 2,
+        "explanation": "Higher-dimensional embeddings can capture more nuance, but every stored vector takes more space and every comparison does more arithmetic, raising both storage and query cost. The dimension choice is a quality-versus-cost tradeoff."
+      },
+      {
+        "id": "05-semantic-search-q23",
+        "question": "Averaging static word vectors gives the sentences \"a dog bit the man\" and \"the man bit a dog\" the same representation. A trained sentence encoder distinguishes them. What underlies this improvement?",
+        "options": [
+          "The encoder lets tokens interact, so order and structure matter",
+          "The encoder uses a larger vocabulary than the word-vector model",
+          "The encoder stores each sentence as a list of separate word vectors",
+          "The encoder removes stop words before building the sentence vector"
+        ],
+        "correct": 0,
+        "explanation": "Averaging word vectors ignores order, so two sentences with the same words collapse to one vector. A transformer-based sentence encoder lets tokens attend to each other, so word order and syntactic structure change the resulting vector, letting it tell the two sentences apart."
       }
     ]
   }
