@@ -94,4 +94,25 @@
   <url>
     <loc>http://localhost:3001/summary-3</loc>
   </url>
+  <url>
+    <loc>http://localhost:3001/index-5</loc>
+  </url>
+  <url>
+    <loc>http://localhost:3001/latent-semantic-indexing</loc>
+  </url>
+  <url>
+    <loc>http://localhost:3001/word-embeddings</loc>
+  </url>
+  <url>
+    <loc>http://localhost:3001/transformer-embeddings</loc>
+  </url>
+  <url>
+    <loc>http://localhost:3001/semantic-similarity-with-transformers</loc>
+  </url>
+  <url>
+    <loc>http://localhost:3001/building-semantic-search</loc>
+  </url>
+  <url>
+    <loc>http://localhost:3001/summary-4</loc>
+  </url>
 </urlset>
