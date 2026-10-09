@@ -41,4 +41,4 @@ The collection is the same `movies` dataset the demos use (about 500 movies with
 
 ## Solution
 
-Not published yet. The solution notebook appears here one to two weeks after the exercise session, as `solution/exercise.ipynb`. It fills in every code stub and answers every reasoning task with a model answer, so you can compare it against your own.
+[solution/solution.ipynb](solution/solution.ipynb) fills in every code stub and answers every reasoning task with a model answer, so you can compare it against your own. The completed `extract_terms` pipeline and `BM25Scorer` are in [solution/tasks.py](solution/tasks.py).
