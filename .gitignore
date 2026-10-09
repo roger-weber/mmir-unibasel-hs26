@@ -15,9 +15,6 @@ pdfs
 # .gitignore keeps its build output (target/) out.
 !exercises/**/lucene/
 
-# Exercise solutions — published separately after the deadline (use --publish-solution)
-exercises/**/solution/
-
 # Per-page PDF/Markdown download artifacts in the built book: the theme's download
 # menu is hidden via custom CSS, so these are never reachable by users. Chapter PDFs
 # users do get are served from publish/chapters/ (linked in the README).
