@@ -41,4 +41,4 @@ The collection is the same `movies` dataset the demos use (about 500 movies with
 
 ## Solution
 
-[solution/solution.ipynb](solution/solution.ipynb) fills in every code stub and answers every reasoning task with a model answer, so you can compare it against your own. The completed `extract_terms` pipeline and `BM25Scorer` are in [solution/tasks.py](solution/tasks.py).
+[solution/solution.ipynb](solution/solution.ipynb) fills in every code stub and answers every reasoning task with a model answer, so you can compare it against your own. The completed `BM25Scorer` is in [solution/tasks.py](solution/tasks.py).
