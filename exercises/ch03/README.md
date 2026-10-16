@@ -41,4 +41,4 @@ The coding task uses the **Bitext customer-support dataset**: about 27,000 real 
 
 ## Solution
 
-Not published yet. The solution notebook appears here one to two weeks after the exercise session, as `solution/solution.ipynb`. It fills in every code stub and answers every reasoning task with a model answer, so you can compare it against your own.
+[solution/solution.ipynb](solution/solution.ipynb) fills in every code stub and answers every reasoning task with a model answer, so you can compare it against your own. The completed `IntentClassifier` is in [solution/tasks.py](solution/tasks.py).
