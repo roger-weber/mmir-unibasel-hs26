@@ -115,3 +115,33 @@ def get_cached_book_ids() -> list[int]:
         int(f.stem)
         for f in GUTENBERG_CACHE_DIR.glob("*.json")
     ]
+
+
+GLOVE_URL = ("https://github.com/RaRe-Technologies/gensim-data/releases/download/"
+             "{name}/{name}.gz")
+
+
+def load_glove_vectors(name: str = "glove-wiki-gigaword-100"):
+    """Return (words, vectors) of a GloVe model from the gensim-data catalog.
+
+    Reads the file that `gensim.downloader.load(name)` caches under
+    `~/gensim-data/` (or `$GENSIM_DATA_DIR`), so the ch05 word-embedding demo and
+    this loader share one download. Downloads it there on first use, without
+    needing gensim itself. glove-wiki-gigaword-100 is about 130 MB and holds
+    400,000 words with 100 dimensions.
+    """
+    import csv
+    import urllib.request
+    import numpy as np
+    import pandas as pd
+
+    base = Path(os.environ.get("GENSIM_DATA_DIR", Path.home() / "gensim-data"))
+    path = base / name / f"{name}.gz"
+    if not path.exists():
+        path.parent.mkdir(parents=True, exist_ok=True)
+        urllib.request.urlretrieve(GLOVE_URL.format(name=name), path)
+    table = pd.read_csv(path, sep=" ", header=None, skiprows=1, quoting=csv.QUOTE_NONE,
+                        na_filter=False, keep_default_na=False, encoding="utf-8")
+    words = table[0].astype(str).tolist()
+    vectors = table.iloc[:, 1:].to_numpy(dtype=np.float32)
+    return words, vectors
