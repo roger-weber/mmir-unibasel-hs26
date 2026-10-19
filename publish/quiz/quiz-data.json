@@ -2,8 +2,8 @@
   "meta-data": {
     "title": "Multimedia Retrieval HS26",
     "description": "Exercise questions for MMIR HS26, University Basel",
-    "version": "2026-10-04",
-    "lastUpdated": "2026-10-04"
+    "version": "2026-10-19",
+    "lastUpdated": "2026-10-19"
   },
   "questions": {
     "01 - Classical Text Retrieval": [
@@ -1214,6 +1214,248 @@
         ],
         "correct": 0,
         "explanation": "Averaging word vectors ignores order, so two sentences with the same words collapse to one vector. A transformer-based sentence encoder lets tokens attend to each other, so word order and syntactic structure change the resulting vector, letting it tell the two sentences apart."
+      }
+    ],
+    "06 - Vector Search": [
+      {
+        "id": "06-vector-search-q1",
+        "question": "A vector index stores document embeddings that were all scaled to unit length before indexing. At query time, the system ranks the documents by their dot product with the raw query embedding, which has a length of 3.7. How does this ranking compare with a ranking by cosine similarity?",
+        "options": [
+          "It is the same ranking; only the scores are scaled differently",
+          "It favors documents whose length is closest to the query length",
+          "It is distorted unless the query is also scaled to unit length",
+          "It matches cosine only if the query length is below 1.0"
+        ],
+        "correct": 0,
+        "explanation": "Cosine similarity divides the dot product by both vector lengths. All stored vectors have length 1, so only the query length remains as a divisor. That length is the same for every document, so it scales all scores of the query by the same factor and leaves the order unchanged. Normalizing the query is only needed when scores must be comparable across queries."
+      },
+      {
+        "id": "06-vector-search-q3",
+        "question": "An inverted-file index splits 50 million vectors into 2,000 clusters. When it probes 40 clusters per query, recall@10 measured against exact search is 0.90. The team doubles the number of probed clusters to 80. What is the most likely effect?",
+        "options": [
+          "Throughput roughly halves while recall improves only slightly",
+          "Throughput stays stable while recall rises close to a perfect 1.0",
+          "Recall improves strongly while the share of data read stays fixed",
+          "Recall drops because more clusters add distant, irrelevant vectors"
+        ],
+        "correct": 0,
+        "explanation": "The search cost grows linearly with the number of probed clusters, so twice the probes means about twice the work and half the throughput. Each additional cluster recovers fewer missed neighbors than the one before, because most true neighbors already sit in the nearest clusters. Recall cannot drop, because recall compares against the exact top 10 and more probes only add candidates."
+      },
+      {
+        "id": "06-vector-search-q4",
+        "question": "A search engine combines a vector clause and a keyword clause in one Boolean query, and the final score is the sum of the clause scores. The vector clause returns a cosine-based score between 0 and 1. The keyword clause returns BM25 scores. A user's query contains a person's name that appears in only a handful of documents. What happens to the final ranking?",
+        "options": [
+          "Documents with the name dominate, whatever their vector similarity",
+          "Both clauses contribute equally, since each score has the same range",
+          "The vector clause dominates, since it scores every document it sees",
+          "Documents with the name drop lower, since rare terms add noise to scores"
+        ],
+        "correct": 0,
+        "explanation": "A rare name has a high IDF, so its BM25 contribution can reach several points. The vector clause adds at most 1. When the scores are added, matching the name outweighs any difference in vector similarity. Boosts that weight the clauses, or rank fusion such as RRF, which uses only ranks, avoid this imbalance."
+      },
+      {
+        "id": "06-vector-search-q5",
+        "question": "A distributed search engine splits a collection across eight shards. Each shard holds its own HNSW graph and returns its 10 best matches for a query. A coordinating node then merges the eight lists into a global top 10. Compared with exact search over the full collection, where can the global result go wrong?",
+        "options": [
+          "Only inside the shards, where each graph search is approximate",
+          "Only in the merge, which can drop matches ranked 11th in a shard",
+          "In both steps, since each shard compares only part of the data",
+          "Nowhere, since searching eight smaller graphs makes them exact"
+        ],
+        "correct": 0,
+        "explanation": "Every document in the global top 10 is also among the top 10 of its own shard, because at most ten documents in the collection, and therefore in any one shard, can rank above it. Merging the per-shard lists therefore cannot lose a global top-10 match. Any error comes from the HNSW search inside each shard, which may miss true neighbors. The price of sharding is cost, not accuracy: every query must visit every shard."
+      },
+      {
+        "id": "06-vector-search-q6",
+        "question": "A system filters during an inverted-file search. A bitmap marks the admitted documents, and the scan of the probed clusters skips all others. For one query, the filter admits only 2,000 of 500 million vectors. How should the system answer this query?",
+        "options": [
+          "Skip the index and compare the query exactly with the admitted vectors",
+          "Keep the usual number of probed clusters, since the bitmap check is cheap",
+          "Run the search unfiltered and remove non-admitted results afterwards",
+          "Probe fewer clusters than usual, since fewer vectors need to be checked"
+        ],
+        "correct": 0,
+        "explanation": "With such a selective filter, the probed clusters contain only a few admitted vectors, and the best admitted matches probably sit in clusters that were not probed. An exact scan over 2,000 vectors is cheap and returns the exact top results. Post-filtering would be worse still: almost none of the unfiltered results would pass the filter."
+      },
+      {
+        "id": "06-vector-search-q7",
+        "question": "An audio search system describes each track by 20 spectral values, each between 0 and 1, plus the track's tempo in beats per minute, which ranges from 60 to 180. Tracks are compared with Euclidean distance on these raw values. What happens to the search results?",
+        "options": [
+          "Tracks are matched almost only by how close their tempos are",
+          "Tracks are matched mostly by spectrum, as it has more dimensions",
+          "Tracks are matched by both parts equally, as each is one feature",
+          "Tracks cannot be compared, as the two parts use different units"
+        ],
+        "correct": 0,
+        "explanation": "A tempo difference of 20 beats per minute outweighs any possible difference across all 20 spectral values combined, so the distance effectively compares tempo only. Gaussian normalization fixes this: each dimension is shifted by its mean and divided by its standard deviation, both estimated once from the collection. Every dimension then contributes in proportion to how much it actually varies."
+      },
+      {
+        "id": "06-vector-search-q8",
+        "question": "A Voronoi diagram precomputes the nearest neighbor for every possible query by dividing the space into one cell per stored point. Why is it not used as an index for 50-dimensional feature vectors?",
+        "options": [
+          "The cell structure grows explosively with the number of dimensions",
+          "The cells only give correct answers for Euclidean distance measures",
+          "The cells must be recomputed from scratch for every incoming query",
+          "The cells return approximate answers instead of the exact neighbor"
+        ],
+        "correct": 0,
+        "explanation": "In two dimensions, the diagram's size grows in proportion to the number of points. In higher dimensions, its worst-case size grows with a power of the number of points that rises with the dimension. Finding the query's cell then becomes as hard as the search it was meant to replace. Voronoi diagrams also exist for other distance measures, and their answers are exact."
+      },
+      {
+        "id": "06-vector-search-q9",
+        "question": "A team must search 2 billion embeddings. The full vectors take 6 TB, while the servers have 512 GB of main memory in total. The team needs a recall@10 of about 0.9. Which index design fits best?",
+        "options": [
+          "An inverted file over compact codes held entirely in main memory",
+          "An HNSW graph over all vectors, with the full vectors kept on disk",
+          "An exact tree index over all vectors, with the leaves kept on disk",
+          "A full scan over the original vectors, run in parallel from disk"
+        ],
+        "correct": 0,
+        "explanation": "The vectors must shrink by about a factor of 12 to fit into 512 GB, and product-quantization codes compress them by a factor of 16 to 64. The codes therefore fit into main memory, and the inverted file scans only a few lists per query, which is enough for a recall of about 0.9. HNSW jumps between arbitrary nodes and needs the full vectors in main memory. Exact trees read almost all leaves in high dimensions, and a full scan of 6 TB per query is far too slow."
+      },
+      {
+        "id": "06-vector-search-q10",
+        "question": "An online shop ranks products with an HNSW index. A query asks for the 10 most similar products that are in stock. The index returns its 50 best candidates, and the in-stock condition is checked only afterwards. Only 4% of all products are in stock. What does the user most likely see?",
+        "options": [
+          "About two products, far fewer than the ten that were requested",
+          "Ten products, since the index keeps searching until ten pass",
+          "No products, since conditions cannot be applied after a search",
+          "Ten products, but in a less accurate order than without a filter"
+        ],
+        "correct": 0,
+        "explanation": "This is post-filtering. Of the 50 candidates, about 4%, or two products, pass the in-stock check, even though many matching products exist further down the ranking. Fetching more candidates helps only if the selectivity is guessed correctly. A more robust approach treats the index as a stream of candidates and keeps consuming it until ten products pass."
+      },
+      {
+        "id": "06-vector-search-q11",
+        "question": "One system reports each match as a cosine distance (one minus the cosine) and sorts by the smallest value. Another system reports (1 + cosine) / 2 and sorts by the largest value. Both use the same embeddings and exact search. How do their result orders compare?",
+        "options": [
+          "Both give the same order; one sorts ascending, the other descending",
+          "The orders differ, since one is a distance and the other a similarity",
+          "The orders differ, since only the second value stays between 0 and 1",
+          "Both give the same order, but only if the query vector has unit length"
+        ],
+        "correct": 0,
+        "explanation": "Both values are simple functions of the cosine. The cosine distance falls as the cosine rises, and (1 + cosine) / 2 rises with it. Sorting the first ascending and the second descending therefore gives the same order. Turning a score into a distance, or rescaling it, changes only the direction and scale of the values, never the ranking."
+      },
+      {
+        "id": "06-vector-search-q12",
+        "question": "A tree index and an inverted file both divide the space into regions. For the same query, the tree opens 9 regions and returns the exact nearest neighbor. The inverted file opens 3 regions and misses it. What explains the difference?",
+        "options": [
+          "The tree proves no closer point exists elsewhere; the file skips this check",
+          "The tree uses tighter regions, so its first region always holds the answer",
+          "The file's clusters overlap, so its distance computations become inaccurate",
+          "The file compares compressed codes, so the neighbor's distance came out wrong"
+        ],
+        "correct": 0,
+        "explanation": "An exact tree search keeps opening regions until no unopened region could hold a closer point. That proof is why it opened 9 regions. The inverted file probes only a fixed number of the nearest clusters and accepts that a neighbor just across a boundary may sit in an unprobed cluster. In high dimensions, the proof forces the tree to open almost every region, which is why approximate methods drop it."
+      },
+      {
+        "id": "06-vector-search-q14",
+        "question": "A map service stores points of interest in an R-tree and inserts many new points over a year. The tree stays balanced, with all leaves at the same depth, yet queries become steadily slower. What is the most likely cause?",
+        "options": [
+          "Overlapping rectangles force queries to follow several branches",
+          "Leaves grow beyond their capacity, so each read takes much longer",
+          "The tree loses balance, so some paths grow much longer than others",
+          "Deleted points leave empty rectangles that queries must still visit"
+        ],
+        "correct": 0,
+        "explanation": "When a new point falls into the overlap of two rectangles, the insertion must pick one of them, and a poor choice inflates a rectangle. Inflated rectangles overlap their neighbors even more. Every query that reaches an overlapping region must follow several branches, so the tree loses the single root-to-leaf path that makes a B-tree fast. Node splits keep the tree balanced and the leaves within capacity."
+      },
+      {
+        "id": "06-vector-search-q15",
+        "question": "A greedy search on a navigable small-world graph moves from node to node, always to the linked neighbor closest to the query. It stops at a node where no linked neighbor is closer to the query. Yet the collection contains a vector that is closer. How can this happen?",
+        "options": [
+          "The closer vector is reachable only via nodes farther from the query",
+          "The closer vector was stored in a higher layer that the search skipped",
+          "The closer vector has no links, as every node links only to its friends",
+          "The closer vector lies in a different cluster that was never probed"
+        ],
+        "correct": 0,
+        "explanation": "The stopping node is a local minimum of the distance on the graph, not necessarily the global one. The path to the closer vector first leads through nodes that are farther from the query, and a purely greedy search never takes such a step. Keeping a list of the best ef_search candidates and expanding all of them lets the search continue past local minima. In HNSW, every vector is on the base layer and has links."
+      },
+      {
+        "id": "06-vector-search-q17",
+        "question": "A database searches 1,024-dimensional embeddings through an index on one-bit codes that keep only the sign of each component. An inner query retrieves the 100 best candidates by Hamming distance. An outer query reorders them by cosine distance on the full vectors and returns the top 10. Why is this top 10 much better than the first 10 candidates by Hamming distance?",
+        "options": [
+          "Codes find the right region but cannot order close matches well",
+          "Codes skip the filter step, so reranking removes non-matching rows",
+          "Codes favor long vectors, and the full vectors correct this length bias",
+          "Codes are compared by Hamming distance, which reverses the order"
+        ],
+        "correct": 0,
+        "explanation": "One-bit codes approximate the angle between vectors coarsely. The Hamming distance takes only a limited number of values, so many candidates tie, and close matches within a cluster are hard to tell apart. The codes reliably bring the good matches into the 100 candidates, and the exact comparison on the full vectors then puts them in the right order."
+      },
+      {
+        "id": "06-vector-search-q18",
+        "question": "A team has an R-tree whose split and insertion rules were designed for Euclidean distance. They reuse it to answer best-match queries under the dot product, changing only the function that bounds the score of each rectangle. What happens?",
+        "options": [
+          "Results stay exact, but the search may open many more nodes",
+          "Results become approximate, since rectangles fit only Euclidean",
+          "Results stay exact and the search costs the same as for Euclidean",
+          "Results become wrong, since the dot product is not a valid metric"
+        ],
+        "correct": 0,
+        "explanation": "The best-first search only needs a bound for each region that never promises less than the region could deliver. Nested rectangles keep this property under the dot product, so the results stay exact. The split and insertion rules, however, group vectors that are close in Euclidean distance, not vectors that score similarly under the dot product, so the search may have to open many more nodes. Only metric trees that prune with the triangle inequality cannot use the dot product directly."
+      },
+      {
+        "id": "06-vector-search-q20",
+        "question": "Spatial indexes were first designed for range queries, such as finding all shops within 2 km of a location. Why is a nearest-neighbor query harder for the same index?",
+        "options": [
+          "The search does not know in advance how far away its answer lies",
+          "The search must compare the query with every point in the collection",
+          "The search can only use rectangles and not circles as query regions",
+          "The search returns a single point, which needs a deeper tree descent"
+        ],
+        "correct": 0,
+        "explanation": "A range query knows its region before the search starts, so the index only has to find the parts of the space that overlap it. A nearest-neighbor query must first find a candidate and then prove that no other point is closer. If the query lies near the edge of a region, the closest point may sit in a neighboring region, so the search often follows more than one path."
+      },
+      {
+        "id": "06-vector-search-q21",
+        "question": "A product-quantization index splits every vector into sub-vectors and stores each one as the number of its nearest codebook center. For each query, it first computes the distance from every query sub-vector to every center of the matching codebook. What does scoring one stored vector then cost?",
+        "options": [
+          "One table look-up per code, added up over all of its sub-vectors",
+          "One full distance computation between the query and the stored vector",
+          "One decoding of the vector back to floats, then an exact comparison",
+          "One comparison of the query against the vector's nearest cluster center"
+        ],
+        "correct": 0,
+        "explanation": "The per-query tables already hold the distance between each query sub-vector and every center that a code can refer to. The approximate distance to a stored vector is the sum of one table entry per code. No multiplication over the original dimensions is needed, and the vector is never decoded. The tables are small enough to fit into the processor cache, which keeps the look-ups fast."
+      },
+      {
+        "id": "06-vector-search-q22",
+        "question": "A hybrid search fuses a vector ranking and a BM25 ranking with reciprocal rank fusion. In the vector ranking, the first document has a cosine of 0.92, the second 0.91, and the third 0.40. How does the fusion treat this gap in scores?",
+        "options": [
+          "It ignores the gap, since only the ranks 1, 2, and 3 enter the fusion",
+          "It widens the gap, since the reciprocal of a low score grows very large",
+          "It keeps the gap, since each score is divided by the same constant first",
+          "It removes the third document, since its score is below a fixed cutoff"
+        ],
+        "correct": 0,
+        "explanation": "Reciprocal rank fusion uses only the position of each document in each ranking. The third document receives the same contribution whether its cosine is 0.90 or 0.40. This is why it can fuse cosine scores and BM25 scores without calibrating them against each other. The price is lost information: a fusion that normalizes and weights the scores keeps the gap, but it requires choosing a normalization and the weights."
+      },
+      {
+        "id": "06-vector-search-q23",
+        "question": "A filtered vector search keeps pulling candidates from the index in order of increasing distance until ten of them pass the filter. Which property makes an HNSW index suit this approach well?",
+        "options": [
+          "Its search already keeps a queue that can be extended further out",
+          "Its graph stores the filter values next to each node's list of links",
+          "Its layers sort all vectors by distance to the query before searching",
+          "Its links connect each vector to all vectors that pass the same filter"
+        ],
+        "correct": 0,
+        "explanation": "Pulling candidates in order of distance is the same idea as the best-first nearest-neighbor search over trees, which returns its neighbors one by one from a priority queue. An HNSW search already maintains a queue of candidates. Continuing the search extends this queue into regions farther from the query, until enough candidates pass the filter. The graph itself knows nothing about the metadata."
+      },
+      {
+        "id": "06-vector-search-q24",
+        "question": "In 200 dimensions, an exact tree index ends up reading almost all of its leaves for every query. An alternative exact method first scans a compact code of a few bits per dimension for every vector. From each code, it derives a lower and an upper bound on the distance, and it reads in full only the vectors that could still be among the top results. Why is this alternative faster than the tree?",
+        "options": [
+          "It reads much less data in one sequential pass over the codes",
+          "It skips most clusters far from the query and accepts a few misses",
+          "It never reads a full vector, since the codes alone decide the result",
+          "It reads the full vectors in tree order, which avoids repeated reads"
+        ],
+        "correct": 0,
+        "explanation": "If every leaf must be read anyway, the only remaining gain is to make reading cheaper. The codes take 4 to 8 times less space than the full vectors, and scanning them is a sequential read without the random accesses of a tree. The bounds discard almost all vectors, so only a few candidates are read in full and compared exactly, and the result remains exact."
       }
     ]
   }
