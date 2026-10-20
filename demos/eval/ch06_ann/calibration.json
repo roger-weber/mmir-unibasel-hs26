@@ -1,0 +1,27 @@
+{
+  "judge_model": "us.anthropic.claude-sonnet-5-5",
+  "n": 300,
+  "per_grade": 100,
+  "confusion_trec_rows_llm_cols": [
+    [
+      77,
+      21,
+      2
+    ],
+    [
+      32,
+      55,
+      13
+    ],
+    [
+      8,
+      49,
+      43
+    ]
+  ],
+  "exact_agreement": 0.5833333333333334,
+  "kappa": 0.375,
+  "kappa_linear_weighted": 0.4774193548387097,
+  "binary_agreement": 0.79,
+  "binary_kappa": 0.5467625899280575
+}
