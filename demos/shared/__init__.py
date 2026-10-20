@@ -35,3 +35,9 @@ Import from any notebook in the demos/ folder:
     # Visualization
     from shared.plot import plot_pr_curve, plot_venn_diagram
 """
+
+try:
+    from .tracker import track_run
+    track_run()
+except Exception:
+    pass

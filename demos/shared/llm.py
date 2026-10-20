@@ -7,6 +7,7 @@ import base64
 # ─── Constants ───────────────────────────────────────────────────────────────
 
 MODEL_ID = "us.anthropic.claude-sonnet-4-20250514-v1:0"
+JUDGE_MODEL_ID = "us.anthropic.claude-sonnet-5-5"   # offline relevance judging (eval harnesses)
 AWS_REGION = "us-west-2"
 
 
@@ -104,4 +105,5 @@ def invoke_claude(
         contentType="application/json",
     )
     result = json.loads(response["body"].read())
-    return result["content"][0]["text"]
+    # Newer models may emit a "thinking" block before the answer; return the text blocks only.
+    return "".join(block["text"] for block in result["content"] if block.get("type") == "text")

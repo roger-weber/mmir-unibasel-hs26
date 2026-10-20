@@ -175,4 +175,4 @@ def _ensure_registered():
     if _IMPORTS_DONE:
         return
     _IMPORTS_DONE = True
-    from shared.collections import mini, slides, movies, books  # noqa: F401
+    from shared.collections import mini, slides, movies, books, beir  # noqa: F401
