@@ -115,4 +115,25 @@
   <url>
     <loc>http://localhost:3001/summary-4</loc>
   </url>
+  <url>
+    <loc>http://localhost:3001/index-6</loc>
+  </url>
+  <url>
+    <loc>http://localhost:3001/distance-and-similarity</loc>
+  </url>
+  <url>
+    <loc>http://localhost:3001/low-dimensional-structures</loc>
+  </url>
+  <url>
+    <loc>http://localhost:3001/curse-of-dimensionality</loc>
+  </url>
+  <url>
+    <loc>http://localhost:3001/approximate-nn-search</loc>
+  </url>
+  <url>
+    <loc>http://localhost:3001/vector-search-in-practice</loc>
+  </url>
+  <url>
+    <loc>http://localhost:3001/summary-5</loc>
+  </url>
 </urlset>
