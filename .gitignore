@@ -20,3 +20,8 @@ pdfs
 # users do get are served from publish/chapters/ (linked in the README).
 publish/book/build/*.pdf
 publish/book/build/*.md
+# The bare data rule above ignores downloaded datasets, but demo images (ch06-01 color
+# histograms) are small, committed inputs that students need.
+!demos/data/
+demos/data/*
+!demos/data/images/
