@@ -1,6 +1,6 @@
 # Exercise 06: Vector Search
 
-> **Chapter:** Ch06 - Vector Search · **Estimated time:** ~40 minutes · **Optional:** no submission, no grading
+> **Chapter:** [Ch06 - Vector Search](https://roger-weber.github.io/mmir-unibasel-hs26/book/index-6/) · **Estimated time:** ~40 minutes · **Optional:** no submission, no grading
 
 A real vector query rarely asks only for the nearest neighbors. It asks for the nearest neighbors that also satisfy a condition: movies after 2005, documents of one customer, products in stock. The chapter describes three ways to combine a filter with an approximate index and argues about their costs. In this exercise you measure them on an inverted file over 100,000 word vectors, run them against filters of very different selectivity, and build a search that picks the right strategy for each query. Along the way you meet a filter that breaks the chapter's cost estimate, and you work out why.
 
