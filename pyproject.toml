@@ -8,6 +8,7 @@ dependencies = [
     "beautifulsoup4>=4.15.0",
     "de-core-news-sm",
     "en-core-web-sm",
+    "faiss-cpu>=1.9.0",
     "fr-core-news-sm",
     "gensim>=4.4.0",
     "ipykernel>=7.3.0",
@@ -17,7 +18,9 @@ dependencies = [
     "matplotlib>=3.11.2",
     "nltk>=3.10.3",
     "numpy>=2.4,<2.5",  # gensim 4.4.0 wheels segfault with numpy 2.5
+    "opensearch-py>=3.0.0",
     "pandas>=2.2",
+    "psycopg2-binary>=2.9.10",
     "pypdf2>=3.0.1",
     "scikit-learn>=1.9.1",
     "sentence-transformers>=3.0.0",

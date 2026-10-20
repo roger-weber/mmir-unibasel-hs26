@@ -30,6 +30,7 @@ langchain-text-splitters
 langchain-core
 psycopg2-binary
 faiss-cpu
+opensearch-py
 
 # AWS (for LLM demos — optional if no AWS credentials)
 boto3

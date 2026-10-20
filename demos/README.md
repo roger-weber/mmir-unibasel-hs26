@@ -16,9 +16,9 @@ Then open [setup.ipynb](../setup.ipynb) in the repository root, select `.venv` a
 
 Later chapters add new dependencies, so this is not a one-time step. If a notebook fails with an unknown module or a missing corpus, run `git pull && uv sync` and re-run the setup notebook — both are safe to repeat. The [main README](../README.md) has the full explanation.
 
-### Java kernel (Chapter 4 Lucene demo)
+### Java kernel (Lucene demos)
 
-One demo, [ch04-04-lucene.ipynb](ch04-04-lucene.ipynb), is different: it runs real Apache Lucene, which is a Java library, so it needs a Java kernel instead of Python. This is the only notebook that needs it; everything else uses the `.venv` Python kernel. Set it up once:
+Two demos, [ch04-04-lucene.ipynb](ch04-04-lucene.ipynb) and [ch06-05-lucene-vector-search.ipynb](ch06-05-lucene-vector-search.ipynb), are different: they run real Apache Lucene, which is a Java library, so they need a Java kernel instead of Python. Everything else uses the `.venv` Python kernel. Set it up once:
 
 1. Install a Java 21 JDK (for example [Amazon Corretto 21](https://docs.aws.amazon.com/corretto/latest/corretto-21-ug/downloads-list.html)). Lucene 10 requires Java 21 or newer.
 2. Download the Ganymede kernel jar (`ganymede-2.1.1.20221231.jar`) from the [Ganymede releases](https://github.com/allen-ball/ganymede/releases).
@@ -32,6 +32,17 @@ One demo, [ch04-04-lucene.ipynb](ch04-04-lucene.ipynb), is different: it runs re
 4. Open the notebook and pick that kernel. In VS Code: **Select Kernel**, then **Select Another Kernel...**, then **Jupyter Kernel...**, then **Ganymede 2.1.1 (Java 21)**. If it is not in the list, reload the window (Command Palette, *Developer: Reload Window*) and try again, because a freshly installed kernel is only picked up after a refresh.
 
 Lucene itself is downloaded from Maven Central by the notebook's first cell (the `%%pom` magic), so the first run of that cell takes a little longer. A one-time "Java vector incubator module is not readable" message on the index-build cell is harmless: it is a performance note only.
+
+### Docker (Chapter 6 frameworks demo)
+
+[ch06-04-vector-search-frameworks.ipynb](ch06-04-vector-search-frameworks.ipynb) compares FAISS with two real servers, OpenSearch and PostgreSQL with pgvector. Both run as containers, so this notebook needs [Docker Desktop](https://www.docker.com/products/docker-desktop/) (or another Docker engine with `docker compose`). Start the services from the `demos/` folder before running the notebook, and stop them afterwards:
+
+```bash
+docker compose -f docker/vector-search.yml up -d
+docker compose -f docker/vector-search.yml down
+```
+
+The first start downloads the two images, which take about 3.5 GB of disk space. The FAISS parts of the notebook run without Docker.
 
 ## Chapter 1 — Classical Text Retrieval
 
@@ -65,7 +76,7 @@ Lucene itself is downloaded from Maven Central by the notebook's first cell (the
 | [ch04-01-inverted-index.ipynb](ch04-01-inverted-index.ipynb) | The core search data structure built from scratch: tokenize a collection into a vocabulary, postings lists, and a document table, then evaluate Boolean AND, OR, and NOT with a two-pointer streaming merge over sorted postings. Shows why inverting the index turns a full scan into a lookup. |
 | [ch04-02-ranked-retrieval.ipynb](ch04-02-ranked-retrieval.ipynb) | Two ways to evaluate a ranked query over the same index: Term-at-a-Time and Document-at-a-Time. Scores documents with BM25 straight from the postings, decomposes a score into per-term contributions, and explores how `k1` and `b` reshape the ranking; both strategies return identical results. |
 | [ch04-03-database-search.ipynb](ch04-03-database-search.ipynb) | Full-text search without a dedicated engine. Builds an inverted index as a plain SQL table, answers Boolean and ranked queries in SQL, then switches to SQLite FTS5 (a real inverted index with `bm25()` ranking) and reads the equivalent PostgreSQL `tsvector`/`tsquery`/GIN/`ts_rank` syntax. |
-| [ch04-04-lucene.ipynb](ch04-04-lucene.ipynb) | Real Apache Lucene 10 on a Java kernel. Compares analyzers, builds an index of typed fields, runs multi-field, boosted, and filtered queries ranked by BM25, and reads an `explain()` breakdown of every term in the score. Requires the Ganymede Java kernel: see [Java kernel](#java-kernel-chapter-4-lucene-demo) under Setup. |
+| [ch04-04-lucene.ipynb](ch04-04-lucene.ipynb) | Real Apache Lucene 10 on a Java kernel. Compares analyzers, builds an index of typed fields, runs multi-field, boosted, and filtered queries ranked by BM25, and reads an `explain()` breakdown of every term in the score. Requires the Ganymede Java kernel: see [Java kernel](#java-kernel-lucene-demos) under Setup. |
 
 ## Chapter 5 — Semantic Search
 
@@ -76,5 +87,15 @@ Lucene itself is downloaded from Maven Central by the notebook's first cell (the
 | [ch05-03-tokenization.ipynb](ch05-03-tokenization.ipynb) | Sub-word tokenization, the step that turns arbitrary text into the fixed-size integer vocabulary a transformer reads. Compares several tokenizers, their vocabulary sizes, and how frequent words stay single tokens while rare, misspelled, or foreign words decompose into known sub-word pieces. |
 | [ch05-04-sentence-embeddings.ipynb](ch05-04-sentence-embeddings.ipynb) | From word vectors to whole-sentence retrieval. The bi-encoder (Sentence-BERT), the cross-encoder, and late-interaction ColBERT side by side: a similarity matrix, vocabulary mismatch dissolving, the quality-versus-speed trade-off between bi- and cross-encoders, and MaxSim scoring stepped through on a small example. |
 | [ch05-05-building-semantic-search.ipynb](ch05-05-building-semantic-search.ipynb) | A semantic search system end to end on a 500-movie collection. Builds five pipelines (BM25, dense bi-encoder, hybrid reciprocal-rank fusion, cross-encoder reranking, and Matryoshka-truncated embeddings), loads pre-shipped corpus embeddings, and evaluates them against a hand-built relevance benchmark, showing where the pipelines agree, where they differ, and the recall-versus-dimensionality trade-off. The offline evaluation harness and its artifacts live in [eval/ch05_movies/](eval/ch05_movies/). |
+
+## Chapter 6 — Vector Search
+
+| Notebook | What it shows |
+|---|---|
+| [ch06-01-distances-and-dimensionality.ipynb](ch06-01-distances-and-dimensionality.ipynb) | Similarity scores and distances side by side: dot product versus cosine, why the query length does not matter, how distance and score relate on the unit sphere, and how to keep the dimensions of a color histogram comparable. A second part reproduces the book's Monte Carlo numbers on the curse of dimensionality and ends with real TREC-COVID embeddings. |
+| [ch06-02-approximate-nn.ipynb](ch06-02-approximate-nn.ipynb) | The three levers of approximate search on 400,000 GloVe vectors: fewer dimensions (PCA), fewer bits per vector (scalar quantization, VA-file, product quantization, LSH), and fewer vectors read (inverted file, navigable small-world graph). Each method is built in a few lines of numpy, then FAISS combines them on a recall-versus-throughput curve. |
+| [ch06-03-ann-benchmark.ipynb](ch06-03-ann-benchmark.ipynb) | How much an approximate retriever costs the final ranking. Combines Matryoshka truncation, a coarse filter (full scan, IVF, HNSW), and a fine filter (floats, PQ, LSH) on TREC-COVID, reranks each top 50 with a cross-encoder, and compares recall against exact search with nDCG against relevance judgments. The precomputed runs and LLM judgments live in [eval/ch06_ann/](eval/ch06_ann/). |
+| [ch06-04-vector-search-frameworks.ipynb](ch06-04-vector-search-frameworks.ipynb) | One realistic movie query sent through FAISS, OpenSearch, and pgvector on 10,000 movies: vector search, pre-, post-, and iterative filtering, and hybrid BM25 plus vector search fused with reciprocal rank fusion, including why the systems rank differently. Requires Docker: see [Docker](#docker-chapter-6-frameworks-demo) under Setup. Data in [eval/ch06_movies/](eval/ch06_movies/). |
+| [ch06-05-lucene-vector-search.ipynb](ch06-05-lucene-vector-search.ipynb) | The same movie query in Lucene 10: a vector field next to text and numeric fields, an approximate k-NN query, filters applied inside versus next to the vector query, a BM25 plus vector score read with `explain()`, RRF fusion, and quantized vector formats with rescoring. Requires the Ganymede Java kernel: see [Java kernel](#java-kernel-lucene-demos) under Setup. |
 
 More demos are added as the course progresses — see the [schedule](../README.md#schedule) for what comes next. The hands-on counterparts to these demos are in [exercises/](../exercises/).

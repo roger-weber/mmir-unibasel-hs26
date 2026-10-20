@@ -1,0 +1,29 @@
+# Vector search services for demo ch06-04 (book section 6.5).
+#
+#   docker compose -f docker/vector-search.yml up -d     # start (from demos/)
+#   docker compose -f docker/vector-search.yml down      # stop and remove
+#
+# Both services are for local experiments only: no passwords worth the name,
+# OpenSearch security disabled.
+
+name: mmir-vector-search
+
+services:
+  pgvector:
+    image: pgvector/pgvector:pg17
+    environment:
+      POSTGRES_USER: mmir
+      POSTGRES_PASSWORD: mmir
+      POSTGRES_DB: movies
+    ports:
+      - "5432:5432"
+
+  opensearch:
+    image: opensearchproject/opensearch:3.9.0
+    environment:
+      discovery.type: single-node
+      DISABLE_SECURITY_PLUGIN: "true"
+      DISABLE_INSTALL_DEMO_CONFIG: "true"
+      OPENSEARCH_JAVA_OPTS: "-Xms1g -Xmx1g"
+    ports:
+      - "9200:9200"
