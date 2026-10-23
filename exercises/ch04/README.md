@@ -40,4 +40,4 @@ The Java code lives in [lucene/src/main/java/mmir/Search.java](lucene/src/main/j
 
 ## Solution
 
-Not published yet. The solution notebook appears here one to two weeks after the exercise session, as `solution/solution.ipynb`. It fills in every code stub and answers every reasoning task with a model answer, so you can compare it against your own.
+[solution/solution.ipynb](solution/solution.ipynb) fills in every code stub and answers every reasoning task with a model answer, so you can compare it against your own. The completed `Search.java` is in [solution/lucene/src/main/java/mmir/Search.java](solution/lucene/src/main/java/mmir/Search.java).
