@@ -28,8 +28,12 @@ torch
 langchain
 langchain-text-splitters
 langchain-core
+tiktoken
 psycopg2-binary
 faiss-cpu
+haystack-ai
+sentence-transformers-haystack
+amazon-bedrock-haystack
 opensearch-py
 
 # AWS (for LLM demos — optional if no AWS credentials)

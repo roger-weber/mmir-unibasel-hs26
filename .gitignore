@@ -25,3 +25,5 @@ publish/book/build/*.md
 !demos/data/
 demos/data/*
 !demos/data/images/
+# Recorded agent runs (ch07-04, ch07-05): replayed offline when there is no AWS access.
+!demos/data/ch07/
