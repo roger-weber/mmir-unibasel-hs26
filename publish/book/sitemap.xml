@@ -136,4 +136,25 @@
   <url>
     <loc>http://localhost:3001/summary-5</loc>
   </url>
+  <url>
+    <loc>http://localhost:3001/index-7</loc>
+  </url>
+  <url>
+    <loc>http://localhost:3001/rag-pipeline</loc>
+  </url>
+  <url>
+    <loc>http://localhost:3001/chunking-strategies</loc>
+  </url>
+  <url>
+    <loc>http://localhost:3001/result-presentation</loc>
+  </url>
+  <url>
+    <loc>http://localhost:3001/agentic-rag</loc>
+  </url>
+  <url>
+    <loc>http://localhost:3001/evaluation</loc>
+  </url>
+  <url>
+    <loc>http://localhost:3001/summary-6</loc>
+  </url>
 </urlset>
