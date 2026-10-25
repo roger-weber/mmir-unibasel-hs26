@@ -2,8 +2,8 @@
   "meta-data": {
     "title": "Multimedia Retrieval HS26",
     "description": "Exercise questions for MMIR HS26, University Basel",
-    "version": "2026-10-19",
-    "lastUpdated": "2026-10-19"
+    "version": "2026-10-25",
+    "lastUpdated": "2026-10-25"
   },
   "questions": {
     "01 - Classical Text Retrieval": [
@@ -1456,6 +1456,248 @@
         ],
         "correct": 0,
         "explanation": "If every leaf must be read anyway, the only remaining gain is to make reading cheaper. The codes take 4 to 8 times less space than the full vectors, and scanning them is a sequential read without the random accesses of a tree. The bounds discard almost all vectors, so only a few candidates are read in full and compared exactly, and the result remains exact."
+      }
+    ],
+    "07 - Retrieval Augmented Generation": [
+      {
+        "id": "07-retrieval-augmented-q1",
+        "question": "A RAG system runs BM25 over parent chunks of about 2,000 tokens and dense retrieval over small child chunks of about 200 tokens. Each child belongs to exactly one parent. The two result lists are to be merged with reciprocal rank fusion. What must happen before fusion can produce a sensible ranking?",
+        "options": [
+          "Map each dense hit to its parent and merge repeated parents into one entry",
+          "Normalize BM25 and cosine scores to a common range so they can be added",
+          "Cut both result lists to the same length so each engine contributes equally",
+          "Drop every parent chunk that appears in only one of the two result lists"
+        ],
+        "correct": 0,
+        "explanation": "Rank fusion assumes that both lists rank the same kind of item. Dense hits are child chunks, so each one must first be resolved to its parent. Several children often belong to the same parent, so these duplicates are collapsed into one entry that keeps its best rank or a combined score. RRF works on ranks, not scores, so score normalization is not needed. Truncating the lists or dropping single-list items throws away the complementary hits that hybrid retrieval exists to find."
+      },
+      {
+        "id": "07-retrieval-augmented-q2",
+        "question": "A team must choose between two chunking strategies for a RAG system over technical manuals. Strategy X yields chunks that cluster tightly around 950 characters. Strategy Y yields chunks spread between 300 and 1,000 characters. How should the team decide?",
+        "options": [
+          "Prefer X, whose chunk sizes are the most uniform",
+          "Prefer Y, whose chunk sizes best follow the content",
+          "Prefer the strategy that produces the larger number of chunks",
+          "Compare answer recall at k on a set of test questions"
+        ],
+        "correct": 3,
+        "explanation": "A size histogram cannot show whether chunk boundaries line up with answers. The dependable test holds the rest of the pipeline fixed, runs both strategies on questions with known answers, and checks whether the top k retrieved chunks contain each answer. Uniform or content-shaped sizes are useful hints, but neither proves better retrieval, and more chunks do not imply higher recall."
+      },
+      {
+        "id": "07-retrieval-augmented-q3",
+        "question": "A hospital builds a RAG assistant that answers dosage questions from approved drug leaflets. An invented detail in an answer could harm a patient. Which result-generation form fits, and what does the team give up?",
+        "options": [
+          "A reader; it cannot merge two partial answers into one",
+          "A generator; it cannot cite the leaflet it drew from",
+          "A synthesizer; it cannot answer within a single retrieval pass",
+          "A generator; it cannot return the exact wording of the leaflet"
+        ],
+        "correct": 0,
+        "explanation": "In high-risk settings, the reader's inability to add anything is a feature: it returns only a span that is literally present in the passage. The price is rigidity, because it cannot combine two half-answers or rephrase an awkward one. A generator can cite and can quote, but it can also invent details. A synthesizer adds iteration and is the hardest form to keep honest."
+      },
+      {
+        "id": "07-retrieval-augmented-q6",
+        "question": "A RAG system splits legal contracts into fixed-size chunks of 800 characters without overlap. On questions about termination clauses, context recall is low. The team replaces the reranker with a stronger cross-encoder and the generator with a larger model. What is the likely effect on these questions?",
+        "options": [
+          "Little change, since split clauses still never arrive whole",
+          "Higher recall, since the cross-encoder reads query and chunk together",
+          "Higher correctness, since a larger model can fill in the missing text",
+          "Lower precision, since the stronger reranker keeps more candidates"
+        ],
+        "correct": 0,
+        "explanation": "Fixed-size boundaries fall wherever the character count runs out, so a clause can be cut across two chunks and no single chunk contains it. A reranker only reorders what retrieval returned, so it cannot recover text that no candidate holds whole. A larger generator that fills the gap would be inventing, which lowers faithfulness. The fix belongs in chunking: overlap, sentence or structural boundaries, or hierarchical chunks."
+      },
+      {
+        "id": "07-retrieval-augmented-q7",
+        "question": "A company assistant receives three kinds of questions: general definitions such as \"what is an API\", counts such as \"how many tickets were opened yesterday\", and questions about internal policies that change every month. Which design fits best?",
+        "options": [
+          "An agent routing each question to memory, the database, or policy search",
+          "One fixed RAG pipeline over all company documents, used for every question",
+          "A model fine-tuned every month on the policies and the ticket records",
+          "Long-context prompts holding all policies and the full ticket table"
+        ],
+        "correct": 0,
+        "explanation": "Each kind of question has a different best tool. Stable definitions are already known to the model, counts need an exact database query rather than retrieval over text, and changing policies need retrieval from a fresh index. An agent can decide per query. A single RAG pipeline adds cost and only approximates the counts, fine-tuning goes stale and is the wrong tool for supplying facts, and putting everything in the prompt does not scale to a full ticket table."
+      },
+      {
+        "id": "07-retrieval-augmented-q10",
+        "question": "To save tokens, a RAG system drops all passage metadata after reranking and passes only the plain text to the generator. Once the answer is written, it asks the model to add a source URL for each claim. What is the main risk?",
+        "options": [
+          "Cited sources may be made up, since no link to the used passages exists",
+          "Answers become less fluent, since the model must also write the URLs",
+          "Retrieval recall drops, since passages without metadata cannot be ranked",
+          "Latency doubles, since each cited claim triggers a second retrieval pass"
+        ],
+        "correct": 0,
+        "explanation": "A trustworthy citation needs an auditable link between the answer and the passages that produced it. This link is kept by carrying passage IDs, sources, and URLs through every stage. Without that metadata, the model can only guess or invent sources, which looks checkable but is not. Ranking happened before the metadata was dropped, and adding URLs does not trigger new retrieval."
+      },
+      {
+        "id": "07-retrieval-augmented-q11",
+        "question": "An agent loop has no limit on the number of steps. One of its tools keeps returning an error, and the agent keeps retrying it. What happens?",
+        "options": [
+          "The loop never ends and keeps spending tokens on new calls",
+          "The output guardrail ends the loop after the first failure",
+          "The model switches to its fallback tool after a fixed timeout",
+          "The framework returns the last good answer to the user"
+        ],
+        "correct": 0,
+        "explanation": "The loop ends only when the model replies without a tool call or when an iteration budget is reached. Without a budget, a confused agent can retry forever, and every pass costs another model call. Output guardrails check the final answer, not repeated tool failures. A fallback only happens if the model chooses it, and nothing returns an answer automatically."
+      },
+      {
+        "id": "07-retrieval-augmented-q12",
+        "question": "A RAG answer contains four claims, and all four are factually true. The retrieved context supports three of them. The model took the fourth from its own memory. How do faithfulness and correctness come out?",
+        "options": [
+          "Faithfulness is 0.75; correctness stays unaffected",
+          "Faithfulness is 1; correctness stays unaffected",
+          "Faithfulness is 0.75; correctness also drops to 0.75",
+          "Faithfulness is 1; correctness drops to 0.75"
+        ],
+        "correct": 0,
+        "explanation": "Faithfulness is the fraction of the answer's claims that the retrieved context supports, so it is 3/4. It measures grounding, not truth: a true claim from memory still lowers it, because the next claim from memory could just as easily be wrong. Correctness is judged against a reference, and all four claims are right, so it is not lowered."
+      },
+      {
+        "id": "07-retrieval-augmented-q14",
+        "question": "A system indexes small chunks and also stores the parent section of each chunk. It receives two queries: \"When was the company founded?\" and \"Summarize our travel policy.\" Which combination fits these two queries, in order?",
+        "options": [
+          "A reader on the top chunk; a generator on the parent section",
+          "A generator on the parent section; a reader on the top chunk",
+          "A reader on the parent section; a synthesizer on the top chunk",
+          "A synthesizer on the top chunk; a reader on the full document"
+        ],
+        "correct": 0,
+        "explanation": "Query-aware assembly matches the context to the intent. A factual question needs only the one or two highest-scoring chunks, and a reader can return the exact span. A summary needs the whole parent section and a generator that can compose across it. A reader cannot summarize, and a synthesizer's extra hops are wasted on a single short chunk."
+      },
+      {
+        "id": "07-retrieval-augmented-q15",
+        "question": "A team wants to skip retrieval entirely. For each query, it would score every one of five million chunks with a cross-encoder, because the cross-encoder is the most accurate model available. What makes this impractical?",
+        "options": [
+          "Each chunk must be read together with the query, so nothing is precomputed",
+          "The cross-encoder cannot bridge the wording gaps that dense retrieval bridges",
+          "The cross-encoder needs the chunks embedded with the same model first",
+          "The cross-encoder scores are not comparable across different chunks"
+        ],
+        "correct": 0,
+        "explanation": "A bi-encoder embeds documents once at indexing time, so a query needs only one embedding and a vector lookup. A cross-encoder reads the query and the candidate together, so every query would need a full model pass over all five million chunks. That is why it is applied only to a shortlist of a few hundred candidates. It handles meaning well, needs no separate embeddings, and its scores are comparable across candidates."
+      },
+      {
+        "id": "07-retrieval-augmented-q18",
+        "question": "An agent runs a grounding check only once, on the final answer, just before it is returned to the user. Which failure can this design miss?",
+        "options": [
+          "A bad intermediate result that steers later tool calls off course",
+          "A final claim that is not supported by any of the retrieved results",
+          "A final answer that drifts away from the user's original question",
+          "A final answer that cites a passage the agent never retrieved"
+        ],
+        "correct": 0,
+        "explanation": "In an agent loop, the model acts repeatedly, and each observation shapes the next action. A wrong intermediate result can send the following tool calls in the wrong direction. The final answer may then be well grounded in that bad evidence, so a final-only check passes it. The other three failures are exactly what an output check on the final answer catches. Checks should run on each intermediate result and before each action."
+      },
+      {
+        "id": "07-retrieval-augmented-q20",
+        "question": "Two RAG systems differ only in their chunking: A uses fixed-size chunks and B uses semantic chunks. On 40 benchmark questions, A answers 30 correctly and B answers 33. B alone is right on 6 questions, and A alone is right on 3. What can the team conclude?",
+        "options": [
+          "No conclusion yet; nine disagreements are too few to rule out chance",
+          "B is better; it answers three more questions on the same benchmark",
+          "B is better; it wins twice as many disagreements as it loses",
+          "No conclusion yet; the 27 questions both got right need a closer look"
+        ],
+        "correct": 0,
+        "explanation": "Because both systems answered the same questions, only the 9 disagreements carry evidence. If the systems were equally good, each disagreement would be a fair coin toss. A split of 6 to 3 or more uneven, in either direction, then occurs by chance about half the time (p of about 0.51). The questions both systems got right say nothing about which one is better. More questions are needed before the chunking change can be called an improvement."
+      },
+      {
+        "id": "07-retrieval-augmented-q21",
+        "question": "A fixed pipeline runs query expansion, hybrid retrieval, reranking, and a generator. A user asks: \"Which firm designed the city's new central library, and who founded that firm?\" Why does this pipeline struggle with the question?",
+        "options": [
+          "The second lookup needs the first result, a step the fixed graph lacks",
+          "The question is too long for the query expansion stage to rewrite well",
+          "The reranker cannot score passages that mention more than one firm",
+          "Hybrid retrieval returns parent chunks that are too large for the question"
+        ],
+        "correct": 0,
+        "explanation": "Finding the founder depends on first learning the firm's name. A fixed pipeline runs one retrieval pass for the whole question, so it cannot chain a follow-up lookup unless someone anticipated that flow and coded it. An agent loop can retrieve the firm first and then use the observed name to look up the founder. Question length, multi-entity passages, and chunk size are not the obstacle."
+      },
+      {
+        "id": "07-retrieval-augmented-q23",
+        "question": "A team embeds each 2,000-token manual section as one vector, and questions about a single setting often retrieve the wrong section. Shrinking every chunk to 150 tokens fixes retrieval, but answers now miss steps that appear elsewhere in the same section. Which design resolves both problems?",
+        "options": [
+          "Match on 150-token chunks and pass their parent section to the model",
+          "Use 1,000-token chunks everywhere as a compromise between both sizes",
+          "Keep 150-token chunks and raise the overlap between them to 100 tokens",
+          "Keep 2,000-token sections and rerank them with a cross-encoder"
+        ],
+        "correct": 0,
+        "explanation": "Retrieval and generation want different chunk sizes. Small chunks embed sharply and match precise questions, while the generator needs the surrounding section to answer completely. Hierarchical chunking keeps both levels: retrieval matches the small chunks, and stored metadata recovers each chunk's parent section for the model. A middle size serves neither job well, more overlap still yields fragments, and reranking cannot sharpen a blurred section embedding at retrieval time."
+      },
+      {
+        "id": "07-retrieval-augmented-q26",
+        "question": "For a question about version 3 of a software product, a RAG system retrieves every passage the answer needs. It also retrieves three passages about version 2, which uses similar terms but different settings. What is the main risk?",
+        "options": [
+          "Details from the other version may be mixed into the answer",
+          "The generator ignores the extra chunks, since recall is already complete",
+          "Faithfulness rises, since more chunks support each claim",
+          "Latency rises, but answer quality stays the same"
+        ],
+        "correct": 0,
+        "explanation": "Context recall is complete, but context precision is low. Irrelevant passages are not harmless padding: they compete for the generator's attention. Closely related but wrong evidence is the most dangerous kind, because it looks relevant, so a version 2 setting can end up in a version 3 answer. Complete recall does not make the model ignore the rest, and wrong-version passages do not support correct claims."
+      },
+      {
+        "id": "07-retrieval-augmented-q29",
+        "question": "What does query expansion do in a RAG pipeline?",
+        "options": [
+          "It rewrites or extends the query before retrieval runs",
+          "It adds more retrieved passages to the generator's context",
+          "It splits long documents into smaller chunks for indexing",
+          "It merges the sparse and dense result lists into one ranking"
+        ],
+        "correct": 0,
+        "explanation": "Query expansion reshapes the raw query so that retrieval can succeed: it fixes spelling, adds synonyms, rewrites the question, or breaks it into sub-questions. It runs before retrieval, so it changes what is searched for, not how many passages reach the generator. Chunking happens at indexing time, and merging result lists is the job of hybrid fusion."
+      },
+      {
+        "id": "07-retrieval-augmented-q30",
+        "question": "Compared with a generator that answers from a single retrieval pass, what does a synthesizer gain, and what does it cost?",
+        "options": [
+          "It gains completeness on multi-step questions; it costs latency per hop",
+          "It gains exact source wording in answers; it costs fluency in the reply",
+          "It gains a lower hallucination risk; it costs the ability to cite sources",
+          "It gains shorter prompts per request; it costs recall on simple questions"
+        ],
+        "correct": 0,
+        "explanation": "A synthesizer loops: it retrieves, reads, decides what is still missing, and retrieves again. This lets it assemble answers that no single passage contains. Each hop is another round trip through retrieval and reading, so it pays in latency and complexity. It writes rather than copies, so it does not return exact source wording, and it is the hardest form to keep honest, not the safest."
+      },
+      {
+        "id": "07-retrieval-augmented-q31",
+        "question": "Which of these is a known weakness of using a language model as a judge of answer quality?",
+        "options": [
+          "It can favour longer answers regardless of their accuracy",
+          "It cannot score answers that contain more than one claim",
+          "It needs a reference answer for every question it scores",
+          "It can only judge answers produced by the same model family"
+        ],
+        "correct": 0,
+        "explanation": "An LLM judge is itself a model with blind spots. It can miss subtle factual errors, favour longer answers, and change its verdicts when the evaluation prompt changes, so its scores should be checked against a sample of human judgements. For faithfulness, it splits an answer into claims and checks each one. It can judge without a reference, and it is not tied to one model family."
+      },
+      {
+        "id": "07-retrieval-augmented-q32",
+        "question": "Which two answer-quality dimensions can be judged from the question, the answer, and the retrieved context alone, without a reference answer?",
+        "options": [
+          "Faithfulness and answer relevance",
+          "Correctness and completeness",
+          "Correctness and faithfulness",
+          "Completeness and answer relevance"
+        ],
+        "correct": 0,
+        "explanation": "Faithfulness checks the answer against the retrieved context, and relevance checks it against the question. Neither needs an expected answer, so both scale to production traffic. Correctness and completeness need a trusted reference that states the right facts. This is why a sound evaluation pairs a small reference set with a larger reference-free sweep."
+      },
+      {
+        "id": "07-retrieval-augmented-q33",
+        "question": "In tool calling, what does the language model itself produce when it decides to use a tool?",
+        "options": [
+          "A structured request naming the tool and its arguments",
+          "The tool's result, predicted from its training data",
+          "Executable code that the model runs inside its own context",
+          "A ranked list of all tools with a score for each one"
+        ],
+        "correct": 0,
+        "explanation": "In tool calling, the model emits a structured request that names a tool and its arguments. The surrounding system runs the tool and appends the result to the conversation as the next observation. The model neither executes anything itself nor invents the result, and it picks a tool by name rather than scoring all of them."
       }
     ]
   }
