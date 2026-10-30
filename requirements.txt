@@ -249,6 +249,8 @@ langsmith==0.14.1
     # via langchain-core
 lazy-imports==1.2.0
     # via haystack-ai
+lightgbm==4.7.0
+    # via mmir-unibasel-hs26
 locate==1.1.1
     # via wordfreq
 markdown-it-py==4.2.0
@@ -282,7 +284,9 @@ murmurhash==1.0.15
     #   spacy
     #   thinc
 narwhals==2.26.0
-    # via scikit-learn
+    # via
+    #   lightgbm
+    #   scikit-learn
 nest-asyncio2==1.7.2
     # via ipykernel
 networkx==3.7
@@ -298,6 +302,7 @@ numpy==2.4.6
     #   faiss-cpu
     #   gensim
     #   haystack-ai
+    #   lightgbm
     #   matplotlib
     #   mmir-unibasel-hs26
     #   pandas
@@ -490,6 +495,7 @@ scikit-learn==1.9.1
 scipy==1.18.1
     # via
     #   gensim
+    #   lightgbm
     #   scikit-learn
     #   sentence-transformers
 sentence-transformers==6.1.0

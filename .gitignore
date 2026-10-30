@@ -27,3 +27,5 @@ demos/data/*
 !demos/data/images/
 # Recorded agent runs (ch07-04, ch07-05): replayed offline when there is no AWS access.
 !demos/data/ch07/
+# Pinned Wikipedia excerpt (ch08-01 proximity): fixed revision, so positions match the book.
+!demos/data/ch08/

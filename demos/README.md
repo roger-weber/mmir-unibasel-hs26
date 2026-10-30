@@ -110,4 +110,14 @@ The Chapter 7 demos call Claude on AWS Bedrock. Without AWS credentials they sti
 | [ch07-04-agentic-rag.ipynb](ch07-04-agentic-rag.ipynb) | The reason-act-observe agent loop with tool calling: three declared tools (knowledge base, people directory, web search), the agent's trajectory on a two-part question including a fallback, a step budget, and guardrails before the loop, before every tool call, and before the answer. |
 | [ch07-05-rag-evaluation.ipynb](ch07-05-rag-evaluation.ipynb) | A pipeline, an agent, and the model alone on a 24-question benchmark: context recall and precision, p95 latency and tokens, correctness and faithfulness with an LLM judge checked against a rule, the diagnostic matrix, the paired sign test, and when RAG is not needed at all. |
 
+## Chapter 8: Web Search
+
+The ch08-03 demo uses TREC-COVID like ch06-03 (downloaded on first use, about 74 MB) and LightGBM. Its neural feature is precomputed in [eval/ch08_ltr/](eval/ch08_ltr/), because embedding 35,000 papers takes about half an hour on a CPU.
+
+| Notebook | What it shows |
+|---|---|
+| [ch08-01-web-ranking-signals.ipynb](ch08-01-web-ranking-signals.ipynb) | Content signals that are hard to fake: the "roger federer" proximity score on a pinned Wikipedia article versus a marathon result list, BM25F on an HTML page and why saturating each field separately rewards keyword stuffing, and an anchor index with one vote per domain against a Google bomb. |
+| [ch08-02-link-analysis.ipynb](ch08-02-link-analysis.ipynb) | PageRank on the book's seven-page web: a random surfer simulation, the transition matrix and power iteration, what each link passes on, the damping factor and the rank sink, and Personalized PageRank. Then HITS hubs and authorities on the eight-page base set, checked against the eigenvectors, and SALSA. |
+| [ch08-03-learning-to-rank.ipynb](ch08-03-learning-to-rank.ipynb) | The book's "uni basel" example through pointwise, pairwise (RankNet), and listwise (LambdaRank) learning, and position-biased clicks corrected by inverse propensity weighting. Then linear and tree rankers, including LambdaMART, trained on 66,000 TREC-COVID judgments, with per-topic feature normalization and a neural score as one more feature. |
+
 More demos are added as the course progresses — see the [schedule](../README.md#schedule) for what comes next. The hands-on counterparts to these demos are in [exercises/](../exercises/).

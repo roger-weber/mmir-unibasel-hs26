@@ -35,6 +35,7 @@ haystack-ai
 sentence-transformers-haystack
 amazon-bedrock-haystack
 opensearch-py
+lightgbm
 
 # AWS (for LLM demos — optional if no AWS credentials)
 boto3
