@@ -14,9 +14,13 @@ The zip is about 74 MB; the first load downloads and unpacks it.
 """
 
 import json
+import shutil
+import ssl
 import urllib.request
 import zipfile
 from pathlib import Path
+
+import certifi
 
 from shared.collections import Collection, register, CACHE_DIR
 
@@ -33,7 +37,13 @@ def beir_dataset_dir(name: str) -> Path:
     BEIR_DIR.mkdir(parents=True, exist_ok=True)
     zip_path = BEIR_DIR / f"{name}.zip"
     if not zip_path.exists():
-        urllib.request.urlretrieve(BEIR_URL.format(name=name), zip_path)
+        # certifi's CA bundle: some Windows certificate stores lack the server's root CA.
+        # Download to .part first, so an interrupted download is not mistaken for the zip.
+        context = ssl.create_default_context(cafile=certifi.where())
+        part = zip_path.with_suffix(".zip.part")
+        with urllib.request.urlopen(BEIR_URL.format(name=name), context=context) as r,                 open(part, "wb") as f:
+            shutil.copyfileobj(r, f)
+        part.replace(zip_path)
     with zipfile.ZipFile(zip_path) as z:
         z.extractall(BEIR_DIR)
     return target

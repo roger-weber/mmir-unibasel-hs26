@@ -11,6 +11,7 @@ def print_table(
     *,
     max_rows: int = 100,
     fmt: str = "pipe",
+    floatfmt: str | tuple[str, ...] = "g",
 ) -> None:
     """
     Render a table as Markdown in notebook output.
@@ -20,13 +21,16 @@ def print_table(
         headers: Column header strings.
         max_rows: Maximum rows to display.
         fmt: Table format ('pipe' for Markdown, 'github' for plain text).
+        floatfmt: Number format for float cells, one string or one per column
+            (e.g. ".2f" or ("", ".3f", ".2f")). Numeric strings are parsed as
+            numbers too, so pass floats and set floatfmt to keep trailing zeros.
     """
     if not rows or not headers:
         return
     if fmt == "text":
-        print(tabulate(islice(rows, max_rows), headers, tablefmt="github"))
+        print(tabulate(islice(rows, max_rows), headers, tablefmt="github", floatfmt=floatfmt))
     else:
-        display(Markdown(tabulate(islice(rows, max_rows), headers, tablefmt=fmt)))
+        display(Markdown(tabulate(islice(rows, max_rows), headers, tablefmt=fmt, floatfmt=floatfmt)))
 
 
 def display_md(text: str) -> None:
