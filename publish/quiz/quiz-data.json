@@ -2,8 +2,8 @@
   "meta-data": {
     "title": "Multimedia Retrieval HS26",
     "description": "Exercise questions for MMIR HS26, University Basel",
-    "version": "2026-10-25",
-    "lastUpdated": "2026-10-25"
+    "version": "2026-10-30",
+    "lastUpdated": "2026-10-30"
   },
   "questions": {
     "01 - Classical Text Retrieval": [
@@ -1698,6 +1698,248 @@
         ],
         "correct": 0,
         "explanation": "In tool calling, the model emits a structured request that names a tool and its arguments. The surrounding system runs the tool and appends the result to the conversation as the next observation. The model neither executes anything itself nor invents the result, and it picks a tool by name rather than scoring all of them."
+      }
+    ],
+    "08 - Web Search": [
+      {
+        "id": "08-web-search-q1",
+        "question": "A site owner lists the path /archive/ as disallowed in the site's robots.txt file. What does this achieve?",
+        "options": [
+          "Well-behaved crawlers skip the path, but nothing enforces the rule",
+          "The web server rejects every crawler request for pages under the path",
+          "Search engines fetch the path but hide its pages from the result list",
+          "Crawlers may fetch the path only after the owner has approved them"
+        ],
+        "correct": 0,
+        "explanation": "robots.txt is a request, not an access control. Crawlers that follow the convention read the file before fetching and skip disallowed paths. The web server does not enforce anything, so a crawler that ignores the file can still fetch the pages. The file says nothing about ranking and has no approval process."
+      },
+      {
+        "id": "08-web-search-q2",
+        "question": "An engine computes a separate saturated BM25 score for a term in each HTML field (title, headings, bold text, body) and then adds the weighted field scores. A spammer repeats a keyword dozens of times in every one of these fields. What is the effect on the spam page's score for that keyword?",
+        "options": [
+          "Its score grows with each stuffed field, near one full score per field",
+          "Its score stays at what one well-placed title occurrence would give",
+          "Its score falls below that of pages that use the keyword only a few times",
+          "Its score rises in the title field only and stays flat in all other fields"
+        ],
+        "correct": 0,
+        "explanation": "Saturation limits how much repetition helps within one field. When every field saturates on its own and the field scores are then added, the spammer reaches nearly the full score in the title, again in the headings, again in bold text, and again in the body. The total grows almost linearly with the number of fields, so the protection of saturation is lost. BM25F avoids this. It first adds the weighted field counts into one term frequency and saturates only once."
+      },
+      {
+        "id": "08-web-search-q3",
+        "question": "An engine runs HITS for the query \"alpine hiking trails\". The base set contains 300 pages from one large outdoor shop, and every page of the shop has a footer link to the shop's external payment provider. The engine drops only links between pages of the same domain. What happens to the authority ranking for this query?",
+        "options": [
+          "The payment provider becomes a top authority for the hiking query",
+          "The payment provider receives no authority from the footer links at all",
+          "The shop pages become top authorities, ahead of the hiking guide pages",
+          "The ranking is the same as it would be without the 300 shop pages"
+        ],
+        "correct": 0,
+        "explanation": "HITS adds up the hub values of all pages that link to a page. The 300 footer links cross domains, so the engine keeps them. The provider collects authority from all 300 pages, and each shop page in turn gains hub value from linking to a strong authority. This mutual reinforcement makes an off-topic page a top authority. The shop pages receive no cross-domain links themselves, so they gain hub value, not authority. Counting one vote per domain instead of one per page prevents this effect."
+      },
+      {
+        "id": "08-web-search-q4",
+        "question": "A pairwise learner such as RankNet is trained on all document pairs with different relevance grades. Which weakness of this approach does a listwise method such as LambdaRank address?",
+        "options": [
+          "A swapped pair at the top costs the same as one far down the list",
+          "Grades from different queries are treated as if they were comparable",
+          "Click data cannot be turned into training pairs for the model",
+          "Only linear scoring functions can be trained with a pairwise loss"
+        ],
+        "correct": 0,
+        "explanation": "The pairwise loss weights all pairs equally. Swapping the pages at ranks 1 and 2 hurts the user much more than swapping ranks 40 and 41, but both cost the same. LambdaRank scales each pair's gradient by the change in nDCG that a swap would cause, so pairs near the top get the strongest updates. Comparing grades across queries is a weakness of the pointwise approach, which pairwise learning already avoids. Clicks naturally produce pairs, and the pairwise loss works with any model, including trees and neural networks."
+      },
+      {
+        "id": "08-web-search-q5",
+        "question": "A search engine restricts results to pages in the query language. A user types a German query containing the exact error message of a popular database tool. Good answers exist only on English forums. What does the user see, and which design would serve this query better?",
+        "options": [
+          "Only weaker German pages; learn a weight for the language match",
+          "The English forum answers; keep the current language filter as is",
+          "Only weaker German pages; filter by interface language instead",
+          "The English forum answers; translate the forums before indexing"
+        ],
+        "correct": 0,
+        "explanation": "A language filter is all or nothing. It removes every English page, even when no German page answers the question well, so the user sees only weak German results. Learning to rank treats the language match as one feature among many. From user behaviour, the model learns that English pages are often the best results for queries such as error messages, while the query language matters more for recipes. Filtering by interface language has the same all-or-nothing problem."
+      },
+      {
+        "id": "08-web-search-q6",
+        "question": "An engine counts anchor text once per linking domain and uses PageRank as a ranking feature. A spammer registers 2,000 new domains. Each domain hosts one page that links to the spammer's target page with the anchor \"cheap flights zurich\". No other site links to these domains. Which outcome is expected for the target page?",
+        "options": [
+          "Anchor score rises a lot; PageRank barely changes",
+          "Anchor score barely changes; PageRank rises a lot",
+          "Anchor score rises a lot; PageRank rises a lot",
+          "Anchor score barely changes; PageRank barely changes"
+        ],
+        "correct": 0,
+        "explanation": "Counting one vote per domain stops a spammer who places many anchors on a few domains. With 2,000 separate domains, the spammer gets 2,000 votes, so the anchor score for the phrase grows substantially. PageRank behaves differently. Each new page receives no links, so it holds only the small random-jump share and passes on just part of that tiny value. A link from a page that nobody links to adds almost nothing to the target's PageRank. The remaining defence is site-level trust: thousands of new, anonymous domains that link only to one target are a typical spam pattern."
+      },
+      {
+        "id": "08-web-search-q7",
+        "question": "Earlier users who typed the query \"mercury\" usually clicked results about the planet, less often results about the chemical element, and only rarely results about a rock singer. The engine cannot ask the user what they mean. Which first result page fits best?",
+        "options": [
+          "Planet results first, then a few element and singer results",
+          "Planet results only, filling all ten positions of the first page",
+          "Results for the three meanings in turns, with equal shares on the page",
+          "Element and planet results on top, singer results on the second page"
+        ],
+        "correct": 0,
+        "explanation": "The engine learns from earlier clicks which meaning most users intend, so planet results come first. Rarer meanings still get a few positions further down, so that a user who wanted the element or the singer finds something on the first page. This is result diversification. Showing only the planet fails the minority. Equal shares, or pushing the majority meaning down, serve most users worse."
+      },
+      {
+        "id": "08-web-search-q8",
+        "question": "Why do web search engines give the anchor texts of incoming links a high weight when they rank the target page?",
+        "options": [
+          "Other sites write them, and the page owner cannot easily fake them",
+          "They repeat the page's own title and confirm what the author declared",
+          "They are longer than page titles and describe the page in more detail",
+          "They are checked by the search engine's raters before they are indexed"
+        ],
+        "correct": 0,
+        "explanation": "The author of the linking page chooses the anchor text, not the author of the target page. A page owner controls every word on their own page but not the words that thousands of other sites use to link to it. Anchors are usually short, and raters do not check them. They also describe pages with little text of their own, and even pages the crawler has never fetched."
+      },
+      {
+        "id": "08-web-search-q9",
+        "question": "A social network wants to suggest new accounts to follow for one specific user, based on the follow graph. Which change to the PageRank computation fits this goal?",
+        "options": [
+          "Let every random jump return to that user's own node in the graph",
+          "Raise the damping factor so that the surfer almost never jumps",
+          "Run standard PageRank and suggest the accounts with the highest score",
+          "Remove the user's own node so that their links do not bias the scores"
+        ],
+        "correct": 0,
+        "explanation": "Personalized PageRank replaces the uniform random jump with a jump to a fixed set of nodes, here the single user. The scores then measure importance from that user's point of view: accounts that are close in the graph and reachable through many paths score high. Standard PageRank gives everyone the same famous accounts. A higher damping factor still treats all users alike, and removing the user's node throws away the links that describe them."
+      },
+      {
+        "id": "08-web-search-q10",
+        "question": "Two pages compete for a query. Page P was shown at rank 1 and got clicks in 40% of sessions. Page Q was shown at rank 6 and got clicks in 12% of sessions. Eye-tracking shows that 90% of users read the entry at rank 1 of the result list, but only 15% scroll down far enough to read the entry at rank 6. Assume a user clicks a result exactly when they read its entry and find it relevant. After correcting for position bias, how do the two pages compare?",
+        "options": [
+          "Q is ahead, with about 0.80 against 0.44 for P",
+          "P is ahead, with about 0.40 against 0.12 for Q",
+          "P is ahead, with about 0.36 against 0.02 for Q",
+          "P is ahead, with about 0.44 against 0.13 for Q"
+        ],
+        "correct": 0,
+        "explanation": "Compare each page's clicks with how often users read its entry. Users read the entry at rank 1 in 90% of sessions, but only 40% of sessions end with a click on P, so fewer than half of the users who read P's entry clicked it (0.40 / 0.90 = 0.44). Only 15% of users read the entry at rank 6, and 12% of sessions end with a click on Q. Of the users who read Q's entry, most clicked it (0.12 / 0.15 = 0.80). Q received fewer clicks only because few users read that far down. Weighting each click by the inverse of the probability that its rank is read is called inverse propensity weighting. Raw click rates, or dividing both rates by the rank-1 value, keep the position bias in the data."
+      },
+      {
+        "id": "08-web-search-q12",
+        "question": "A team trains a linear scoring function with three features: the BM25F score of the page, the PageRank of the page, and the number of words in the query. For one given query, which of these features can change the order of the candidate pages?",
+        "options": [
+          "BM25F and PageRank, but not the query length",
+          "BM25F and the query length, but not PageRank",
+          "Only BM25F, but neither PageRank nor the query length",
+          "All three features, each through its own learned weight"
+        ],
+        "correct": 0,
+        "explanation": "A feature can change the order only if its value differs between the candidates of one query. BM25F depends on both the query and the page. PageRank does not depend on the query, but it differs from page to page, so it still separates the candidates. The query length is the same for every candidate of a query. In a linear model it adds the same amount to every score, so the order does not change. Query features become useful in non-linear models such as decision trees, where they can change how much other features count for different kinds of queries."
+      },
+      {
+        "id": "08-web-search-q14",
+        "question": "A proximity score pairs each occurrence of one query term with the nearest occurrence of the other term within a window of 10 positions, and rewards close pairs. The query is \"jazz festival\". Page A is a short article that mentions \"jazz festival\" three times. Page B is a long city events calendar with \"jazz\" 30 times in its music section and \"festival\" 25 times in its food section, never within 100 positions of each other. How do the two pages score on proximity?",
+        "options": [
+          "A gets a high score; B gets a score of zero",
+          "A gets a low score; B gets a high score",
+          "A gets a high score; B gets a smaller but positive score",
+          "A gets a high score; B gets an equally high score"
+        ],
+        "correct": 0,
+        "explanation": "Proximity counts only pairs of query terms that occur within the window. On page A, \"festival\" stands right next to every occurrence of \"jazz\", so all three pairs fall into the closest bin with the highest weight. On page B, no occurrence has a partner within 10 positions, so no pairs form and the score is zero, no matter how often each term occurs. Term counts matter for BM25, not for this proximity score."
+      },
+      {
+        "id": "08-web-search-q15",
+        "question": "In PageRank, the random surfer sometimes jumps to a random page instead of following a link. What does this jump prevent?",
+        "options": [
+          "Closed page groups trapping the surfer and absorbing all the score",
+          "Pages with many outgoing links passing on too little of their score",
+          "New pages receiving a lower score than well-linked older pages",
+          "The computation visiting pages that have no incoming links at all"
+        ],
+        "correct": 0,
+        "explanation": "Without the random jump, a group of pages that link only to each other, called a rank sink, would trap the surfer and collect all the PageRank. The jump means the surfer can always leave, and it guarantees that a unique stationary distribution exists. The jump gives every page the same small base share, but it does not make new pages equal to well-linked ones. It also does not change how a page splits its score over its links."
+      },
+      {
+        "id": "08-web-search-q16",
+        "question": "A video app fills every slot of its feed with the items that its ranker predicts to score highest. The ranker is retrained every day on the reactions logged the day before. So far, one user has been shown only football clips and has watched them all. What happens to this user's feed over time?",
+        "options": [
+          "The feed keeps showing football and never learns about other interests",
+          "The feed gradually shifts to popular topics that most other users watch",
+          "The feed switches between topics once the user has seen enough football",
+          "The feed becomes random once the football predictions all score alike"
+        ],
+        "correct": 0,
+        "explanation": "The log records reactions only to items the system chose to show. If every slot goes to the top predictions, the model only sees how this user reacts to football and never gets evidence about other topics. It keeps predicting football, and the feed narrows. Feeds therefore keep some slots for exploration, such as new topics and new creators. Nothing in a pure exploitation loop pushes the feed towards random or popular content."
+      },
+      {
+        "id": "08-web-search-q17",
+        "question": "For question-like queries, an engine shows the answer passage directly on the result page, above all links. More and more of these searches end without any click. What does this mean for a ranker that learns from clicks?",
+        "options": [
+          "A search without a click can now mean success rather than failure",
+          "A search without a click now proves that all listed pages are poor",
+          "Clicks below the answer box become free of any position bias",
+          "Clicks become a more reliable label than human relevance grades"
+        ],
+        "correct": 0,
+        "explanation": "When the answer appears on the result page, a satisfied user has no reason to click. A search without a click used to suggest that no result was good, but now it may mean that the answer box solved the task. A ranker that treats every missing click as a failure learns the wrong lesson for these queries. Position bias does not go away, and clicks still show how attractive an entry looks, so they do not become a better label than human grades."
+      },
+      {
+        "id": "08-web-search-q19",
+        "question": "PageRank and HITS both compute scores from the link graph. How do they differ in their relation to the user's query?",
+        "options": [
+          "PageRank scores pages once for all queries; HITS scores per query",
+          "PageRank scores pages per query; HITS scores once for all queries",
+          "PageRank uses the page text and the links; HITS uses the links only",
+          "PageRank counts incoming links; HITS counts outgoing links only"
+        ],
+        "correct": 0,
+        "explanation": "PageRank runs on the whole web graph and gives every page one global score, whatever the query. HITS builds a small graph from the top text-search results for one query and computes hub and authority values for that topic only. A page can be a strong authority for one query and irrelevant for another. As a result, PageRank can be computed offline and costs nothing at query time, while HITS must build and iterate a graph for every query. Both compute their scores from links, and HITS uses incoming as well as outgoing links."
+      },
+      {
+        "id": "08-web-search-q20",
+        "question": "A co-worker studies the query log and notices that the most searched queries ask for sites such as Microsoft, Apple, or Facebook. These sites also have some of the highest PageRank values on the web. The co-worker proposes to give PageRank a much higher weight in the ranking function. What is the best argument against this?",
+        "options": [
+          "It works for navigational queries, but other intents need other weights",
+          "It works for all intents, but PageRank is too expensive to update daily",
+          "It works for long-tail queries, but head queries need a lookup table",
+          "It works for informational queries, but it lets link farms take over"
+        ],
+        "correct": 0,
+        "explanation": "PageRank does not know the query. For a navigational query such as a company name, the official site is both the right answer and a page with a very high PageRank, so a strong PageRank weight works well. Most distinct queries, however, are informational or transactional queries in the long tail. For these, the best page is often a specific page with few links, and a high PageRank weight would push famous sites above it whenever they match. Learning to rank adjusts to these cases: with query features such as the intent class and a non-linear model such as decision trees, it learns how much PageRank should count for each kind of query. PageRank is computed offline, so cost is not the issue. Link farms gain little PageRank in the first place."
+      },
+      {
+        "id": "08-web-search-q21",
+        "question": "An engine runs HITS for the query \"open source maps\". The page that experts regard as the best source on the topic uses other words and is not among the top 200 text-search results that form the root set. Many of those 200 pages link to it. What happens to this page?",
+        "options": [
+          "It joins the base set and can become a top authority",
+          "It stays outside the graph that HITS scores for the query",
+          "It joins the base set but can only receive a hub value",
+          "It joins the base set but scores low for lacking query terms"
+        ],
+        "correct": 0,
+        "explanation": "HITS expands the root set into the base set by adding the pages that root pages link to, and the source enters the base set through these links. Inside the base set, HITS uses only the link structure. The many root pages that link to the source act as hubs and give it a high authority value, and its missing query terms do not count against it. This is a strength of HITS: it can surface a strong source that text search alone missed."
+      },
+      {
+        "id": "08-web-search-q22",
+        "question": "A new ranker was trained on the latest data and scores better than the current one on the offline test set. Why do search engines still run an A/B test or interleaving instead of simply releasing it to all users?",
+        "options": [
+          "Offline gains may not show up as better results for real users",
+          "The latest click data is too small to train a reliable new ranker",
+          "Human raters must judge every result of the new ranker beforehand",
+          "The new weights must first be tuned by hand on a few live queries"
+        ],
+        "correct": 0,
+        "explanation": "Offline metrics such as nDCG on a judged test set cannot capture everything. The labels may not match what users really want, and logged clicks only show reactions to what the old ranker chose to display. An online test shows the new ranker to a small share of users, or mixes its results into the list, and measures whether users actually behave better. If the new ranker turns out worse, only a few users are affected. Online tests do not replace training or human judgments. They check the trained ranker before a full release."
+      },
+      {
+        "id": "08-web-search-q23",
+        "question": "A ranker learns from clicks. A site with catchy titles but thin content collects many clicks, and the ranker moves it higher and higher. How should the team fix the ranking?",
+        "options": [
+          "Add signals of what happens after the click, such as dwell time",
+          "Manually mark the site as less important in the ranking function",
+          "Saturate the click count per page, as BM25 does with term counts",
+          "Give less weight to the clicks of users who often click such sites"
+        ],
+        "correct": 0,
+        "explanation": "A click only shows that an entry looked promising, so catchy titles earn clicks whatever the content. Signals after the click tell the two apart: a long stay on the page counts as success, and a quick return to the result list counts as failure. With these signals as features or labels, the learned ranker learns by itself to demote the site, and the same fix works for every similar site. A manual demotion fixes one site and must be repeated for each new one. Saturating clicks still rewards the site for its many clicks. Down-weighting users treats the users as the problem, not the misleading pages."
       }
     ]
   }
