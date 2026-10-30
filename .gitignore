@@ -29,3 +29,5 @@ demos/data/*
 !demos/data/ch07/
 # Pinned Wikipedia excerpt (ch08-01 proximity): fixed revision, so positions match the book.
 !demos/data/ch08/
+# Small exercise inputs (movie subsets and embeddings, ch08 Wikispeedia link graph), shipped to students.
+!exercises/shared/data/
