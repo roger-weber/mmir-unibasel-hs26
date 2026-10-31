@@ -157,4 +157,22 @@
   <url>
     <loc>http://localhost:3001/summary-6</loc>
   </url>
+  <url>
+    <loc>http://localhost:3001/index-8</loc>
+  </url>
+  <url>
+    <loc>http://localhost:3001/web-search-landscape</loc>
+  </url>
+  <url>
+    <loc>http://localhost:3001/ranking-signals</loc>
+  </url>
+  <url>
+    <loc>http://localhost:3001/link-analysis</loc>
+  </url>
+  <url>
+    <loc>http://localhost:3001/learning-to-rank</loc>
+  </url>
+  <url>
+    <loc>http://localhost:3001/summary-7</loc>
+  </url>
 </urlset>
