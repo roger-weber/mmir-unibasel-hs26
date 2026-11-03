@@ -2,7 +2,7 @@
 
 One exercise per chapter, each about **55 minutes** of work. They are **optional**: there is no submission and no grading. What they do give you is the difference between recognising a formula and being able to implement it — good preparation for the exam.
 
-Each exercise folder contains a notebook with two kinds of tasks:
+Each exercise folder has a README with the instructions and a link to the chapter's quiz. Most folders also contain a notebook to work through, with two kinds of tasks:
 
 - **✏ Reasoning tasks** — you write an explanation into a markdown cell. The solution notebook fills the same cell with a model answer, so you can compare your reasoning against it.
 - **💻 Coding tasks** — you implement a function or class, either in the notebook or in the folder's `tasks.py`. A verify cell checks your implementation with assertions that fail with a specific message. Writing the code yourself and directing an AI to write it are both fine; the point is to understand *why* a given solution works.
@@ -41,5 +41,6 @@ On the start screen, pick the topic that matches the chapter (for example *"01 -
 | [ch06/](ch06/) | [Vector Search](https://roger-weber.github.io/mmir-unibasel-hs26/book/index-6/) | Measuring post-filtering, filtering during the search, and pre-filtering on an inverted file over GloVe word vectors; why a content-correlated filter defeats the inverted file although it admits as many vectors as a random one; and building a search that picks its filtering strategy per query under a recall and cost budget. |
 | [ch07/](ch07/) | Retrieval-Augmented Generation | How much a larger context budget helps single lookups and multi-hop questions, and why some facts stay out of reach of one retrieval pass; building a two-hop retriever that follows person names, the hard-wired loop of a synthesizer; reading a paired sign test on your own improvement; and where a fixed flow breaks compared with an agent loop. |
 | [ch08/](ch08/) | Web Search | Predicting by gut feeling what seven changes to a Wikipedia link graph do to PageRank (a link farm, a new race report, a brand rename, a split topic, link hoarding, a template link, a crowded hub); implementing PageRank by power iteration with dangling pages; explaining where the predictions failed; and why the same link farm that wins on 4,604 articles sinks as the web grows. |
+| [ch09/](ch09/) | Content Analysis & Metadata | Quiz only, no notebook: the semantic gap, metadata and its limits, automated feature extraction, CLIP zero-shot classification and multimodal language models, and time-based media. |
 
 Exercises for the later chapters follow the [course schedule](../README.md#schedule). The demos that go with each chapter are in [demos/](../demos/).
