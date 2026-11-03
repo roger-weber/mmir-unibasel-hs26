@@ -2,8 +2,8 @@
   "meta-data": {
     "title": "Multimedia Retrieval HS26",
     "description": "Exercise questions for MMIR HS26, University Basel",
-    "version": "2026-10-30",
-    "lastUpdated": "2026-10-30"
+    "version": "2026-11-03",
+    "lastUpdated": "2026-11-03"
   },
   "questions": {
     "01 - Classical Text Retrieval": [
@@ -1940,6 +1940,248 @@
         ],
         "correct": 0,
         "explanation": "A click only shows that an entry looked promising, so catchy titles earn clicks whatever the content. Signals after the click tell the two apart: a long stay on the page counts as success, and a quick return to the result list counts as failure. With these signals as features or labels, the learned ranker learns by itself to demote the site, and the same fix works for every similar site. A manual demotion fixes one site and must be repeated for each new one. Saturating clicks still rewards the site for its many clicks. Down-weighting users treats the users as the problem, not the misleading pages."
+      }
+    ],
+    "09 - Content Analysis & Metadata": [
+      {
+        "id": "09-content-analysis-met-q1",
+        "question": "Part of the semantic gap cannot be closed by analyzing the content, however good the analysis is. Which query about photos of bridges falls into this part?",
+        "options": [
+          "Photos of bridges designed by one architect",
+          "Photos of bridges with fog over the water",
+          "Photos of bridges with cars crossing at night",
+          "Photos of bridges seen from a low angle"
+        ],
+        "correct": 0,
+        "explanation": "Fog, cars, night and a low camera angle are visible in the pixels, so a system that interprets the image well enough can find them. Who designed a bridge is not visible anywhere in the photo. It is knowledge about the world, and it must come from outside the content: from metadata, from the web page around the photo, or from the world knowledge of a large model."
+      },
+      {
+        "id": "09-content-analysis-met-q2",
+        "question": "A museum describes its digital collection with Dublin Core so that it can exchange records with partner museums. After the first exchange, a search for \"portrait\" misses many records of paintings that show a person. Why did the shared standard not prevent this?",
+        "options": [
+          "Dublin Core fixes the names of the fields, not the words written in them",
+          "Dublin Core has a title field for each record but no subject field",
+          "Dublin Core records must be converted to IPTC before they are searchable",
+          "Dublin Core applies to text documents only, not to paintings or photos"
+        ],
+        "correct": 0,
+        "explanation": "Metadata standards define where a description is stored and what each field means. They do not define the values. One museum writes \"portrait\", another writes \"likeness\", and a third writes only the name of the person shown. Dublin Core has a subject field, covers any kind of resource including paintings, and needs no conversion to be searched. The mismatch lies in the values, not in the fields."
+      },
+      {
+        "id": "09-content-analysis-met-q3",
+        "question": "A wildlife photo archive offers a \"more like this\" button that compares color histograms. A ranger clicks it on a photo of a brown bear in a green forest. What do the top results most likely show?",
+        "options": [
+          "Photos with a similar mix of brown and green, of any subject",
+          "Photos of brown bears, whatever the background and the lighting",
+          "Photos of the same bear, taken in other seasons of the year",
+          "Photos of bears of any color, in forests and in the snow"
+        ],
+        "correct": 0,
+        "explanation": "A color histogram counts the pixels in each color bin. It describes how the photo looks, not what it shows. The closest histograms belong to photos with a similar mix of brown and green, such as a deer among trees, a wooden cabin in a forest, or a muddy trail through a meadow. A brown bear on snow has a very different histogram and ranks low. Perceptual similarity is useful for near-duplicates and \"more like this\" queries, but it does not find the same concept."
+      },
+      {
+        "id": "09-content-analysis-met-q4",
+        "question": "A city archive indexes its street photos with descriptions that a multimodal language model generated once, and it searches them with BM25. Queries for \"bicycle\", \"bike\", and \"cycle\" all miss a photo in which a bicycle leans against a wall in the background. Which change most directly makes such photos findable?",
+        "options": [
+          "Add a CLIP index of the photos and fuse its ranking with BM25",
+          "Replace BM25 with dense text embeddings of the same descriptions",
+          "Index each sentence of the descriptions as a separate passage",
+          "Lower the BM25 score cutoff so that weaker matches enter the list"
+        ],
+        "correct": 0,
+        "explanation": "The describe path finds only what the model wrote at indexing time. Since no form of the word matches, the description most likely does not mention the bicycle. Dense text embeddings, passages, and a lower cutoff all search the same descriptions, so they cannot find a word that is not there. A CLIP index compares the query with the photo itself and covers visual concepts that nobody described. Fusing both rankings keeps the strengths of the text index for names and filters. Regenerating all descriptions with a more detailed prompt could also help, but it means running the large model on every photo again."
+      },
+      {
+        "id": "09-content-analysis-met-q5",
+        "question": "An audio fingerprinting service identifies songs from short phone recordings. In which case does it fail to find the song?",
+        "options": [
+          "A clip records a user singing the chorus of the song",
+          "A clip is recorded in a loud bar full of conversation",
+          "A clip captures the studio recording playing on a car radio",
+          "A clip is recorded through a cheap phone microphone"
+        ],
+        "correct": 0,
+        "explanation": "Fingerprinting matches recordings, not songs. The fingerprint comes from the parts of the signal that survive noise, compression, and a poor microphone, so a noisy bar or a car radio still matches the studio recording. A user who sings produces a new recording with different pitch, timing, and timbre, and its fingerprint matches nothing in the catalogue. Query by humming needs a method that compares melodies instead."
+      },
+      {
+        "id": "09-content-analysis-met-q6",
+        "question": "A regional newspaper archive tagged only photos of national politicians with their names. Fifteen years later, a person who often appeared in photos of local events becomes mayor of the city. The newspaper wants all early photos of the new mayor. Which approach finds them most reliably with little manual work?",
+        "options": [
+          "Run face recognition on all photos, with recent portraits as references",
+          "Generate a description of every photo and search it for the mayor's name",
+          "Query a CLIP index of all photos with the mayor's name as the text",
+          "Filter all photos by the EXIF dates and places of the local events"
+        ],
+        "correct": 0,
+        "explanation": "The early photos exist, but nobody tagged them, because the person was not known when the photos were filed. Face recognition is a specialized solution for this task. It compares dedicated face embeddings across the whole archive, and new reference faces can be added at any time. A generative model can name only persons it learned about. For a local person, it would leave the name out or guess one, which is a hallucination. CLIP is weak for rare names. EXIF dates and places narrow the search to the right events, but they do not tell which of the many photos show the person."
+      },
+      {
+        "id": "09-content-analysis-met-q7",
+        "question": "A team tags an image archive with CLIP zero-shot classification. It uses three prompts, \"a photo of a beach\", \"a photo of a forest\", and \"a photo of a city\", and stores the top class as a keyword when its probability exceeds 95%. Photos of snowy mountains often get the keyword \"beach\" with a probability of 97%. What explains this?",
+        "options": [
+          "The softmax spreads the probability only over the three listed prompts",
+          "The temperature is so low that it flattens the gaps between the prompts",
+          "CLIP compares the colors of snow and sand rather than the scene content",
+          "The cosine of these photos to the beach prompt is well above 0.5"
+        ],
+        "correct": 0,
+        "explanation": "Zero-shot probabilities come from a softmax over the prompts that the team listed. They are relative: every image must go to one of the three classes. A snowy mountain fits none of them, but it is a little closer to \"beach\" than to \"forest\" or \"city\". The low temperature of 0.01 turns this small lead into a high probability. Like the confidence of any classifier, the value says how strongly the model favors one class among its options, not how often the label is right. The team should add prompts for the missing classes and choose thresholds from an evaluation against ground truth. A low temperature sharpens differences instead of flattening them, CLIP compares learned concepts rather than color statistics, and cross-modal cosines are usually far below 0.5."
+      },
+      {
+        "id": "09-content-analysis-met-q8",
+        "question": "In text retrieval, a query for \"doctor\" can miss a document that only says \"physician\". How does the semantic gap of a photo collection differ from this problem?",
+        "options": [
+          "The photos hold no words, so they must be described before matching",
+          "The photos hold more synonyms, so every query must be expanded first",
+          "The photos hold only generic concepts, so specific queries never match",
+          "The photos hold words as well, but they are stored in a binary format"
+        ],
+        "correct": 0,
+        "explanation": "With vocabulary mismatch, the query and the document use the same kind of symbols, but different words for the same concept. A photo contains no symbols at all, only pixel values. The system must first produce a description, from metadata or from content analysis, before it can match anything. Only then does the vocabulary mismatch appear as well. Synonym expansion alone does not help, because the photos have no words that an expanded query could match."
+      },
+      {
+        "id": "09-content-analysis-met-q10",
+        "question": "An engineer built a reliable detector that tells applause from speech in conference recordings. It uses two hand-crafted audio features and a decision tree. The next task is to label product photos with 2,000 product types in the same way. What is the main obstacle?",
+        "options": [
+          "No expert can design features that separate 2,000 product types",
+          "A decision tree can only decide between two classes at a time",
+          "Hand-crafted features exist only for audio signals, not for images",
+          "Image classifiers cannot be evaluated with a confusion matrix"
+        ],
+        "correct": 0,
+        "explanation": "Hand-crafted features work when an expert knows which property of the signal separates the classes, such as the energy pattern of applause versus speech. For thousands of product types, no one can design features that tell a kettle from a coffee machine of similar color and shape. Neural networks solved this by learning the features from labeled data. Decision trees handle many classes, images have hand-crafted features such as color histograms, and confusion matrices apply to any classifier."
+      },
+      {
+        "id": "09-content-analysis-met-q11",
+        "question": "An archive extracts JSON metadata for 2 million photos with a multimodal language model and a fixed prompt. Two years later, editors want a new field that counts the people in each photo. Which statement describes the cost of adding this field?",
+        "options": [
+          "Only the prompt changes, but the model must process every photo again",
+          "The prompt stays, but a new model must be trained on counted examples",
+          "Only the prompt changes, and old photos get the field at query time",
+          "Nothing changes, since the description already lists all the people"
+        ],
+        "correct": 0,
+        "explanation": "With a multimodal language model, the prompt defines the schema. A new field means a new prompt, not a new training run. The index, however, holds only what the model wrote at indexing time. To fill the new field for the existing photos, the model must process each of the 2 million photos again, which is the main cost of the describe path. The old descriptions may mention people, but they do not reliably state a count in a form that a filter can use."
+      },
+      {
+        "id": "09-content-analysis-met-q12",
+        "question": "A royalty service records which songs 300 radio stations play, and each play must be credited to the exact recording that was broadcast. A team proposes to embed the broadcast audio with a music-similarity model and to credit the nearest catalogue recording. What is the main weakness of this design?",
+        "options": [
+          "It cannot reliably separate the played recording from similar ones",
+          "It loses every match once radio compression has altered the sound",
+          "It cannot represent music, only speech and environmental sounds",
+          "It needs hours to search a catalogue of several million recordings"
+        ],
+        "correct": 0,
+        "explanation": "A music-similarity embedding answers the question \"what sounds like this?\". Live versions, remasters, and other songs of the same genre and mood lie close to the played recording, so the nearest neighbor is often a different recording. The task asks \"which exact recording is this?\". Audio fingerprinting is built for this: it is robust to compression and noise, and specific enough to tell millions of recordings apart. Embeddings tolerate compression well, they represent music, and a vector index answers within milliseconds."
+      },
+      {
+        "id": "09-content-analysis-met-q13",
+        "question": "A broadcaster wants to find, in 3,000 hours of news footage, the moments in which a reporter talks about a flood while standing in front of a river. Which design supports this query?",
+        "options": [
+          "Index transcript segments and shot keyframes, and match them by time",
+          "Embed each full broadcast with CLIP and query with the whole sentence",
+          "Transcribe the speech and return the broadcasts that mention floods",
+          "Describe one keyframe per broadcast and search these descriptions"
+        ],
+        "correct": 0,
+        "explanation": "The query has two conditions in two modalities, and it asks for a moment. Speech recognition gives a transcript with timestamps, so the system can find the segments in which a flood is discussed. The keyframes of each shot, embedded or described, show where the reporter stands. Because all modalities share one time line, the system can return the moments in which both conditions hold at once. One embedding or one keyframe per broadcast loses the moment, and a transcript alone cannot see the river."
+      },
+      {
+        "id": "09-content-analysis-met-q15",
+        "question": "Why is the semantic gap usually smaller for a podcast archive than for an archive of instrumental music?",
+        "options": [
+          "Speech can be turned into words that already carry its meaning",
+          "Speech files are smaller, so their analysis can be more thorough",
+          "Speech has no time dimension, unlike a piece of instrumental music",
+          "Speech files come with richer metadata than music files usually do"
+        ],
+        "correct": 0,
+        "explanation": "Text carries its meaning in its symbols. Speech recognition turns the spoken part of a podcast into such symbols, a transcript, and the text toolkit applies from there. Instrumental music has no words. A query such as \"a calm piece for studying\" must be matched with acoustic patterns, so the meaning has to be inferred from the signal. File size and metadata do not decide the size of the gap, and both speech and music unfold over time."
+      },
+      {
+        "id": "09-content-analysis-met-q16",
+        "question": "Which query can a photo collection answer from the EXIF data of its photos alone, without any analysis of the content?",
+        "options": [
+          "Photos taken in Lisbon in March 2023",
+          "Photos that show a tram on a steep street",
+          "Photos in which the people are smiling",
+          "Photos of buildings covered in blue tiles"
+        ],
+        "correct": 0,
+        "explanation": "Cameras and smartphones write the date and time, and often the GPS position, into the EXIF fields of every photo. A system that maps the coordinates to a place answers this query with a simple filter, without looking at a single pixel. Trams, smiles, and blue tiles are in the content, so they need content analysis or a human description."
+      },
+      {
+        "id": "09-content-analysis-met-q17",
+        "question": "A radio archive labels each segment as \"speech\" or \"music\" with a classifier. Speech segments are sent to transcription, and music segments are sent to genre classification. A talk show with constant background music is labeled \"music\" throughout. What is the effect on search?",
+        "options": [
+          "Word searches miss the show, while genre searches list it as music",
+          "Word searches find the show, once the genre step passes it back",
+          "Word searches find the show, since transcription runs on all audio",
+          "Word searches find the show, but only the parts between the songs"
+        ],
+        "correct": 0,
+        "explanation": "The predicted label decides which analysis follows. Because every segment of the show is labeled \"music\", no segment reaches transcription, so the spoken words never enter the text index. The genre classifier, in turn, writes a genre label for the show, which makes it appear where music is expected. Automatically extracted labels are claims, and an error in an early label propagates through every later step. The routing classifier must therefore be evaluated, for example on speech over music, before its labels drive the pipeline."
+      },
+      {
+        "id": "09-content-analysis-met-q18",
+        "question": "A news archive generates JSON metadata for each photo with a multimodal language model. The fields are dominant colors, an outdoor flag, keywords, and the names of the persons shown. The budget allows a human review of only one field. Which field should get it?",
+        "options": [
+          "The names, since users trust them and a wrong name misleads them",
+          "The colors, since the model often confuses neighboring shades",
+          "The outdoor flag, since one wrong value hides a photo from filters",
+          "The keywords, since they feed the text index that most queries use"
+        ],
+        "correct": 0,
+        "explanation": "Hallucinations are most harmful for specific metadata such as names, places, and dates. A model may give a stranger the name of a famous person who looks similar, and it states the name with the same confidence as a correct one. Users act on exactly these fields. Errors in colors, the outdoor flag, or keywords cost single results in single queries, while a wrong name attaches a false claim about a real person to the photo. Restricting names to a controlled list of known persons also helps, but a human check is the strongest safeguard."
+      },
+      {
+        "id": "09-content-analysis-met-q20",
+        "question": "On a stock photo marketplace, many sellers add popular but unrelated keywords to their photos to appear in more searches. Which ranking signal is hardest for a seller to manipulate?",
+        "options": [
+          "The CLIP similarity between the query and the photo itself",
+          "The anchor texts of links from the seller's own portfolio pages",
+          "A dense text embedding of the seller's title and description",
+          "The number of times the query term appears in the seller's keywords"
+        ],
+        "correct": 0,
+        "explanation": "Seller keywords are a claim, written by someone with an interest in being found. Every signal built from text that the seller controls inherits this problem, whether it counts terms, embeds them, or comes from links on the seller's own pages. A CLIP similarity compares the query with the content of the photo. A photo of a parking lot stays far from the query \"tropical beach\", whatever keywords its seller adds. This is why content analysis complements metadata: it describes the item from the item itself."
+      },
+      {
+        "id": "09-content-analysis-met-q21",
+        "question": "A broadcaster wants to describe 20,000 hours of television with a multimodal language model, so that editors can search the descriptions. Describing every frame is far too expensive, and editors need to find moments as short as a few seconds. Which unit should the model describe?",
+        "options": [
+          "A few keyframes per shot, each linked to the start of its shot",
+          "One frame per minute, each linked to the time at which it appears",
+          "One frame per program, each linked to the title of the program",
+          "Every second frame, each linked to the time at which it appears"
+        ],
+        "correct": 0,
+        "explanation": "Neighboring frames are nearly identical, so describing every frame, or every second frame, repeats the same description thousands of times at enormous cost. A shot is a continuous view from one camera, and a few keyframes describe it well. Linking each description to the start of its shot lets an editor jump to the moment. One frame per minute misses every shot that starts and ends between two sampled frames, and one frame per program cannot point to a moment at all."
+      },
+      {
+        "id": "09-content-analysis-met-q23",
+        "question": "CLIP learns to match images and text without any class labels. What does its training reward?",
+        "options": [
+          "High similarity of each image to its own caption, low to others",
+          "Correct predictions of one of 1,000 fixed classes for each image",
+          "Accurate reconstruction of masked patches in each training image",
+          "Close vectors for images that share colors, textures, and edges"
+        ],
+        "correct": 0,
+        "explanation": "CLIP trains an image encoder and a text encoder on image-caption pairs collected from the web. In each batch, it compares every image with every caption. The contrastive loss pulls each image toward its own caption and pushes it away from the other captions in the batch. The captions that people wrote for their images provide the supervision, so no one has to label classes. Fixed class lists belong to older classifiers, masked reconstruction is a different self-supervised objective, and shared colors and textures describe perceptual features."
+      },
+      {
+        "id": "09-content-analysis-met-q24",
+        "question": "A safety team searches its surveillance archive for \"a person falling down\". The archive indexes one CLIP vector per keyframe. The results show mostly people lying on the ground, while the actual falls are missing. Which change addresses this?",
+        "options": [
+          "Index features of short clips that capture motion between frames",
+          "Index more keyframes per shot so that every moment is covered",
+          "Rewrite the query so that it describes the fall in more detail",
+          "Index the keyframes with color histograms instead of CLIP vectors"
+        ],
+        "correct": 0,
+        "explanation": "A keyframe is a still image. It shows the state of a scene, and a person who fell looks like a person who lies on the ground. A fall is a movement, and it exists only across frames. Spatio-temporal features, such as optical flow or three-dimensional convolutions over short clips, describe motion and can tell a fall from lying still. More keyframes, a longer query, or color histograms all still compare single images."
       }
     ]
   }
