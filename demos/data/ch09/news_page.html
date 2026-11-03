@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<!-- A small news page written for demo ch09-01, modeled on the layout of book Figures 9.11
+     and 9.12. The text is paraphrased for teaching; it is not a copy of a real article. -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Uttar Pradesh leaves the Taj Mahal out of its tourism booklet | The Daily Example</title>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ImageObject",
+    "contentUrl": "https://news.example.com/img/2017/10/taj-mahal.jpg",
+    "name": "Taj Mahal",
+    "caption": "The Taj Mahal in Agra",
+    "contentLocation": {"@type": "Place", "name": "Agra, Uttar Pradesh, India"},
+    "uploadDate": "2017-10-08"
+  }
+  </script>
+  <style>
+    /* Two columns on screen: the article on the left, the news sidebar on the right.
+       In the source, the sidebar comes first; the grid moves it to the right column. */
+    .page   { display: grid; grid-template-columns: 2fr 1fr;
+              grid-template-areas: "article sidebar"; }
+    article { grid-area: article; }
+    aside   { grid-area: sidebar; }
+  </style>
+</head>
+<body>
+<div class="page">
+  <aside>
+    <h2>Latest News</h2>
+    <ul>
+      <li>Swiss franc gains against the euro for a third week</li>
+      <li>Formula One: title race tightens before the Japanese Grand Prix</li>
+      <li>Book review: a journey in the face of death</li>
+      <li>Airline chief expects a stronger second half of the year</li>
+      <li>Opinion: the new dilemma for search engines and social networks</li>
+    </ul>
+  </aside>
+
+  <article>
+    <h1>Uttar Pradesh leaves the Taj Mahal out of its tourism booklet</h1>
+    <p class="byline">By a staff reporter, 8 October 2017</p>
+    <figure>
+      <img src="/img/2017/10/taj-mahal.jpg" title="Taj Mahal"
+           alt="Uttar Pradesh leaves the Taj Mahal out of its tourism booklet">
+      <figcaption>Taj Mahal</figcaption>
+    </figure>
+    <p>NEW DELHI: The government of the Indian state of Uttar Pradesh has drawn criticism
+       for leaving the Taj Mahal out of a new tourism booklet released on 2 October.</p>
+    <p>The white marble mausoleum in Agra, which the Mughal emperor Shah Jahan built in
+       memory of his wife Mumtaz Mahal, is a UNESCO World Heritage Site and draws millions
+       of visitors every year. The 32-page booklet does not mention it and highlights other
+       sites in the state instead.</p>
+    <p>Tour operators in Agra expect no drop in visitors: the domes and minarets of the
+       monument remain among the most photographed sights in the world.</p>
+    <section class="related">
+      <h3>Related Articles</h3>
+      <ul>
+        <li>Ten facts about the Taj Mahal</li>
+        <li>How the marble of the Taj Mahal is cleaned</li>
+        <li>Agra beyond the Taj: the fort and the Mehtab Bagh garden</li>
+      </ul>
+    </section>
+  </article>
+</div>
+</body>
+</html>

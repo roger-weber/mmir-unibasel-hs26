@@ -108,7 +108,7 @@ def cosine_similarity(v1: list[float], v2: list[float]) -> float:
 
 def bm25_score(query_tokens: list[str], doc_tokens: list[str],
                df: dict[str, int], n: int, adl: float,
-               k: float = 1.2, b: float = 0.75) -> float:
+               k: float = 1.2, b: float = 0.75, idf_fn=idf_bm25) -> float:
     """
     BM25 score for a single query-document pair.
 
@@ -120,6 +120,8 @@ def bm25_score(query_tokens: list[str], doc_tokens: list[str],
         adl: Average document length.
         k: TF saturation parameter (default 1.2).
         b: Length normalization parameter (default 0.75).
+        idf_fn: IDF variant. idf_bm25 turns negative for terms in more than half of the
+            documents; idf_lucene stays positive, which matters for tiny collections.
 
     Returns:
         BM25 similarity score.
@@ -131,7 +133,7 @@ def bm25_score(query_tokens: list[str], doc_tokens: list[str],
         if term not in tf:
             continue
         tf_val = tf[term]
-        idf_val = idf_bm25(term, df, n)
+        idf_val = idf_fn(term, df, n)
         numerator = tf_val * (k + 1)
         denominator = tf_val + k * (1 - b + b * dl / adl)
         score += idf_val * numerator / denominator
@@ -200,7 +202,8 @@ def rank_collection_vsm(query_tokens: list[str], corpus: dict[str, list[str]],
 
 
 def rank_collection_bm25(query_tokens: list[str], corpus: dict[str, list[str]],
-                         df: dict[str, int], k: float = 1.2, b: float = 0.75) -> list[tuple[str, float]]:
+                         df: dict[str, int], k: float = 1.2, b: float = 0.75,
+                         idf_fn=idf_bm25) -> list[tuple[str, float]]:
     """
     Rank all documents by BM25.
 
@@ -211,7 +214,7 @@ def rank_collection_bm25(query_tokens: list[str], corpus: dict[str, list[str]],
     adl = average_doc_length(corpus)
     results = []
     for doc_id, tokens in corpus.items():
-        score = bm25_score(query_tokens, tokens, df, n, adl, k, b)
+        score = bm25_score(query_tokens, tokens, df, n, adl, k, b, idf_fn)
         results.append((doc_id, score))
     results.sort(key=lambda x: -x[1])
     return results

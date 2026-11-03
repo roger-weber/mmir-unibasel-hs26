@@ -120,4 +120,14 @@ The ch08-03 demo uses TREC-COVID like ch06-03 (downloaded on first use, about 74
 | [ch08-02-link-analysis.ipynb](ch08-02-link-analysis.ipynb) | PageRank on the book's seven-page web: a random surfer simulation, the transition matrix and power iteration, what each link passes on, the damping factor and the rank sink, and Personalized PageRank. Then HITS hubs and authorities on the eight-page base set, checked against the eigenvectors, and SALSA. |
 | [ch08-03-learning-to-rank.ipynb](ch08-03-learning-to-rank.ipynb) | The book's "uni basel" example through pointwise, pairwise (RankNet), and listwise (LambdaRank) learning, and position-biased clicks corrected by inverse propensity weighting. Then linear and tree rankers, including LambdaMART, trained on 66,000 TREC-COVID judgments, with per-topic feature normalization and a neural score as one more feature. |
 
+## Chapter 9: Content Analysis & Metadata
+
+The Chapter 9 photos and audio clips come from Wikimedia Commons; [data/ch09/SOURCES.md](data/ch09/SOURCES.md) and [data/images/SOURCES.md](data/images/SOURCES.md) list authors and licenses. The first run downloads ResNet-50 (about 100 MB, ch09-02) and CLIP ViT-B/32 (about 600 MB, ch09-03). The describe path of ch09-03 uses Claude on AWS Bedrock: by default the notebook replays answers recorded in [data/ch09/](data/ch09/), and `LIVE = True` asks Claude again.
+
+| Notebook | What it shows |
+|---|---|
+| [ch09-01-semantic-gap.ipynb](ch09-01-semantic-gap.ipynb) | The semantic gap on a photo of the Taj Mahal: 2,359,296 numbers and no concepts, the EXIF and IPTC/XMP metadata in the file and what an upload removes, a faceted annotation, two annotators compared by shared terms and embeddings, the text a harvester collects from a web page, and a keyword-stuffed ad that matches every query. |
+| [ch09-02-feature-extraction.ipynb](ch09-02-feature-extraction.ipynb) | Up the abstraction ladder: dominant colors, two photos of one building that share almost no pixel values, color histograms and their invariances, a red car that matches a sunset, a decision tree that separates speech from music on recordings it has never heard, and ResNet-50 features and labels compared with perceptual features in a query-by-example search. |
+| [ch09-03-multimodal-transformers.ipynb](ch09-03-multimodal-transformers.ipynb) | The two transformer paths: Claude describes ten photos as text and JSON fields that become an index with filters, an evaluation of the generated metadata against ground truth, a prompt that forces a hallucination, the book's CLIP zero-shot example, text-to-image search, and the same queries sent down both paths and fused. |
+
 More demos are added as the course progresses — see the [schedule](../README.md#schedule) for what comes next. The hands-on counterparts to these demos are in [exercises/](../exercises/).
