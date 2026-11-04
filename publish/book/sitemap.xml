@@ -1,178 +1,199 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-stylesheet type="text/xsl" href="http://localhost:3001/sitemap_style.xsl" ?>
+<?xml-stylesheet type="text/xsl" href="http://localhost:3000/sitemap_style.xsl" ?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>http://localhost:3001</loc>
+    <loc>http://localhost:3000</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/index-1</loc>
+    <loc>http://localhost:3000/index-1</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/fundamental-flows</loc>
+    <loc>http://localhost:3000/fundamental-flows</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/feature-extraction-pipeline</loc>
+    <loc>http://localhost:3000/feature-extraction-pipeline</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/text-retrieval-models</loc>
+    <loc>http://localhost:3000/text-retrieval-models</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/retrieval-models-ranking</loc>
+    <loc>http://localhost:3000/retrieval-models-ranking</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/probabilistic-ranking-bm25</loc>
+    <loc>http://localhost:3000/probabilistic-ranking-bm25</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/summary</loc>
+    <loc>http://localhost:3000/summary</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/index-2</loc>
+    <loc>http://localhost:3000/index-2</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/designing-a-benchmark</loc>
+    <loc>http://localhost:3000/designing-a-benchmark</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/precision-and-recall</loc>
+    <loc>http://localhost:3000/precision-and-recall</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/evaluating-ranked-results</loc>
+    <loc>http://localhost:3000/evaluating-ranked-results</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/evaluating-graded-relevance</loc>
+    <loc>http://localhost:3000/evaluating-graded-relevance</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/evaluating-text-classifiers</loc>
+    <loc>http://localhost:3000/evaluating-text-classifiers</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/scores-thresholds-and-roc</loc>
+    <loc>http://localhost:3000/scores-thresholds-and-roc</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/when-evaluation-misleads</loc>
+    <loc>http://localhost:3000/when-evaluation-misleads</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/summary-1</loc>
+    <loc>http://localhost:3000/summary-1</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/index-3</loc>
+    <loc>http://localhost:3000/index-3</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/tokenization-and-normalization</loc>
+    <loc>http://localhost:3000/tokenization-and-normalization</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/stemming-and-lemmatization</loc>
+    <loc>http://localhost:3000/stemming-and-lemmatization</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/phrases-and-compounds</loc>
+    <loc>http://localhost:3000/phrases-and-compounds</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/query-understanding</loc>
+    <loc>http://localhost:3000/query-understanding</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/intent-routing-and-classification</loc>
+    <loc>http://localhost:3000/intent-routing-and-classification</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/summary-2</loc>
+    <loc>http://localhost:3000/summary-2</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/index-4</loc>
+    <loc>http://localhost:3000/index-4</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/inverted-files</loc>
+    <loc>http://localhost:3000/inverted-files</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/ranked-retrieval</loc>
+    <loc>http://localhost:3000/ranked-retrieval</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/filtering-facets-compression</loc>
+    <loc>http://localhost:3000/filtering-facets-compression</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/practical-frameworks</loc>
+    <loc>http://localhost:3000/practical-frameworks</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/scaling-out</loc>
+    <loc>http://localhost:3000/scaling-out</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/summary-3</loc>
+    <loc>http://localhost:3000/summary-3</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/index-5</loc>
+    <loc>http://localhost:3000/index-5</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/latent-semantic-indexing</loc>
+    <loc>http://localhost:3000/latent-semantic-indexing</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/word-embeddings</loc>
+    <loc>http://localhost:3000/word-embeddings</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/transformer-embeddings</loc>
+    <loc>http://localhost:3000/transformer-embeddings</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/semantic-similarity-with-transformers</loc>
+    <loc>http://localhost:3000/semantic-similarity-with-transformers</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/building-semantic-search</loc>
+    <loc>http://localhost:3000/building-semantic-search</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/summary-4</loc>
+    <loc>http://localhost:3000/summary-4</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/index-6</loc>
+    <loc>http://localhost:3000/index-6</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/distance-and-similarity</loc>
+    <loc>http://localhost:3000/distance-and-similarity</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/low-dimensional-structures</loc>
+    <loc>http://localhost:3000/low-dimensional-structures</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/curse-of-dimensionality</loc>
+    <loc>http://localhost:3000/curse-of-dimensionality</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/approximate-nn-search</loc>
+    <loc>http://localhost:3000/approximate-nn-search</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/vector-search-in-practice</loc>
+    <loc>http://localhost:3000/vector-search-in-practice</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/summary-5</loc>
+    <loc>http://localhost:3000/summary-5</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/index-7</loc>
+    <loc>http://localhost:3000/index-7</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/rag-pipeline</loc>
+    <loc>http://localhost:3000/rag-pipeline</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/chunking-strategies</loc>
+    <loc>http://localhost:3000/chunking-strategies</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/result-presentation</loc>
+    <loc>http://localhost:3000/result-presentation</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/agentic-rag</loc>
+    <loc>http://localhost:3000/agentic-rag</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/evaluation</loc>
+    <loc>http://localhost:3000/evaluation</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/summary-6</loc>
+    <loc>http://localhost:3000/summary-6</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/index-8</loc>
+    <loc>http://localhost:3000/index-8</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/web-search-landscape</loc>
+    <loc>http://localhost:3000/web-search-landscape</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/ranking-signals</loc>
+    <loc>http://localhost:3000/ranking-signals</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/link-analysis</loc>
+    <loc>http://localhost:3000/link-analysis</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/learning-to-rank</loc>
+    <loc>http://localhost:3000/learning-to-rank</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/summary-7</loc>
+    <loc>http://localhost:3000/summary-7</loc>
+  </url>
+  <url>
+    <loc>http://localhost:3000/index-9</loc>
+  </url>
+  <url>
+    <loc>http://localhost:3000/the-semantic-gap</loc>
+  </url>
+  <url>
+    <loc>http://localhost:3000/metadata-and-its-limits</loc>
+  </url>
+  <url>
+    <loc>http://localhost:3000/automated-feature-extraction</loc>
+  </url>
+  <url>
+    <loc>http://localhost:3000/multimodal-transformers</loc>
+  </url>
+  <url>
+    <loc>http://localhost:3000/time-and-specialized-solutions</loc>
+  </url>
+  <url>
+    <loc>http://localhost:3000/summary-8</loc>
   </url>
 </urlset>
