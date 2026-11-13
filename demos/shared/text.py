@@ -3,7 +3,7 @@ Text processing pipeline for retrieval demos.
 
 Usage:
     from shared.text import tokenize, remove_stopwords, stem_tokens, pipeline, bag_of_words
-    from shared.text import stopwords_for
+    from shared.text import stopwords_for, soundex
 """
 
 import re
@@ -160,3 +160,24 @@ def pipeline(text: str, language: str = "en", use_stemming: bool = True,
     if use_stemming:
         tokens = stem_tokens(tokens)
     return tokens
+
+
+# ─── Phonetic codes ─────────────────────────────────────────────────────────
+
+def soundex(name: str) -> str:
+    """4-character Soundex code: first letter plus three consonant digits (built step by step in ch03-04)."""
+    name = re.sub(r"[^A-Za-z]", "", name).upper()
+    if not name:
+        return ""
+    digit = {**dict.fromkeys("BFPV", "1"), **dict.fromkeys("CGJKQSXZ", "2"),
+             **dict.fromkeys("DT", "3"), "L": "4",
+             **dict.fromkeys("MN", "5"), "R": "6"}
+    code = name[0]
+    prev = digit.get(name[0], "")
+    for ch in name[1:]:
+        d = digit.get(ch, "")
+        if d and d != prev:
+            code += d
+        if ch not in "HW":
+            prev = d
+    return (code + "000")[:4]

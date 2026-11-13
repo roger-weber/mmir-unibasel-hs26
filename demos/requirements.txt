@@ -52,6 +52,12 @@ librosa
 # Computer Vision (optional — ch10 SIFT demo degrades gracefully without it)
 opencv-python
 
+# Video (ch12): ffmpeg binary for decoding (a system ffmpeg on the PATH is used first),
+# TransNet V2 shot detection with its published weights, RAFT optical flow
+imageio-ffmpeg
+torchvision
+transnetv2-pytorch
+
 # Utilities
 scikit-learn
 requests
