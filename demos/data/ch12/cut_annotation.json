@@ -1,0 +1,490 @@
+{
+ "film": "Tears of Steel (Blender Foundation, mango.blender.org, CC BY 3.0), tears_of_steel_720p.mov, 24 fps, 17,620 frames",
+ "convention": "frames are 0-based; a cut has first = last frame of the old shot, last = first frame of the new shot; a gradual transition runs from the last clean frame of the old shot to the first clean frame of the new shot",
+ "method": "Made by inspecting contact sheets of decoded frames (no video playback): frame strips (t-3..t+4) around every candidate of either detector and of two extra signals (TransNet V2 local peaks p > 0.05, brightness-histogram distance peaks >= 0.10, RGB 8x8x8 histogram distance peaks >= 0.25, every twin-threshold candidate), full-rate sheets of the title sections and of suspicious camera moves, and, for the test excerpt only, a dense sheet of every 8th frame (3 per second) to catch misses.",
+ "not_transitions": {
+  "train": "rocket flares 271-317 and 426, hologram flicker 1127-1131, light flash 2303, sniper motion 2841, 3429-3435",
+  "test": "dome glow inside the garden shot 5174-5195, robot statue hologram flicker 5347-5364, robot hologram flicker 7392-7404 (every 2nd frame), robot-to-Celia morph inside one shot 7411-7428, face motion 8215"
+ },
+ "excerpts": {
+  "train": {
+   "first": 0,
+   "stop": 4320,
+   "time": "0:00-3:00",
+   "use": "choose T_c and T_s",
+   "transitions": [
+    {
+     "first": 36,
+     "last": 37,
+     "type": "cut",
+     "time": "0:01.54",
+     "note": "title card on black (tiny text)"
+    },
+    {
+     "first": 98,
+     "last": 99,
+     "type": "cut",
+     "time": "0:04.12",
+     "note": "title card on black (tiny text)"
+    },
+    {
+     "first": 125,
+     "last": 126,
+     "type": "cut",
+     "time": "0:05.25",
+     "note": "title card on black (tiny text)"
+    },
+    {
+     "first": 189,
+     "last": 190,
+     "type": "cut",
+     "time": "0:07.92",
+     "note": "title card on black (tiny text)"
+    },
+    {
+     "first": 213,
+     "last": 214,
+     "type": "cut",
+     "time": "0:08.92"
+    },
+    {
+     "first": 322,
+     "last": 323,
+     "type": "cut",
+     "time": "0:13.46"
+    },
+    {
+     "first": 441,
+     "last": 442,
+     "type": "cut",
+     "time": "0:18.42"
+    },
+    {
+     "first": 599,
+     "last": 600,
+     "type": "cut",
+     "time": "0:25.00"
+    },
+    {
+     "first": 965,
+     "last": 966,
+     "type": "cut",
+     "time": "0:40.25"
+    },
+    {
+     "first": 1009,
+     "last": 1010,
+     "type": "cut",
+     "time": "0:42.08"
+    },
+    {
+     "first": 1094,
+     "last": 1095,
+     "type": "cut",
+     "time": "0:45.62"
+    },
+    {
+     "first": 1194,
+     "last": 1195,
+     "type": "cut",
+     "time": "0:49.79"
+    },
+    {
+     "first": 1226,
+     "last": 1227,
+     "type": "cut",
+     "time": "0:51.12"
+    },
+    {
+     "first": 1287,
+     "last": 1288,
+     "type": "cut",
+     "time": "0:53.67"
+    },
+    {
+     "first": 1359,
+     "last": 1360,
+     "type": "cut",
+     "time": "0:56.67"
+    },
+    {
+     "first": 1546,
+     "last": 1547,
+     "type": "cut",
+     "time": "1:04.46"
+    },
+    {
+     "first": 1551,
+     "last": 1600,
+     "type": "gradual",
+     "time": "1:04.62",
+     "note": "title 'Tears of Steel' fades in on black"
+    },
+    {
+     "first": 1677,
+     "last": 1678,
+     "type": "cut",
+     "time": "1:09.92"
+    },
+    {
+     "first": 1777,
+     "last": 1778,
+     "type": "cut",
+     "time": "1:14.08"
+    },
+    {
+     "first": 1904,
+     "last": 1905,
+     "type": "cut",
+     "time": "1:19.38"
+    },
+    {
+     "first": 1970,
+     "last": 1971,
+     "type": "cut",
+     "time": "1:22.12"
+    },
+    {
+     "first": 2035,
+     "last": 2036,
+     "type": "cut",
+     "time": "1:24.83"
+    },
+    {
+     "first": 2217,
+     "last": 2218,
+     "type": "cut",
+     "time": "1:32.42"
+    },
+    {
+     "first": 2289,
+     "last": 2290,
+     "type": "cut",
+     "time": "1:35.42"
+    },
+    {
+     "first": 2356,
+     "last": 2357,
+     "type": "cut",
+     "time": "1:38.21"
+    },
+    {
+     "first": 2457,
+     "last": 2458,
+     "type": "cut",
+     "time": "1:42.42"
+    },
+    {
+     "first": 2800,
+     "last": 2801,
+     "type": "cut",
+     "time": "1:56.71"
+    },
+    {
+     "first": 2876,
+     "last": 2877,
+     "type": "cut",
+     "time": "1:59.88"
+    },
+    {
+     "first": 3237,
+     "last": 3238,
+     "type": "cut",
+     "time": "2:14.92"
+    },
+    {
+     "first": 3357,
+     "last": 3358,
+     "type": "cut",
+     "time": "2:19.92"
+    },
+    {
+     "first": 3438,
+     "last": 3439,
+     "type": "cut",
+     "time": "2:23.29"
+    },
+    {
+     "first": 3498,
+     "last": 3499,
+     "type": "cut",
+     "time": "2:25.79"
+    },
+    {
+     "first": 3668,
+     "last": 3669,
+     "type": "cut",
+     "time": "2:32.88"
+    },
+    {
+     "first": 3804,
+     "last": 3805,
+     "type": "cut",
+     "time": "2:38.54"
+    },
+    {
+     "first": 4134,
+     "last": 4135,
+     "type": "cut",
+     "time": "2:52.29"
+    }
+   ]
+  },
+  "test": {
+   "first": 4320,
+   "stop": 8640,
+   "time": "3:00-6:00",
+   "use": "evaluate both detectors",
+   "transitions": [
+    {
+     "first": 4397,
+     "last": 4398,
+     "type": "cut",
+     "time": "3:03.25"
+    },
+    {
+     "first": 4547,
+     "last": 4548,
+     "type": "cut",
+     "time": "3:09.50"
+    },
+    {
+     "first": 4633,
+     "last": 4634,
+     "type": "cut",
+     "time": "3:13.08"
+    },
+    {
+     "first": 4763,
+     "last": 4764,
+     "type": "cut",
+     "time": "3:18.50"
+    },
+    {
+     "first": 4827,
+     "last": 4828,
+     "type": "cut",
+     "time": "3:21.17"
+    },
+    {
+     "first": 4959,
+     "last": 4960,
+     "type": "cut",
+     "time": "3:26.67"
+    },
+    {
+     "first": 5007,
+     "last": 5008,
+     "type": "cut",
+     "time": "3:28.67"
+    },
+    {
+     "first": 5027,
+     "last": 5046,
+     "type": "gradual",
+     "time": "3:29.46",
+     "note": "dissolve: lights -> orange grid"
+    },
+    {
+     "first": 5047,
+     "last": 5076,
+     "type": "gradual",
+     "time": "3:30.29",
+     "note": "dissolve: orange grid -> ruined street with robot"
+    },
+    {
+     "first": 5098,
+     "last": 5099,
+     "type": "cut",
+     "time": "3:32.46"
+    },
+    {
+     "first": 5133,
+     "last": 5134,
+     "type": "cut",
+     "time": "3:33.92"
+    },
+    {
+     "first": 5172,
+     "last": 5173,
+     "type": "cut",
+     "time": "3:35.54"
+    },
+    {
+     "first": 5337,
+     "last": 5338,
+     "type": "cut",
+     "time": "3:42.42"
+    },
+    {
+     "first": 5401,
+     "last": 5402,
+     "type": "cut",
+     "time": "3:45.08"
+    },
+    {
+     "first": 5629,
+     "last": 5630,
+     "type": "cut",
+     "time": "3:54.58"
+    },
+    {
+     "first": 5727,
+     "last": 5728,
+     "type": "cut",
+     "time": "3:58.67"
+    },
+    {
+     "first": 6081,
+     "last": 6082,
+     "type": "cut",
+     "time": "4:13.42"
+    },
+    {
+     "first": 6189,
+     "last": 6190,
+     "type": "cut",
+     "time": "4:17.92"
+    },
+    {
+     "first": 6948,
+     "last": 6949,
+     "type": "cut",
+     "time": "4:49.54"
+    },
+    {
+     "first": 7082,
+     "last": 7083,
+     "type": "cut",
+     "time": "4:55.12"
+    },
+    {
+     "first": 7115,
+     "last": 7116,
+     "type": "cut",
+     "time": "4:56.50"
+    },
+    {
+     "first": 7139,
+     "last": 7140,
+     "type": "cut",
+     "time": "4:57.50"
+    },
+    {
+     "first": 7174,
+     "last": 7175,
+     "type": "cut",
+     "time": "4:58.96"
+    },
+    {
+     "first": 7220,
+     "last": 7221,
+     "type": "cut",
+     "time": "5:00.88"
+    },
+    {
+     "first": 7264,
+     "last": 7265,
+     "type": "cut",
+     "time": "5:02.71"
+    },
+    {
+     "first": 7384,
+     "last": 7385,
+     "type": "cut",
+     "time": "5:07.71"
+    },
+    {
+     "first": 7453,
+     "last": 7454,
+     "type": "cut",
+     "time": "5:10.58"
+    },
+    {
+     "first": 7496,
+     "last": 7497,
+     "type": "cut",
+     "time": "5:12.38"
+    },
+    {
+     "first": 7568,
+     "last": 7569,
+     "type": "cut",
+     "time": "5:15.38"
+    },
+    {
+     "first": 7678,
+     "last": 7679,
+     "type": "cut",
+     "time": "5:19.96"
+    },
+    {
+     "first": 7732,
+     "last": 7733,
+     "type": "cut",
+     "time": "5:22.21"
+    },
+    {
+     "first": 7777,
+     "last": 7778,
+     "type": "cut",
+     "time": "5:24.08"
+    },
+    {
+     "first": 7882,
+     "last": 7883,
+     "type": "cut",
+     "time": "5:28.46"
+    },
+    {
+     "first": 7926,
+     "last": 7927,
+     "type": "cut",
+     "time": "5:30.29"
+    },
+    {
+     "first": 8133,
+     "last": 8134,
+     "type": "cut",
+     "time": "5:38.92"
+    },
+    {
+     "first": 8188,
+     "last": 8189,
+     "type": "cut",
+     "time": "5:41.21"
+    },
+    {
+     "first": 8314,
+     "last": 8315,
+     "type": "cut",
+     "time": "5:46.46"
+    },
+    {
+     "first": 8361,
+     "last": 8362,
+     "type": "cut",
+     "time": "5:48.42"
+    },
+    {
+     "first": 8404,
+     "last": 8405,
+     "type": "cut",
+     "time": "5:50.21"
+    },
+    {
+     "first": 8464,
+     "last": 8465,
+     "type": "cut",
+     "time": "5:52.71"
+    },
+    {
+     "first": 8551,
+     "last": 8552,
+     "type": "cut",
+     "time": "5:56.33"
+    }
+   ]
+  }
+ }
+}

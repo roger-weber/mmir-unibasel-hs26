@@ -33,5 +33,7 @@ demos/data/*
 !demos/data/ch09/
 # LibriSpeech reference transcripts (ch11-04); the audio clips are librosa downloads.
 !demos/data/ch11/
+# Annotated shot transitions of "Tears of Steel" 0:00-6:00 (ch12-01); the film itself is downloaded.
+!demos/data/ch12/
 # Small exercise inputs (movie subsets and embeddings, ch08 Wikispeedia link graph), shipped to students.
 !exercises/shared/data/
