@@ -31,5 +31,7 @@ demos/data/*
 !demos/data/ch08/
 # Commons photos and audio clips, demo web pages, and recorded Claude answers (ch09 demos).
 !demos/data/ch09/
+# LibriSpeech reference transcripts (ch11-04); the audio clips are librosa downloads.
+!demos/data/ch11/
 # Small exercise inputs (movie subsets and embeddings, ch08 Wikispeedia link graph), shipped to students.
 !exercises/shared/data/
