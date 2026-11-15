@@ -2,8 +2,8 @@
   "meta-data": {
     "title": "Multimedia Retrieval HS26",
     "description": "Exercise questions for MMIR HS26, University Basel",
-    "version": "2026-11-03",
-    "lastUpdated": "2026-11-03"
+    "version": "2026-11-15",
+    "lastUpdated": "2026-11-15"
   },
   "questions": {
     "01 - Classical Text Retrieval": [
@@ -2182,6 +2182,248 @@
         ],
         "correct": 0,
         "explanation": "A keyframe is a still image. It shows the state of a scene, and a person who fell looks like a person who lies on the ground. A fall is a movement, and it exists only across frames. Spatio-temporal features, such as optical flow or three-dimensional convolutions over short clips, describe motion and can tell a fall from lying still. More keyframes, a longer query, or color histograms all still compare single images."
+      }
+    ],
+    "10 - Image Features": [
+      {
+        "id": "10-image-features-q1",
+        "question": "A photo archive ranks images by the L1 distance between normalized 64-bin color histograms. For a query photo of a beach under a clear sky, a photo of the same beach on a hazier day ranks below a photo of a green meadow with a strip of sky. Which change to the comparison is most likely to put the hazy beach ahead of the meadow?",
+        "options": [
+          "Make differences between similar colors cost less",
+          "Replace the L1 distance with histogram intersection",
+          "Replace the L1 distance with the Euclidean distance",
+          "Refine the vocabulary from 64 to 512 reference colors"
+        ],
+        "correct": 0,
+        "explanation": "The haze moves many sky pixels from one blue bin into a neighboring, slightly paler blue bin. L1 compares the histograms bin by bin and treats all reference colors as unrelated, so this move counts as much as if the sky had turned red. A quadratic distance with a color similarity matrix makes moves between similar colors cheap, so the hazy beach moves ahead. For two complete normalized histograms, histogram intersection ranks images exactly like L1. The Euclidean distance is also bin by bin and has the same problem. More bins make it worse, because even smaller shade changes then cross a bin boundary."
+      },
+      {
+        "id": "10-image-features-q2",
+        "question": "The HOG descriptor groups neighboring cell histograms into blocks and scales each block vector to unit length. What does this step gain?",
+        "options": [
+          "Robustness to local changes in lighting and contrast",
+          "Robustness to rotation of the object in the image",
+          "Robustness to the object appearing smaller or larger",
+          "A shorter descriptor that is faster to compare"
+        ],
+        "correct": 0,
+        "explanation": "A brighter light or a stronger contrast makes all gradient magnitudes in a region larger, but it does not change their directions or relative sizes. Normalizing each block removes this factor, so the same shape gives a similar descriptor in sunlight and in shade. HOG is not invariant to rotation or scale: a person lying down or seen from far away gives a different descriptor. The blocks overlap, so the descriptor actually gets longer, not shorter."
+      },
+      {
+        "id": "10-image-features-q3",
+        "question": "An online shop for garden furniture builds a \"more like this\" feature on a network pretrained to classify photos into 1,000 everyday classes. It compares products by the cosine similarity of the network's 1,000 class probabilities, and the results are poor. Which change is most likely to help without any new training?",
+        "options": [
+          "Compare the vectors from the layer just before the class scores",
+          "Compare averaged feature maps from the first convolutional stage",
+          "Keep only the top-ranked class and compare the class labels",
+          "Raise the input resolution so that the network sees more detail"
+        ],
+        "correct": 0,
+        "explanation": "The class probabilities describe a product only in terms of the 1,000 training classes. Garden chairs and tables that match none of them get spread over unrelated classes. The vector before the last layer is the network's own description of the image, and all class scores are computed from it. Used as an embedding, it keeps far more visual information. First-stage feature maps record edges and colors that every photo contains, so almost all products look alike. Comparing only the top class label throws away even more information. A higher resolution does not change what the probabilities can express."
+      },
+      {
+        "id": "10-image-features-q4",
+        "question": "A photo library builds its search on DINOv2 image embeddings stored in a vector index. Which feature can it not offer, but could offer after switching to CLIP?",
+        "options": [
+          "Finding photos from a typed description of the scene",
+          "Finding resized or recompressed copies of an uploaded photo",
+          "Finding other views of the same building from a query photo",
+          "Restricting results to photos taken in a given year"
+        ],
+        "correct": 0,
+        "explanation": "DINOv2 learns from images alone and has no text encoder, so it cannot turn a typed query into a vector in its embedding space. CLIP trains an image encoder and a text encoder together, so a text and an image can be compared directly. DINOv2 handles near-duplicates and other views of the same object well. A year filter uses metadata and works with either model."
+      },
+      {
+        "id": "10-image-features-q5",
+        "question": "A photo agency scans magazines and websites for unauthorized reuse of its archive photos. Reused photos often appear as a cropped detail, resized, slightly rotated, and with changed brightness or contrast. Which method fits best for comparing a found image with the photos of the archive?",
+        "options": [
+          "Count SIFT matches that agree on one geometric transformation",
+          "Threshold the cosine similarity of the two DINOv2 embeddings",
+          "Threshold the cosine similarity of the two CLIP image embeddings",
+          "Compare the two color histograms with histogram intersection"
+        ],
+        "correct": 0,
+        "explanation": "SIFT detects each keypoint at its own scale and describes it relative to its dominant direction, using normalized gradient directions. Cropping, resizing, rotation, and lighting changes therefore leave many keypoints matchable. Matches that agree on one rotation, scaling, and shift confirm that the found image is a copy of this particular photo, even if it shows only a small part of it. Visual words in an inverted file make the search over a large archive fast. An embedding describes the whole image, so a small rotated crop can land far from the original, and other photos of the same subject also score high. A color histogram changes with the crop and the lighting, and many unrelated photos share a palette."
+      },
+      {
+        "id": "10-image-features-q7",
+        "question": "A design platform lets users search photos by picking colors from a palette, for example \"at least 40% of this teal and 15% of this orange\". The other colors of the image do not matter. Which comparison fits this query?",
+        "options": [
+          "Sum the overlap per selected color, divided by the query total",
+          "Sum the absolute differences over all bins of the two histograms",
+          "Compare the mean and spread of each color channel of both images",
+          "Weight all bin differences by how similar the reference colors are"
+        ],
+        "correct": 0,
+        "explanation": "Histogram intersection takes, for each selected color, the smaller of the query share and the image share. It then divides by the total share of the query. An image that contains enough teal and orange gets a score near 1, whatever its other colors are. The L1 distance, color moments, and the quadratic distance all compare the whole image. They penalize an image for its remaining colors, which the user explicitly does not care about."
+      },
+      {
+        "id": "10-image-features-q8",
+        "question": "Edge density is the share of pixels whose gradient magnitude exceeds a fixed threshold. Which pair of photos does it separate best?",
+        "options": [
+          "A calm sea under a clear sky and a crowded market street",
+          "A red sports car and the same car painted blue",
+          "A sunny beach photo and the same photo mirrored",
+          "A city skyline and the same photo rotated by 90 degrees"
+        ],
+        "correct": 0,
+        "explanation": "Smooth regions such as sea and sky contain few edge pixels, while crowds, stalls, and signs contain many, so the two photos get very different edge densities. A change of color keeps the edges in place, and mirroring or rotating moves the edges without changing how many there are. Edge density counts edges and ignores their color and position."
+      },
+      {
+        "id": "10-image-features-q9",
+        "question": "A hospital wants to search 200,000 chest X-rays by diagnostic similarity. A linear probe on frozen embeddings from a network pretrained on everyday photos separates five diagnostic classes poorly, even with 2,000 labeled X-rays per class. What is the most plausible next step?",
+        "options": [
+          "Fine-tune the upper layers of the network on the labeled X-rays",
+          "Label more X-rays and train the same linear probe on more data",
+          "Take the embedding from the first convolutional stage instead",
+          "Use the 1,000 everyday class probabilities as the input of the probe"
+        ],
+        "correct": 0,
+        "explanation": "A linear probe can only find a linear direction within the features that the frozen embedding already contains. With 2,000 examples per class, the labels are not the bottleneck; the embedding is. X-rays differ strongly from everyday photos, so the pretrained features do not capture the patterns that matter for a diagnosis. Fine-tuning adapts the network itself to the new images, and the hospital has enough labeled data for it. The first stage gives only generic edges and colors, and the class probabilities hold less information than the embedding."
+      },
+      {
+        "id": "10-image-features-q10",
+        "question": "A photo search runs on CLIP embeddings. For image-to-image search, the team keeps results with a cosine similarity above 0.8, which works well. What happens when the team applies the same threshold to typed text queries?",
+        "options": [
+          "Almost no image passes, even for queries with good matches",
+          "Almost every image passes, because text is less specific",
+          "It works as well, since both encoders share one space",
+          "Only images that contain the query words as visible text pass"
+        ],
+        "correct": 0,
+        "explanation": "In CLIP's shared space, image embeddings and text embeddings occupy different regions. Even a well-matching pair of a text and an image typically reaches a cosine similarity of only 0.1 to 0.4, while two images score much higher. A threshold must therefore be chosen separately for each model and query type, on evaluation data. What carries the information for a text query is the ranking and the differences between candidates, not the absolute value."
+      },
+      {
+        "id": "10-image-features-q11",
+        "question": "A clothing shop shows its products as photos on a white background and offers CLIP text search. A customer searches for \"burgundy wool sweater\" and gets sweaters in many shades of red, pink, and purple. Which change gives the customer the color they asked for?",
+        "options": [
+          "Rerank the CLIP results by the share of the target color",
+          "Replace CLIP with DINOv2 embeddings of a photo of the target sweater",
+          "Lower the similarity threshold so that more candidate images pass",
+          "Fuse the CLIP score with the distance to the target color"
+        ],
+        "correct": 3,
+        "explanation": "A CLIP embedding mixes the color with everything else the image shows, and web captions use color names loosely. CLIP reliably finds sweaters, but not this exact shade. On a white background, a color feature such as the distance between the product's dominant color and burgundy measures the color directly. Fusing this distance with the CLIP score keeps the ranking by product and enforces the color. Reranking by color alone discards the CLIP scores, so burgundy trousers or scarves among the candidates can move to the top. A DINOv2 embedding also mixes color with shape and texture, and a lower threshold lets in even more wrong shades."
+      },
+      {
+        "id": "10-image-features-q13",
+        "question": "A color feature uses only the hue channel of HSV and ignores the value channel. What does it gain over a feature built on raw RGB values?",
+        "options": [
+          "A shadow changes a surface's brightness but barely its hue",
+          "Hue distances match perceived color differences exactly",
+          "Hue is defined for every pixel, including grays and blacks",
+          "Hue needs fewer bits per pixel than the three RGB channels"
+        ],
+        "correct": 0,
+        "explanation": "HSV separates the hue from the brightness. A red car in the sun and in the shade has nearly the same hue but a different value, so a hue-based feature ignores the shadow, while all three RGB values change. HSV is not perceptually uniform. Hue is undefined for grays and noisy for very dark pixels, so such pixels are treated as gray levels. Storage size is not the reason to use hue."
+      },
+      {
+        "id": "10-image-features-q14",
+        "question": "When matching SIFT keypoints between two images, a match is accepted only if the nearest descriptor in the other image is clearly closer than the second-nearest one. What does this test remove?",
+        "options": [
+          "Ambiguous matches on repetitive structures in the image",
+          "Keypoints that lie on straight edges rather than on corners",
+          "Matches whose keypoints differ in scale or in rotation",
+          "Keypoints with low contrast that noise can easily move"
+        ],
+        "correct": 0,
+        "explanation": "On repetitive structures, many keypoints look alike, so a descriptor has several candidates at a similar distance, and the nearest one is often wrong. A correct match is usually much closer than any other candidate. Keypoints on edges and keypoints with low contrast are removed earlier, during keypoint detection. Differences in scale and rotation are expected, because SIFT descriptors are invariant to both."
+      },
+      {
+        "id": "10-image-features-q15",
+        "question": "A company's door system recognizes employees by face. It compares a camera photo with the stored photos of all employees, using a face embedding trained with triplets of photos. What is needed so that the system also recognizes a new employee?",
+        "options": [
+          "Encode their photos and add them to the known faces",
+          "Add an output class for them and retrain the last layer",
+          "Fine-tune the network on a few photos of the new employee",
+          "Raise the margin of the loss and retrain the embedding"
+        ],
+        "correct": 0,
+        "explanation": "Training with triplets teaches the network to place photos of the same person close together and photos of different persons far apart, for any person, not only the persons seen in training. Identification is then a nearest neighbor search in a gallery of known faces. A new employee only needs their embedding in the gallery. This is why face systems do not use a classifier with one class per person: new persons appear all the time."
+      },
+      {
+        "id": "10-image-features-q16",
+        "question": "A museum has 50,000 scanned postcards and wants to assign each one to one of four given categories: \"mountain\", \"lake\", \"city\", or \"church\". Nobody has time to label examples. The museum has a CLIP model. Which approach fits?",
+        "options": [
+          "Compare each image with a short text prompt per category",
+          "Cluster the image embeddings into four groups by k-means",
+          "Train a linear probe on the image embeddings of the postcards",
+          "Match the category names against the text printed on the cards"
+        ],
+        "correct": 0,
+        "explanation": "CLIP places images and texts in one space, so it can classify into any set of classes without training. The system encodes prompts such as \"a photo of a mountain\" and assigns each postcard to the closest prompt. This is zero-shot classification. k-means finds four groups, but nothing guarantees that they match the four categories; they could split by color versus black and white instead. A linear probe needs labeled examples. Printed text on a postcard often names a place, not a category."
+      },
+      {
+        "id": "10-image-features-q17",
+        "question": "A hiking app identifies which peak a photo shows. It searches for the nearest neighbor in a gallery of photos labeled with peak names, using embeddings from a network trained to classify everyday photos into 1,000 classes. It almost always returns some mountain, but often the wrong one. Which change addresses the cause?",
+        "options": [
+          "Switch to an encoder trained to compare views, such as DINOv2",
+          "Train a linear probe that separates mountains from other photos",
+          "Use the embedding of an earlier, more detailed network stage",
+          "Append the 1,000 class probabilities to each embedding"
+        ],
+        "correct": 0,
+        "explanation": "A classifier is trained to separate classes, and for it, all peaks belong to one class like \"alp\". Nothing in its training rewarded telling two peaks apart, so distances within the class carry little meaning. DINOv2 is trained to give different views of the same image the same description, and it captures visual similarity in detail. A linear probe for \"mountain\" solves a task that already works and does not change the distances. Earlier stages record generic edges and colors. The class probabilities add exactly the information that does not distinguish one peak from another."
+      },
+      {
+        "id": "10-image-features-q18",
+        "question": "A textile shop offers \"more like this\" for fabrics. A query with narrow vertical stripes should return other fabrics with narrow stripes in any color, ahead of checks or dots in the same color as the query. Which feature fits best?",
+        "options": [
+          "Moments of Gabor filter responses on the lightness",
+          "A color histogram over 125 reference colors in Lab space",
+          "Means, spreads, and skewness of the three Lab channels",
+          "Area and circularity of the largest region in the image"
+        ],
+        "correct": 0,
+        "explanation": "A Gabor filter responds to stripes of one orientation and one wavelength. A filter bank with several orientations and scales describes which patterns repeat in the fabric, and computing it on the lightness channel makes it independent of the color. Color histograms and color moments describe which colors occur, so they would rank fabrics of the same color first, whatever their pattern. Shape descriptors need a segmented object and do not describe a repeating texture."
+      },
+      {
+        "id": "10-image-features-q19",
+        "question": "A stock photo site ranks images by the distance between the mean values of their three Lab channels. A query shows white sand in its lower half and a deep blue sea in its upper half. Among the top results is an almost uniform photo of a pale blue-gray wall. Why?",
+        "options": [
+          "White sand and deep blue sea average to a pale blue-gray",
+          "Lab distances exaggerate differences between very bright colors",
+          "Channel means change when an image is scaled to a smaller size",
+          "The uniform wall has more pixels in the blue bins of the histogram"
+        ],
+        "correct": 0,
+        "explanation": "A mean summarizes a distribution with a single value. When an image consists of two very different color regions, the mean lies between them, at a color that few of its pixels actually have. A uniform image of exactly that in-between color gets almost the same means. This is the weakness of color moments: a few statistics cannot describe a distribution with several peaks. Lab distances approximate perceived differences, means do not depend on the image size, and this feature uses no histogram bins."
+      },
+      {
+        "id": "10-image-features-q20",
+        "question": "A museum app lets visitors photograph a painting to find it among 2 million artwork images. The prototype compares every SIFT descriptor of the query with every descriptor of every image, followed by a geometric check, and takes minutes per query. Which design makes it fast enough while keeping matches reliable?",
+        "options": [
+          "Index visual words in an inverted file and verify a shortlist",
+          "Use a stricter ratio test so that fewer matches must be verified",
+          "Keep only the ten strongest keypoints per image in the index",
+          "Compare global color histograms instead of local descriptors"
+        ],
+        "correct": 0,
+        "explanation": "Clustering descriptors into visual words turns each image into a bag of words. This bag can be weighted with tf-idf and stored in an inverted file, like text documents. A query then touches only the images that share its visual words, and only the short list of images sharing many rare words gets the expensive geometric check. A stricter ratio test is applied after the expensive comparison, so it saves little time. Ten keypoints per image make matching fragile against crops and occlusion. Color histograms are fast but cannot tell one painting from another with a similar palette."
+      },
+      {
+        "id": "10-image-features-q21",
+        "question": "A building uses face verification at its entrance. The team chose one distance threshold on an evaluation set, so that the overall rate of false accepts is 0.1%. After deployment, employees from one demographic group are rejected far more often than the others. What should the team have done before deployment?",
+        "options": [
+          "Measure the error rates per group on the evaluation data",
+          "Raise the embedding dimension from 128 to 512 values",
+          "Lower the threshold so that the system accepts fewer persons",
+          "Train the embedding with a larger margin in the triplet loss"
+        ],
+        "correct": 0,
+        "explanation": "Error rates of face recognition can differ between demographic groups. One overall rate hides such differences, so a threshold that looks good on average can fail one group badly. Evaluating per group shows the problem before deployment and lets the team choose a different threshold or model. A larger dimension or margin changes the model, but without a per-group evaluation, nobody would know whether it fixes the problem. A stricter threshold rejects even more persons."
+      },
+      {
+        "id": "10-image-features-q24",
+        "question": "A photo-sharing site runs on CPU servers without GPUs and receives about 20 million uploads per day. As a cheap first filter, it wants to flag uploads that are resized or re-saved copies of existing photos. Flagged pairs are checked more carefully afterwards. Which feature fits this first filter?",
+        "options": [
+          "A color histogram computed from a small thumbnail",
+          "A DINOv2 embedding computed from the full image",
+          "A CLIP image embedding computed from the full image",
+          "SIFT keypoints matched with a geometric check"
+        ],
+        "correct": 0,
+        "explanation": "A color histogram of a thumbnail takes a few milliseconds on a CPU and needs no model. Resizing and moderate re-compression barely change it, so it catches the copies the filter is meant for. A transformer embedding costs one to two orders of magnitude more per image on a CPU, and SIFT on the full image even more. At about 230 uploads per second, that would need a large fleet of CPU servers. The histogram produces some false alarms, but the careful second check removes them."
       }
     ]
   }
