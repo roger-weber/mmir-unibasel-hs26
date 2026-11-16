@@ -305,6 +305,7 @@ numpy==2.4.6
     #   lightgbm
     #   matplotlib
     #   mmir-unibasel-hs26
+    #   opencv-python
     #   pandas
     #   scikit-learn
     #   scipy
@@ -355,6 +356,8 @@ nvidia-nvtx==13.0.85 ; (platform_machine == 'aarch64' and sys_platform == 'linux
     # via cuda-toolkit
 openai==3.37.0
     # via haystack-ai
+opencv-python==5.0.0.93
+    # via mmir-unibasel-hs26
 opensearch-protobufs==1.2.0
     # via opensearch-py
 opensearch-py==3.2.0

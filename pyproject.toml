@@ -23,6 +23,7 @@ dependencies = [
     "matplotlib>=3.11.2",
     "nltk>=3.10.3",
     "numpy>=2.4,<2.5",  # gensim 4.4.0 wheels segfault with numpy 2.5
+    "opencv-python>=5.0",
     "opensearch-py>=3.0.0",
     "pandas>=2.2",
     "psycopg2-binary>=2.9.10",
