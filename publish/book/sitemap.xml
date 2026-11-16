@@ -1,343 +1,382 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-stylesheet type="text/xsl" href="http://localhost:3001/sitemap_style.xsl" ?>
+<?xml-stylesheet type="text/xsl" href="http://localhost:3000/sitemap_style.xsl" ?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>http://localhost:3001</loc>
+    <loc>http://localhost:3000</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/index-1</loc>
+    <loc>http://localhost:3000/index-1</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/fundamental-flows</loc>
+    <loc>http://localhost:3000/fundamental-flows</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/feature-extraction-pipeline</loc>
+    <loc>http://localhost:3000/feature-extraction-pipeline</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/text-retrieval-models</loc>
+    <loc>http://localhost:3000/text-retrieval-models</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/retrieval-models-ranking</loc>
+    <loc>http://localhost:3000/retrieval-models-ranking</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/probabilistic-ranking-bm25</loc>
+    <loc>http://localhost:3000/probabilistic-ranking-bm25</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/summary</loc>
+    <loc>http://localhost:3000/summary</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/index-2</loc>
+    <loc>http://localhost:3000/index-2</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/designing-a-benchmark</loc>
+    <loc>http://localhost:3000/designing-a-benchmark</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/precision-and-recall</loc>
+    <loc>http://localhost:3000/precision-and-recall</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/evaluating-ranked-results</loc>
+    <loc>http://localhost:3000/evaluating-ranked-results</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/evaluating-graded-relevance</loc>
+    <loc>http://localhost:3000/evaluating-graded-relevance</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/evaluating-text-classifiers</loc>
+    <loc>http://localhost:3000/evaluating-text-classifiers</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/scores-thresholds-and-roc</loc>
+    <loc>http://localhost:3000/scores-thresholds-and-roc</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/when-evaluation-misleads</loc>
+    <loc>http://localhost:3000/when-evaluation-misleads</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/summary-1</loc>
+    <loc>http://localhost:3000/summary-1</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/index-3</loc>
+    <loc>http://localhost:3000/index-3</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/tokenization-and-normalization</loc>
+    <loc>http://localhost:3000/tokenization-and-normalization</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/stemming-and-lemmatization</loc>
+    <loc>http://localhost:3000/stemming-and-lemmatization</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/phrases-and-compounds</loc>
+    <loc>http://localhost:3000/phrases-and-compounds</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/query-understanding</loc>
+    <loc>http://localhost:3000/query-understanding</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/intent-routing-and-classification</loc>
+    <loc>http://localhost:3000/intent-routing-and-classification</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/summary-2</loc>
+    <loc>http://localhost:3000/summary-2</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/index-4</loc>
+    <loc>http://localhost:3000/index-4</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/inverted-files</loc>
+    <loc>http://localhost:3000/inverted-files</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/ranked-retrieval</loc>
+    <loc>http://localhost:3000/ranked-retrieval</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/filtering-facets-compression</loc>
+    <loc>http://localhost:3000/filtering-facets-compression</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/practical-frameworks</loc>
+    <loc>http://localhost:3000/practical-frameworks</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/scaling-out</loc>
+    <loc>http://localhost:3000/scaling-out</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/summary-3</loc>
+    <loc>http://localhost:3000/summary-3</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/index-5</loc>
+    <loc>http://localhost:3000/index-5</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/latent-semantic-indexing</loc>
+    <loc>http://localhost:3000/latent-semantic-indexing</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/word-embeddings</loc>
+    <loc>http://localhost:3000/word-embeddings</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/transformer-embeddings</loc>
+    <loc>http://localhost:3000/transformer-embeddings</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/semantic-similarity-with-transformers</loc>
+    <loc>http://localhost:3000/semantic-similarity-with-transformers</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/building-semantic-search</loc>
+    <loc>http://localhost:3000/building-semantic-search</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/summary-4</loc>
+    <loc>http://localhost:3000/summary-4</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/index-6</loc>
+    <loc>http://localhost:3000/index-6</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/distance-and-similarity</loc>
+    <loc>http://localhost:3000/distance-and-similarity</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/low-dimensional-structures</loc>
+    <loc>http://localhost:3000/low-dimensional-structures</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/curse-of-dimensionality</loc>
+    <loc>http://localhost:3000/curse-of-dimensionality</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/approximate-nn-search</loc>
+    <loc>http://localhost:3000/approximate-nn-search</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/vector-search-in-practice</loc>
+    <loc>http://localhost:3000/vector-search-in-practice</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/summary-5</loc>
+    <loc>http://localhost:3000/summary-5</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/index-7</loc>
+    <loc>http://localhost:3000/index-7</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/rag-pipeline</loc>
+    <loc>http://localhost:3000/rag-pipeline</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/chunking-strategies</loc>
+    <loc>http://localhost:3000/chunking-strategies</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/result-presentation</loc>
+    <loc>http://localhost:3000/result-presentation</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/agentic-rag</loc>
+    <loc>http://localhost:3000/agentic-rag</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/evaluation</loc>
+    <loc>http://localhost:3000/evaluation</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/summary-6</loc>
+    <loc>http://localhost:3000/summary-6</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/index-8</loc>
+    <loc>http://localhost:3000/index-8</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/web-search-landscape</loc>
+    <loc>http://localhost:3000/web-search-landscape</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/ranking-signals</loc>
+    <loc>http://localhost:3000/ranking-signals</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/link-analysis</loc>
+    <loc>http://localhost:3000/link-analysis</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/learning-to-rank</loc>
+    <loc>http://localhost:3000/learning-to-rank</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/summary-7</loc>
+    <loc>http://localhost:3000/summary-7</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/index-9</loc>
+    <loc>http://localhost:3000/index-9</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/the-semantic-gap</loc>
+    <loc>http://localhost:3000/the-semantic-gap</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/metadata-and-its-limits</loc>
+    <loc>http://localhost:3000/metadata-and-its-limits</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/automated-feature-extraction</loc>
+    <loc>http://localhost:3000/automated-feature-extraction</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/multimodal-transformers</loc>
+    <loc>http://localhost:3000/multimodal-transformers</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/time-and-specialized-solutions</loc>
+    <loc>http://localhost:3000/time-and-specialized-solutions</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/summary-8</loc>
+    <loc>http://localhost:3000/summary-8</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/index-10</loc>
+    <loc>http://localhost:3000/index-10</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/color-features</loc>
+    <loc>http://localhost:3000/color-features</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/edges-texture-shape</loc>
+    <loc>http://localhost:3000/edges-texture-shape</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/learned-features</loc>
+    <loc>http://localhost:3000/learned-features</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/transformer-image-search</loc>
+    <loc>http://localhost:3000/transformer-image-search</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/summary-9</loc>
+    <loc>http://localhost:3000/summary-9</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/index-11</loc>
+    <loc>http://localhost:3000/index-11</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/tasks-and-experience</loc>
+    <loc>http://localhost:3000/sound-to-spectrogram</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/losses-and-performance-measures</loc>
+    <loc>http://localhost:3000/perceptual-features</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/over-and-underfitting</loc>
+    <loc>http://localhost:3000/musical-features</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/training-and-model-selection</loc>
+    <loc>http://localhost:3000/classifying-audio</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/summary-10</loc>
+    <loc>http://localhost:3000/transcription</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/index-12</loc>
+    <loc>http://localhost:3000/audio-fingerprinting</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/naive-bayes</loc>
+    <loc>http://localhost:3000/summary-10</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/decision-trees-and-gradient-boosting</loc>
+    <loc>http://localhost:3000/index-12</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/linear-classifiers</loc>
+    <loc>http://localhost:3000/shot-boundary-detection</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/clustering</loc>
+    <loc>http://localhost:3000/motion-detection</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/hidden-markov-models</loc>
+    <loc>http://localhost:3000/video-understanding</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/summary-11</loc>
+    <loc>http://localhost:3000/summary-11</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/index-13</loc>
+    <loc>http://localhost:3000/index-13</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/from-perceptrons-to-multilayer-networks</loc>
+    <loc>http://localhost:3000/tasks-and-experience</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/backpropagation</loc>
+    <loc>http://localhost:3000/losses-and-performance-measures</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/training-deep-networks</loc>
+    <loc>http://localhost:3000/over-and-underfitting</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/convolutional-networks</loc>
+    <loc>http://localhost:3000/training-and-model-selection</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/cnn-architectures</loc>
+    <loc>http://localhost:3000/summary-12</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/recurrent-networks</loc>
+    <loc>http://localhost:3000/index-14</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/summary-12</loc>
+    <loc>http://localhost:3000/naive-bayes</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/index-14</loc>
+    <loc>http://localhost:3000/decision-trees-and-gradient-boosting</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/model-families-and-pretraining</loc>
+    <loc>http://localhost:3000/linear-classifiers</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/fine-tuning</loc>
+    <loc>http://localhost:3000/clustering</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/text-classification</loc>
+    <loc>http://localhost:3000/hidden-markov-models</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/generative-language-models</loc>
+    <loc>http://localhost:3000/summary-13</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/summary-13</loc>
+    <loc>http://localhost:3000/index-15</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/index-15</loc>
+    <loc>http://localhost:3000/from-perceptrons-to-multilayer-networks</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/human-visual-system</loc>
+    <loc>http://localhost:3000/backpropagation</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/color-systems</loc>
+    <loc>http://localhost:3000/training-deep-networks</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/extended-image-features</loc>
+    <loc>http://localhost:3000/convolutional-networks</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/summary-14</loc>
+    <loc>http://localhost:3000/cnn-architectures</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/index-16</loc>
+    <loc>http://localhost:3000/recurrent-networks</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/human-hearing</loc>
+    <loc>http://localhost:3000/summary-14</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/extended-audio-and-music-features</loc>
+    <loc>http://localhost:3000/index-16</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/speech-recognition-with-hmms</loc>
+    <loc>http://localhost:3000/model-families-and-pretraining</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/summary-15</loc>
+    <loc>http://localhost:3000/fine-tuning</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/index-17</loc>
+    <loc>http://localhost:3000/text-classification</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/eigenvectors-svd-and-pca</loc>
+    <loc>http://localhost:3000/generative-language-models</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/fourier-transform-and-convolution</loc>
+    <loc>http://localhost:3000/summary-15</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/information-theory</loc>
+    <loc>http://localhost:3000/index-17</loc>
   </url>
   <url>
-    <loc>http://localhost:3001/summary-16</loc>
+    <loc>http://localhost:3000/human-visual-system</loc>
+  </url>
+  <url>
+    <loc>http://localhost:3000/color-systems</loc>
+  </url>
+  <url>
+    <loc>http://localhost:3000/extended-image-features</loc>
+  </url>
+  <url>
+    <loc>http://localhost:3000/summary-16</loc>
+  </url>
+  <url>
+    <loc>http://localhost:3000/index-18</loc>
+  </url>
+  <url>
+    <loc>http://localhost:3000/human-hearing</loc>
+  </url>
+  <url>
+    <loc>http://localhost:3000/extended-audio-and-music-features</loc>
+  </url>
+  <url>
+    <loc>http://localhost:3000/speech-recognition-with-hmms</loc>
+  </url>
+  <url>
+    <loc>http://localhost:3000/summary-17</loc>
+  </url>
+  <url>
+    <loc>http://localhost:3000/index-19</loc>
+  </url>
+  <url>
+    <loc>http://localhost:3000/eigenvectors-svd-and-pca</loc>
+  </url>
+  <url>
+    <loc>http://localhost:3000/fourier-transform-and-convolution</loc>
+  </url>
+  <url>
+    <loc>http://localhost:3000/information-theory</loc>
+  </url>
+  <url>
+    <loc>http://localhost:3000/summary-18</loc>
   </url>
 </urlset>
