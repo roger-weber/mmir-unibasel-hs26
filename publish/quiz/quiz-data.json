@@ -2667,6 +2667,248 @@
         "correct": 0,
         "explanation": "The word error rate weighs every word equally, and most words in a transcript are frequent words that both recognizers handle well. Names of people and places are recognized worst, because the models have seen them rarely, and they are exactly what users search for. A recognizer with the lower WER can still miss more names. The recall of the query terms on a sample of the collection measures what the search needs. A public benchmark says even less about this archive than its own sample. Splitting the WER by speaker or counting characters still weighs all words or characters equally."
       }
+    ],
+    "12 - Video Features": [
+      {
+        "id": "12-video-features-q1",
+        "question": "Shot detectors usually compare the color histograms of consecutive frames instead of their pixel values. What does this choice gain?",
+        "options": [
+          "A pan or a walking person barely changes the comparison",
+          "A dissolve shows up as one jump above the cut threshold",
+          "Two shots of the same room in the same light differ clearly",
+          "A camera flash inside a shot no longer looks like a cut"
+        ],
+        "correct": 0,
+        "explanation": "A histogram records the share of pixels for each color, no matter where in the frame these pixels lie. When the camera pans or a person walks, the pixels keep their colors, so the histogram barely changes, while the pixel values change almost everywhere. A dissolve spreads its change over many frames, so no single step jumps above the cut threshold; this needs a second threshold. Two shots of the same room in the same light have nearly the same histogram, which is a blind spot of histograms. A flash changes the histogram of one frame completely, so it still produces a false cut."
+      },
+      {
+        "id": "12-video-features-q2",
+        "question": "A camera at a waterhole in a nature reserve records all day, and a motion detector compares each frame with the previous one. An elephant walks in, stands still for ten minutes while it drinks, and then walks away. Rangers search the motion log for the times when animals were present. What does the log show for this visit?",
+        "options": [
+          "Motion when it arrives and leaves, none while it drinks",
+          "Motion for the whole visit, from arrival until departure",
+          "Motion for the whole visit, then a ghost where it stood",
+          "No motion at any time, neither at arrival nor at departure"
+        ],
+        "correct": 0,
+        "explanation": "Frame differencing uses the previous frame as the background. While the elephant stands still, two consecutive frames are almost identical, so the elephant disappears from the mask, and the log shows motion only while it walks in and out. Motion over the whole visit would require a comparison with an image of the empty waterhole, as in background subtraction. A ghost appears when a background model has absorbed the standing elephant and it then leaves; frame differencing keeps no such model. The edges of the walking elephant change from frame to frame, so the arrival and the departure do show up."
+      },
+      {
+        "id": "12-video-features-q3",
+        "question": "A nature film archive splits its films into shots and searches them with CLIP embeddings. Many shots are long: a 40-second shot of a river may show a kingfisher diving only during its last two seconds. Which way to represent the shots is most likely to rank such a shot high for the query \"a kingfisher diving\"?",
+        "options": [
+          "Embed one frame per second, index each frame on its own",
+          "Embed one frame per second, index their mean per shot",
+          "Embed the middle frame of each shot as its only keyframe",
+          "Embed the frame whose histogram is closest to the mean"
+        ],
+        "correct": 0,
+        "explanation": "The kingfisher appears in only 2 of the 40 sampled frames. If each frame is indexed on its own, these two frames can match the query directly, at the cost of an index with 40 entries instead of one for this shot. The mean of all 40 frame embeddings is dominated by the river and keeps only a weak trace of the bird. The middle frame shows only the river. The frame closest to the mean histogram is, by definition, a typical frame of the shot, so it also shows the river."
+      },
+      {
+        "id": "12-video-features-q4",
+        "question": "An archive of travel documentaries detects shots with twin thresholds on color histograms. Hard cuts and dissolves are found well, but the detector also reports many gradual transitions in the middle of long shots in which the camera slowly sweeps across mountain landscapes. Which change removes these false transitions without losing the real dissolves?",
+        "options": [
+          "Check the optical flow and ignore changes from a moving camera",
+          "Raise the cut threshold so that the end frame must differ more",
+          "Lower the start threshold so that each candidate is followed longer",
+          "Compare pixel values instead of histograms during each candidate"
+        ],
+        "correct": 0,
+        "explanation": "During a slow sweep, new landscape enters the frame step by step. The consecutive distances stay above the start threshold, and after a long sweep the end frame differs from the reference frame by more than the cut threshold, so the detector reports a soft cut. The optical flow shows that the whole frame shifts in one direction, which is camera motion and not a change of shot, so the candidate can be rejected. A higher cut threshold does not reliably stop a long sweep, and it starts to miss real cuts and dissolves. A lower start threshold lets each candidate run longer and collect even more change. Pixel values react to camera motion even more strongly than histograms."
+      },
+      {
+        "id": "12-video-features-q5",
+        "question": "A stock footage library searches its shots with mean-pooled CLIP embeddings. For the query \"a fast car chase through a city\", the top results show streets lined with parked cars, and the actual chase shots rank lower. Which addition is most likely to lift the chase shots?",
+        "options": [
+          "Fuse the ranking with a per-shot motion score from optical flow",
+          "Replace the mean of the sampled frames with the middle keyframe",
+          "Sample five frames per second instead of one before pooling",
+          "Rerank the results by the number of cars visible in the frames"
+        ],
+        "correct": 0,
+        "explanation": "CLIP describes what is visible in a frame, and in a single frame a parked car looks much like a car in a chase. \"Fast\" is a property of motion that no single frame shows. A motion score per shot, such as the average flow speed, captures what the embeddings miss. Fusing it with the CLIP ranking keeps the match on \"city\" and \"cars\". The flow also works for chase footage, where the camera usually moves and frame differencing would mark everything as motion. A middle keyframe or more sampled frames still give only static images. Reranking by the number of cars throws away the CLIP scores and favors the streets full of parked cars."
+      },
+      {
+        "id": "12-video-features-q6",
+        "question": "A news archive indexes each shot by the CLIP embedding of its middle frame. On annotated news videos, a lower cut threshold finds 98% of the cuts and reports 40 false cuts per hour. A higher threshold finds 85% of the cuts and reports 5 false cuts per hour. Which threshold fits the archive better?",
+        "options": [
+          "The lower one, because merged shots can hide content from search",
+          "The higher one, because split shots can hide content from search",
+          "The higher one, because every false cut adds a wrong search result",
+          "Either one, because both errors cost the same at query time"
+        ],
+        "correct": 0,
+        "explanation": "A missed cut merges two shots into one. The archive represents the merged shot by its middle frame, which shows only one of the two shots, so the content of the other shot disappears from the index. With the higher threshold, 15% of the cuts are missed. A false cut only splits one shot into two shorter ones. The index then holds a redundant keyframe, and a result may end a few seconds early, but nothing becomes unsearchable. The extra pieces do not add wrong results, because each piece still shows content of the original shot. The two errors do not cost the same, so the lower threshold fits better."
+      },
+      {
+        "id": "12-video-features-q7",
+        "question": "Lucas-Kanade tracking usually runs only at corner points selected beforehand. What goes wrong if it is applied to a window that contains a single straight edge?",
+        "options": [
+          "Only the motion across the edge is found, not along it",
+          "Only the motion along the edge is found, not across it",
+          "The motion is found, but only for shifts below one pixel",
+          "The full motion is found, as at a corner of the object"
+        ],
+        "correct": 0,
+        "explanation": "On a straight edge, all gradients in the window point in the same direction, across the edge. Every pixel then gives the same equation, and this equation determines only the motion component across the edge. A motion along the edge leaves the image inside the window unchanged, so it cannot be measured. This is the aperture problem. A corner has gradients in two directions and determines the full motion. The limit to small shifts comes from the linearization and is handled with an image pyramid; it is not specific to edges."
+      },
+      {
+        "id": "12-video-features-q8",
+        "question": "Why do video transformers process clips of a few seconds rather than whole films?",
+        "options": [
+          "Attention cost grows with the square of the number of frames",
+          "Patches from frames far apart cannot share one embedding space",
+          "Training captions describe only the first seconds of each video",
+          "Video codecs store complete images only every few seconds"
+        ],
+        "correct": 0,
+        "explanation": "A video transformer cuts every frame into patches and treats all patches as tokens. Full attention compares every token with every other token, so doubling the number of frames quadruples the number of pairs. A clip of 8 frames with 196 patches each already has 1,568 tokens and about 2.5 million pairs per layer, and a film would need vastly more. Factorized attention reduces the cost, but clips of seconds remain the norm. Patches from all frames share one embedding space, and captions describe whole clips. Codecs store complete images only at intervals, but the decoder still produces every frame."
+      },
+      {
+        "id": "12-video-features-q9",
+        "question": "A fitness app indexes short exercise clips with mean-pooled CLIP frame embeddings. Queries for \"sitting down onto a chair\" return as many \"standing up from a chair\" clips as correct ones. Which model change is most likely to separate the two?",
+        "options": [
+          "A two-stream model that also reads optical flow fields",
+          "Mean pooling over more frames, sampled at five per second",
+          "A per-clip motion score from the average flow magnitude",
+          "One CLIP embedding per frame, each indexed on its own"
+        ],
+        "correct": 0,
+        "explanation": "A person who sits down and a person who stands up look alike in every single frame; only the order of the frames tells them apart. A two-stream model reads stacks of optical flow fields next to the frames, and the flow points down in one case and up in the other. Mean pooling ignores the order of the frames, so more frames do not help. The average flow magnitude is the same for both movements, because only the direction differs. Indexing each frame on its own still compares single images."
+      },
+      {
+        "id": "12-video-features-q10",
+        "question": "A film archive detects hard cuts with a fixed threshold on histogram distances, tuned on bright, colorful films. The collection also holds many dark crime films, and in these the detector misses many cuts between two night scenes. The detector must run on the whole collection without tuning per film. Which change is most likely to help?",
+        "options": [
+          "Compare each distance with the average of the frames around it",
+          "Lower the fixed threshold to the level of the darkest film",
+          "Use the I-frames that the encoder inserted as the cuts",
+          "Replace the histograms by pixel differences between frames"
+        ],
+        "correct": 0,
+        "explanation": "In a dark film, most pixels fall into the dark bins in every shot. The histograms of two consecutive dark shots therefore differ little, and the distance at a cut stays below a threshold that was tuned on bright films. An adaptive threshold compares each distance with the average distance of the surrounding frames, so a cut only has to stand out from its local neighborhood. This works in dark and bright films alike, without tuning per film. A fixed threshold that is low enough for the darkest film turns ordinary motion in bright films into false cuts. Most I-frames lie inside shots, so they are only candidates. Pixel differences also change little between two dark shots, and they react to every movement within a shot."
+      },
+      {
+        "id": "12-video-features-q11",
+        "question": "Optical flow estimates how brightness patterns move between two frames. In which of these cases does it report motion although no object in the scene moves?",
+        "options": [
+          "A lamp in the room is switched on",
+          "A plain white ball spins in place",
+          "A person walks along a corridor",
+          "A car drives across a parking lot"
+        ],
+        "correct": 0,
+        "explanation": "Optical flow rests on brightness constancy: a point keeps its brightness while it moves. When a lamp is switched on, the brightness changes everywhere, and the method explains this change as motion, although nothing moves. A plain white ball that spins in place is the opposite case: the ball moves, but no pattern moves in the image, so the flow is zero. A walking person and a driving car move in the scene, so their flow is real motion."
+      },
+      {
+        "id": "12-video-features-q12",
+        "question": "A news archive indexes moments with three fields: BM25 over the transcript, BM25 over on-screen text read by OCR, and CLIP vector search over the frames. Reciprocal rank fusion with k = 60 combines the three rankings. For the query \"flooding in Venice\", moment A is a studio segment about the stock market with a news ticker that reads \"Flooding in Venice\". It ranks first for OCR and does not appear in the other two rankings. Moment B is a field report from Venice. It ranks fourth for the transcript and third for CLIP, and it has no on-screen text. Which moment ranks higher after fusion?",
+        "options": [
+          "Moment B, since it ranks well in two of the three fields",
+          "Moment A, since it holds the top rank in one of the fields",
+          "Moment A, since on-screen text outweighs spoken words",
+          "Moment B, since CLIP scores count more than text scores"
+        ],
+        "correct": 0,
+        "explanation": "Reciprocal rank fusion gives each moment the sum of 1 / (60 + rank) over the rankings in which it appears. Moment A gets 1/61 = 0.016 from one field. Moment B gets 1/64 + 1/63 = 0.031 from two fields, almost twice as much. Fusion rewards moments that several fields agree on. This protects against a track that talks about another story, such as a news ticker. Fusion uses only the ranks, so no field counts more than another, and a single top rank does not beat agreement between fields."
+      },
+      {
+        "id": "12-video-features-q13",
+        "question": "A warehouse keeps 8 hours of night footage from a fixed camera in a storage hall. It asks a video-language model: \"When did someone carry a box out?\" The model accepts 64 frames, sampled evenly over the recording, and answers that nothing happened. A guard finds by hand that a person carried a box out within 20 seconds at 3:12. Which design is most likely to answer such questions reliably?",
+        "options": [
+          "Detect motion first, then show the model only those moments",
+          "Show the model 64 frames sampled from the busiest hour instead",
+          "Compress each frame into fewer tokens so that more frames fit",
+          "Repeat the question with more precise wording about the box"
+        ],
+        "correct": 0,
+        "explanation": "64 frames over 8 hours means one frame every 7.5 minutes, so a 20-second event is almost certainly missed. With a fixed camera at night, frame differencing or background subtraction cheaply scans every frame and marks the few moments in which something moves. The model then inspects only these minutes at a high frame rate, as in a retrieval-augmented pipeline. 64 frames from one hour still give only one frame per minute, and they assume that the event falls into that hour. Fewer tokens per frame let a few hundred frames fit, which is still only one frame every minute or two. A better wording cannot help when the frames that show the event never reach the model."
+      },
+      {
+        "id": "12-video-features-q14",
+        "question": "A university indexes 5,000 hours of recorded talks from a lecture hall with one fixed camera. The camera never cuts, so the shot detector returns each talk of an hour as a single shot. Users search for moments, such as the part of a talk in which the speaker explains a chart. Which unit should the index of moments store?",
+        "options": [
+          "Overlapping windows of a few seconds along each talk",
+          "Shots from a detector rerun with a much lower threshold",
+          "One entry per talk with the mean of all frame embeddings",
+          "Only the moments in which the speaker moves across the stage"
+        ],
+        "correct": 0,
+        "explanation": "A talk filmed by one fixed camera contains no cuts, so its only shot lasts an hour, which is far too coarse for a result. As with long documents in retrieval-augmented generation, the recording is split into windows of a few seconds with some overlap. Each entry then matches a query precisely, and a moment at the edge of one window is still complete in the next one. A lower threshold only adds false cuts at random places, for example when the speaker gestures. One entry per talk cannot point to a moment. Moments with motion miss the parts in which the speaker stands still at the chart."
+      },
+      {
+        "id": "12-video-features-q16",
+        "question": "A broadcaster archives concert recordings with strobe lights and flashing stage lights. Its shot detector compares the histograms of consecutive frames with a threshold, and it reports hundreds of false cuts per concert. Which change is most likely to remove them while keeping the real cuts?",
+        "options": [
+          "A learned detector that sees a window of many frames at once",
+          "A quadratic distance that tolerates shifts into nearby bins",
+          "A twin-threshold detector with a second, lower threshold",
+          "A higher cut threshold, tuned on concerts from the archive"
+        ],
+        "correct": 0,
+        "explanation": "A strobe changes the histogram of a single frame completely, so every flash looks like a cut to a detector that compares two frames at a time. A learned detector such as TransNet V2 sees a window of many frames. It learns that a flash lasts a single frame and that a flicker does not replace the content. A quadratic distance tolerates small shifts into neighboring bins, but a flash moves pixels from dark bins to bright ones. Twin thresholds add a second way to report transitions and remove none. A threshold high enough to ignore the flashes also misses real cuts between stage shots in similar light."
+      },
+      {
+        "id": "12-video-features-q17",
+        "question": "A camera at the entrance of a city park counts visitors with background subtraction against a slowly updated background image. On windy days, the trees along the path produce detections all day, and the visitor log becomes useless. Which change is most likely to fix this?",
+        "options": [
+          "Model each pixel with several typical values instead of one",
+          "Blend each new frame into the background with a larger weight",
+          "Compare each frame with the previous frame instead",
+          "Raise the brightness threshold for every pixel of the image"
+        ],
+        "correct": 0,
+        "explanation": "A pixel in a tree alternates between leaf and sky. A background image holds only one value per pixel, so whichever value it holds, the other one counts as foreground. A mixture of Gaussians keeps several typical values per pixel and accepts both leaf and sky as background, while a visitor still differs from all of them. A larger update weight lets the background follow faster changes, but the leaves change from frame to frame, and visitors who stand still would be absorbed. Frame differencing also detects every moving leaf. A higher threshold for all pixels also misses visitors whose clothes differ little from the path."
+      },
+      {
+        "id": "12-video-features-q18",
+        "question": "A city reviews footage from fixed cameras on a one-way cycle lane, where cyclists must ride from left to right. It wants to find the moments when a cyclist rides the wrong way. The system already computes a motion history image over the last two seconds. Which rule flags these moments?",
+        "options": [
+          "The trail gets brighter from its right end to its left end",
+          "The trail gets darker from its right end to its left end",
+          "The brightest part of the trail lies in the left half of the frame",
+          "The darkest part of the trail lies in the left half of the frame"
+        ],
+        "correct": 0,
+        "explanation": "A motion history image keeps the most recent motion at full brightness and lets older motion fade, so the trail of a cyclist gets brighter in the direction of travel. A cyclist who rides from right to left leaves a trail that gets brighter from its right end to its left end. A trail that gets darker in this direction belongs to a cyclist who rides correctly, from left to right. The position of the brightest or darkest part in the frame depends on where the cyclist is at that moment, not on the direction. A wrong-way cyclist who has just entered on the right has the whole trail in the right half. A correct-way cyclist who has just entered on the left has the whole trail in the left half."
+      },
+      {
+        "id": "12-video-features-q19",
+        "question": "A video search engine indexes only CLIP embeddings of sampled frames from news broadcasts. Which of these queries is it least likely to answer?",
+        "options": [
+          "A host who warns viewers that a storm is coming",
+          "A host who points at a storm front on a weather map",
+          "A reporter who stands outside in the heavy storm",
+          "A satellite image that shows the storm over the sea"
+        ],
+        "correct": 0,
+        "explanation": "CLIP embeddings describe what the frames show. A warning that a storm is coming is spoken, so it appears only in the audio and in the transcript. The frames show a host who talks, as in every other studio segment. A BM25 search over the transcript finds the warning. A storm front on a weather map, a reporter outside in the storm, and a satellite image of the storm are all visible in the frames, so CLIP can match them, even though all four queries share the same topic."
+      },
+      {
+        "id": "12-video-features-q21",
+        "question": "Instead of one middle keyframe per shot, a system clusters the color histograms of all frames in a shot and keeps the frame closest to each cluster center. What does this gain, and what does it cost?",
+        "options": [
+          "Each visually distinct part is indexed, at the cost of more keyframes",
+          "Transitions are excluded from the keyframes, at the cost of slower search",
+          "The shot boundaries become more precise, at the cost of more keyframes",
+          "Brief events of one frame are indexed, at the cost of a larger index"
+        ],
+        "correct": 0,
+        "explanation": "A single keyframe shows only one part of a shot in which the camera pans or a person enters the room. Clustering the frame histograms, for example with k-means, groups the frames into visually distinct parts, and the frame closest to each cluster center represents one part. Every part is then searchable, at the cost of more keyframes per shot in the index. A middle keyframe already avoids the transitions, and keyframe selection does not change the shot boundaries. An event that lasts a single frame forms no cluster of its own, so it stays invisible."
+      },
+      {
+        "id": "12-video-features-q22",
+        "question": "A sports app runs on a smartphone without a graphics card. A spectator films a ski jump with the phone and pans to follow the jumper, so the background moves by about 12 pixels per frame. The app must track a few points on the jumper and on the background live, at 30 frames per second, to estimate the jumper's speed against the hill. Which method fits?",
+        "options": [
+          "Lucas-Kanade on an image pyramid at a few corner points",
+          "A learned dense flow model such as RAFT on every pixel",
+          "Lucas-Kanade at full resolution only, at a few corner points",
+          "Frame differencing with a threshold on the brightness change"
+        ],
+        "correct": 0,
+        "explanation": "Tracking a few points in real time on modest hardware is the use case of Lucas-Kanade at corner points. The background moves about 12 pixels per frame, far beyond the one pixel or so for which the linearization holds. The method therefore needs an image pyramid: with four levels, 12 pixels shrink to 1.5 pixels at the coarsest level, and each finer level only corrects the estimate. At full resolution only, the large motion breaks the method. A dense learned model such as RAFT computes a vector for every pixel and needs seconds per frame pair without a graphics card. Frame differencing assumes a static camera; during a pan, every edge in the image changes."
+      }
     ]
   }
 }
