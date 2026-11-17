@@ -2,8 +2,8 @@
   "meta-data": {
     "title": "Multimedia Retrieval HS26",
     "description": "Exercise questions for MMIR HS26, University Basel",
-    "version": "2026-11-15",
-    "lastUpdated": "2026-11-15"
+    "version": "2026-11-17",
+    "lastUpdated": "2026-11-17"
   },
   "questions": {
     "01 - Classical Text Retrieval": [
@@ -2424,6 +2424,248 @@
         ],
         "correct": 0,
         "explanation": "A color histogram of a thumbnail takes a few milliseconds on a CPU and needs no model. Resizing and moderate re-compression barely change it, so it catches the copies the filter is meant for. A transformer embedding costs one to two orders of magnitude more per image on a CPU, and SIFT on the full image even more. At about 230 uploads per second, that would need a large fleet of CPU servers. The histogram produces some false alarms, but the careful second check removes them."
+      }
+    ],
+    "11 - Audio Features": [
+      {
+        "id": "11-audio-features-q1",
+        "question": "A team analyzes recordings of low organ notes with spectrograms of 40 ms frames. Two neighboring notes, about 4 Hz apart, fall into the same frequency bin. A colleague proposes to record the pieces again at 96,000 samples per second instead of 44,100. How does this change the separation of the two notes?",
+        "options": [
+          "Not at all; the bins stay equally wide, and only longer frames narrow them",
+          "Clearly; the bins become about twice as narrow at the higher sampling rate",
+          "Clearly; the higher rate removes the aliasing that merges the two notes",
+          "Not at all; the bins stay equally wide, and only a different window narrows them"
+        ],
+        "correct": 0,
+        "explanation": "The bin spacing of a spectrogram is the inverse of the frame duration. A 40 ms frame gives bins 25 Hz apart at any sampling rate. A higher sampling rate adds bins at the top of the spectrum, up to half the new rate, but it does not make the bins narrower. Two notes 4 Hz apart need a frame of at least a quarter of a second. Aliasing concerns frequencies above half the sampling rate, not low notes that lie close together. The window reduces spectral leakage, but it does not change the bin spacing."
+      },
+      {
+        "id": "11-audio-features-q2",
+        "question": "MFCCs apply a cosine transform to the log energies of about 26 mel bands per frame and keep only the first 13 coefficients. What do these coefficients keep, and what do they largely discard?",
+        "options": [
+          "They keep the timbre of the sound and largely discard its pitch",
+          "They keep the pitch of the sound and largely discard its timbre",
+          "They keep the low frequencies and largely discard the high ones",
+          "They keep the loudness of the sound and largely discard its timbre"
+        ],
+        "correct": 0,
+        "explanation": "The cosine transform describes the shape of the log mel spectrum with a few numbers. The first coefficients describe the smooth envelope. The envelope reflects the vocal tract or the body of an instrument, and therefore the timbre. The higher coefficients describe fine ripples, such as the harmonic lines of the pitch, and these are dropped. The coefficients are not frequency bands: each one combines all bands. The first coefficient holds the overall level, so loudness is kept too, but the timbre is kept as well, not discarded."
+      },
+      {
+        "id": "11-audio-features-q3",
+        "question": "A fitness app builds running playlists from songs with an estimated tempo between 150 and 170 bpm. The estimator takes the strongest peak of the autocorrelation of the onset strength. Several songs that runners describe as clearly too slow, at about 80 bpm, end up in the playlist. What is the most likely cause?",
+        "options": [
+          "The autocorrelation also peaks at half the beat period of these songs",
+          "The onset strength counts fading notes as well as starting notes",
+          "The hop between onset frames is too long to resolve beats near 80 bpm",
+          "The analysis window holds too few beats of a slow song to find its period"
+        ],
+        "correct": 0,
+        "explanation": "A regular onset pattern resembles itself when it is shifted by one beat, but also when it is shifted by multiples of a beat or, if onsets also fall between the beats, by fractions of a beat. If the strongest peak lies at half the beat period, the estimate doubles. An 80 bpm song is then reported at 160 bpm and lands in the playlist. Such octave errors are the typical failure of tempo estimation. Estimators reduce them by restricting the range of lags and by preferring tempos near 120 bpm. The onset strength counts only increases of energy, so fading notes add no onsets. A hop of a few tens of milliseconds easily resolves beats that are 750 ms apart. A few seconds of music contain many beats at 80 bpm, which is enough for the autocorrelation."
+      },
+      {
+        "id": "11-audio-features-q4",
+        "question": "A wildlife archive labels its recordings zero-shot with a contrastive audio-text model and three prompts: \"This is a sound of speech.\", \"This is a sound of music.\", and \"This is a sound of birdsong.\". A recording of frogs croaking at night gets 0.81 for music. Which change most reliably prevents such labels?",
+        "options": [
+          "Add prompts for the other sound types that the archive contains",
+          "Add the prompt \"This is a sound of something else.\" as a catch-all",
+          "Accept a label only if its raw cosine similarity exceeds a fixed threshold",
+          "Replace the sentence prompts with the bare label words alone"
+        ],
+        "correct": 0,
+        "explanation": "A zero-shot label is a choice among the offered prompts. The softmax always picks one of them, so a sound that fits none of the prompts goes to the closest one, here music. The reliable fix is a label set that covers what the archive contains, such as frogs, insects, wind, and rain. A catch-all prompt rarely wins, because \"something else\" describes no particular sound, so the model places it close to no clip. A threshold on the raw cosine similarity fails too, because the similarity values are not comparable across clips and prompts: a clip that fits no prompt can lie closer to a prompt than a clip that fits it. Bare label words are less like the descriptions seen in training and usually make the labels worse."
+      },
+      {
+        "id": "11-audio-features-q5",
+        "question": "What failure must a search system expect from an encoder-decoder speech recognizer such as Whisper on stretches that contain only instrumental music?",
+        "options": [
+          "Fluent sentences that nobody in the audio said",
+          "Phoneme symbols written in place of whole words",
+          "The names of the instruments written as plain text",
+          "A decoder error that stops the whole transcription"
+        ],
+        "correct": 0,
+        "explanation": "The decoder of Whisper generates text token by token, as a language model does. On music, silence, or noise, it sometimes writes fluent sentences that nobody said, or repeats a phrase many times. In a search system, this invented text produces false hits. Whisper writes ordinary words, not phoneme symbols, and it does not describe the instruments. The failure is silent: the transcription continues, and the invented text looks like any other passage."
+      },
+      {
+        "id": "11-audio-features-q6",
+        "question": "A music recognition service identifies songs by hashing pairs of spectral peaks and matching them in an index of released recordings. Which query can it identify?",
+        "options": [
+          "A phone recording of the song from a loudspeaker in a noisy bar",
+          "A live recording of the same song by the same band on its tour",
+          "A cover version of the same song recorded by a different artist",
+          "A person humming the melody of the song into the phone microphone"
+        ],
+        "correct": 0,
+        "explanation": "The fingerprint consists of hashes of pairs of spectral peaks from one specific recording. A phone recording in a bar adds noise and changes the amplitudes, but most of the strongest peaks keep their positions, and enough pairs agree on one time offset. A live version, a cover version, or a hummed melody produces different peaks at different times, so its hashes no longer match. Fingerprinting identifies recordings, not songs."
+      },
+      {
+        "id": "11-audio-features-q7",
+        "question": "A streaming service wants a \"cover versions\" feature: for a song, it should find recordings of the same song by other artists, often with very different instruments, such as a piano ballad version of a rock song. Which representation should the comparison use?",
+        "options": [
+          "Sequences of chroma vectors over the course of each recording",
+          "Pair hashes of spectral peaks, matched with an offset histogram",
+          "Segment statistics of 13 MFCCs and their first and second differences",
+          "Segment statistics of the spectral centroid, roll-off, and bandwidth"
+        ],
+        "correct": 0,
+        "explanation": "A chroma vector sums the energy per pitch class regardless of the octave. It captures the harmony, the chords and the key, which a cover version keeps even with other instruments. A sequence of chroma vectors also follows the chord progression over time. Fingerprint hashes match only the exact recording, because a different performance produces different peaks. MFCCs and spectral shape features such as the centroid describe the timbre, and the timbre is what changes from a rock band to a piano. These features would find songs that sound alike, not the same song."
+      },
+      {
+        "id": "11-audio-features-q8",
+        "question": "A radio archive transcribes every broadcast hour with a Whisper-style recognizer and indexes the transcripts with BM25. Journalists report hits whose text reads fluently but whose timestamps point into songs and jingles, where nobody speaks. Which change addresses the cause?",
+        "options": [
+          "Label speech and music stretches first and transcribe only the speech",
+          "Give the recognizer a hotword list with the names journalists search for",
+          "Index phoneme trigrams of the transcript instead of its spelled words",
+          "Switch to a larger recognizer with a lower word error rate on speech"
+        ],
+        "correct": 0,
+        "explanation": "The hits point into stretches where nobody speaks, so the recognizer invented the text: its decoder works like a language model and can write fluent sentences on music or noise. A speech/music classifier marks the stretches of talk, and only these go to the recognizer, so no invented text enters the index. A larger model with a lower WER on speech can still invent text on music, because the WER is measured on speech. Hotwords and phoneme trigrams help to find misspelled names in real speech. They do not remove text from stretches without speech."
+      },
+      {
+        "id": "11-audio-features-q10",
+        "question": "An engineer wants to separate speech from orchestral music in 4-second segments. Since hissing consonants such as \"s\" and \"f\" cross zero very often, the engineer labels a segment as speech when the mean zero-crossing rate of its frames is high. On test data, the orchestral segments have the higher mean. Which segment feature captures the difference instead?",
+        "options": [
+          "The share of frames whose rate lies well above the segment mean",
+          "The median rate over all frames of the segment instead of the mean",
+          "The mean rate computed again on longer frames of 200 ms each",
+          "The mean rate after a low-pass filter removes the string harmonics"
+        ],
+        "correct": 0,
+        "explanation": "String instruments produce many high harmonics, so orchestral frames cross zero often, on average more often than most speech frames. Most speech frames are vowels and voiced consonants with a low rate. Only the hissing consonants reach high values. What distinguishes speech is the variation from frame to frame: a few frames lie far above the segment mean, between many low ones. The high zero-crossing rate ratio counts exactly these frames. The median is also lower for speech, because most of its frames are voiced. Longer frames average the short consonants away. A low-pass filter removes the hissing consonants together with the string harmonics."
+      },
+      {
+        "id": "11-audio-features-q11",
+        "question": "A chroma vector sums the energy of all frequencies that belong to the same pitch class, such as all C notes in every octave. What does a music search system give up with this representation?",
+        "options": [
+          "Which notes form the melody, and in which octave they sound",
+          "Which pitch classes sound, and which chords they form together",
+          "In which order the frames occur, and how the chords change",
+          "Which key the piece is in, and which chords it mainly uses"
+        ],
+        "correct": 0,
+        "explanation": "Chroma keeps the pitch classes and therefore the harmony: the chords and the key. A sequence of chroma vectors keeps the order of the frames, so chord changes remain visible. Chroma gives up the octave. Since all notes and their harmonics are summed into the same 12 values, it no longer says which note carries the melody. For the melody, a system estimates the fundamental frequency of each frame instead."
+      },
+      {
+        "id": "11-audio-features-q13",
+        "question": "A radio archive has transcribed 20 years of broadcasts, and transcribing them again is too expensive. A search for the local councillor \"Meier\" misses passages in which the recognizer wrote \"Mayer\", \"Maier\", or \"Meyer\". Which change helps without transcribing again?",
+        "options": [
+          "Index phonetic codes of the words and match the query by its code",
+          "Give the recognizer a list of hotwords with the local spellings",
+          "Switch to a recognizer with a lower word error rate on the archive",
+          "Expand the query with synonyms from a thesaurus of German words"
+        ],
+        "correct": 0,
+        "explanation": "The recognizer heard the name correctly but had to guess its spelling. Phonetic codes such as Soundex reduce a word to its rough pronunciation, so Meier, Mayer, Maier, and Meyer share one code. Indexing these codes for the existing transcripts and converting the query in the same way finds all variants at query time. Hotwords and a better recognizer act at transcription time and would require transcribing the archive again. A thesaurus lists words with similar meanings, not spelling variants of names."
+      },
+      {
+        "id": "11-audio-features-q14",
+        "question": "A developer builds a song recognizer from pair hashes of spectral peaks and ranks the catalogue recordings by how many query hashes appear in their postings lists. For a 10-second query from a three-minute folk song, a two-hour concert recording ranks first. Which change fixes the ranking?",
+        "options": [
+          "Count only a recording's matches that agree on one time offset",
+          "Divide the number of matches by the duration of each recording",
+          "Keep only query hashes that occur in a single catalogue recording",
+          "Pair each anchor with more target peaks in a wider target zone"
+        ],
+        "correct": 0,
+        "explanation": "A long recording collects many chance matches, because the same pair of frequencies and time distance occurs somewhere in two hours of music. The correct matches all share the same difference between the anchor time in the recording and the anchor time in the query, because the query starts at one position. Counting only the matches in the tallest bin of this offset histogram separates the right recording from chance, since chance matches spread over many offsets. Dividing by the duration would punish long recordings even when they are the right answer, and the chance matches would remain. Discarding hashes that occur in several recordings throws away many correct matches too. More pairs per anchor produce more hashes, which adds chance matches as well as correct ones."
+      },
+      {
+        "id": "11-audio-features-q15",
+        "question": "A radio station must report every recording it played, for royalties. Its catalogue holds 2 million commercial recordings of music of all genres. A team proposes to embed each 10-second stretch of the program with a pretrained audio classification network and to look up the nearest catalogue embedding. What is the main risk compared with peak-pair fingerprints?",
+        "options": [
+          "The nearest embedding may come from another recording of the same piece",
+          "The embeddings need the full song and cannot work on 10-second stretches",
+          "The lookup must compare each stretch with all 2 million recordings, too slowly",
+          "The embeddings change completely when the station plays a song a bit faster"
+        ],
+        "correct": 0,
+        "explanation": "A classification network is trained to recognize sound classes, so its embeddings place recordings that sound alike close together. Two orchestras playing the same piece, or a remaster of a song, sound almost the same, so the nearest embedding may belong to the wrong recording. The royalty report needs the exact recording, and this is what peak-pair fingerprints identify. Networks such as AST work on clips of ten seconds. A vector index finds the nearest neighbors among millions of embeddings quickly, without comparing each one. A small speed change can hurt the fingerprint more than the embedding, because it stretches all time distances in the hashes."
+      },
+      {
+        "id": "11-audio-features-q16",
+        "question": "A podcast platform offers one search box over all episodes. Users type queries such as \"dogs barking in the background\" and \"interview with councillor Hürlimann\". Which pair of indexes serves both kinds of query?",
+        "options": [
+          "Audio-text embeddings for the sounds, transcripts for the spoken words",
+          "Transcripts for the sounds, audio-text embeddings for the spoken words",
+          "Pair-hash fingerprints for the sounds, transcripts for the spoken words",
+          "Audio-text embeddings for the sounds, fingerprints for the spoken words"
+        ],
+        "correct": 0,
+        "explanation": "A query that describes a sound needs a model that relates text to audio. A CLAP-style model embeds the query and the audio in one vector space, so the nearest audio stretches contain barking dogs. A query for a name needs the spoken words, and transcription turns them into text for the inverted index. A transcript records words, not background sounds. Fingerprints identify exact recordings, so they can answer neither a description of a sound nor a spoken name."
+      },
+      {
+        "id": "11-audio-features-q17",
+        "question": "A recorder samples a signal without first filtering out the frequencies above half its sampling rate. What happens to these frequencies in the recording?",
+        "options": [
+          "They fold back and sound as tones that were never in the signal",
+          "They vanish from the recording without leaving any trace in it",
+          "They are stored in extra bins above the top of the spectrum",
+          "They reduce the number of amplitude levels that each sample holds"
+        ],
+        "correct": 0,
+        "explanation": "A sampled signal can only represent frequencies up to half the sampling rate. Higher frequencies do not disappear. They fold back into the range below and appear as tones at wrong frequencies, an effect called aliasing. For example, a 30 kHz component sampled at 48 kHz appears at 18 kHz. Recording devices therefore apply a low-pass filter before sampling. The spectrum has no bins above half the sampling rate, and the number of amplitude levels depends only on the bits per sample."
+      },
+      {
+        "id": "11-audio-features-q19",
+        "question": "A radio archive labels its stream as music while an exponential average of the segment predictions, 1 for music and 0 for speech, stays above 0.5. To remove short false switches inside long talks, an editor raises the smoothing factor until the average effectively reflects the last 20 seconds. The program also contains 10-second music jingles between talks. What happens to the jingles?",
+        "options": [
+          "They no longer appear as music stretches in the labels",
+          "They appear as music stretches with sharper boundaries",
+          "They appear as music stretches, each split into several pieces",
+          "They appear as music stretches that start a little earlier"
+        ],
+        "correct": 0,
+        "explanation": "An exponential average with a large smoothing factor reacts slowly. When a jingle starts after a long talk, the average starts near 0 and climbs towards 1 only gradually. If the average effectively reflects the last 20 seconds, 10 seconds of music lift it only to about 0.4. This is below the threshold of 0.5, so the jingle is never labeled music. A larger factor suppresses isolated errors but delays real changes, and changes shorter than the delay disappear. Smoothing never makes boundaries sharper or earlier. It reduces switching, so it does not split a stretch into pieces."
+      },
+      {
+        "id": "11-audio-features-q21",
+        "question": "Why can a fingerprint service identify a short query within a second, even for a catalogue of millions of recordings?",
+        "options": [
+          "Each query hash is one lookup in an inverted index of hashes",
+          "Each query is compared with a short summary of every recording",
+          "Each query is first assigned a genre to narrow the catalogue",
+          "Each recording is stored only as its first and last ten seconds"
+        ],
+        "correct": 0,
+        "explanation": "The hashes of all recordings form an inverted file: the hash plays the role of a term, and its postings list holds the recordings and anchor times in which it occurs. Each query hash costs one access to the index and a pass over a short postings list, and the offset histograms only count the matched entries. The work grows with the number of matched postings, not with the size of the catalogue. Comparing the query with a summary of every recording would grow with the catalogue. The method uses no genre labels, and it indexes whole recordings, so a query can start anywhere."
+      },
+      {
+        "id": "11-audio-features-q23",
+        "question": "A hearing-aid maker wants a switch that tells speech from music in real time on a small chip with little memory. It has a few hundred labeled clips for training. Which approach fits these constraints?",
+        "options": [
+          "A small decision tree on energy and zero-crossing statistics",
+          "A pretrained spectrogram transformer with its 527 sound classes",
+          "A contrastive audio-text model with the prompts speech and music",
+          "A speech recognizer that labels stretches without words as music"
+        ],
+        "correct": 0,
+        "explanation": "Speech and music differ in a way that simple segment statistics measure. Speech alternates between syllables and pauses, so many of its frames have low energy, and its hissing consonants produce frames with a high zero-crossing rate. A tree on such features needs a few thresholds, runs in real time on a microcontroller, and can be learned from a few dozen labeled segments. A pretrained transformer or a contrastive audio-text model has tens of millions of parameters, which do not fit a small chip. A speech recognizer is even larger, and it can invent words on music."
+      },
+      {
+        "id": "11-audio-features-q24",
+        "question": "A radio archive describes each one-hour broadcast with a single feature vector: the mean of each frame feature over all frames of the hour. Editors want to find the short stretches in which music plays under a talk. Which change to the indexing fits this task?",
+        "options": [
+          "Index overlapping segments of a few seconds, each with statistics",
+          "Index every single 40 ms frame as a retrieval unit of its own",
+          "Add the variance of every frame feature to the vector of each hour",
+          "Split each hour into blocks of ten minutes, each with statistics"
+        ],
+        "correct": 0,
+        "explanation": "One vector per hour averages away everything that happens in a short stretch, so music under a talk barely changes it. A single 40 ms frame is too short to tell what is happening, because patterns such as the rhythm of speech only show over several seconds. Overlapping segments of a few seconds, each summarized by statistics such as the mean and the variance of its frame features, can be labeled and returned as hits. The overlap ensures that no event is cut in half at a segment boundary. A variance per hour still describes the whole hour. Blocks of ten minutes are still far longer than the stretches the editors look for."
+      },
+      {
+        "id": "11-audio-features-q25",
+        "question": "A news archive compares two recognizers for its search. On a sample of its broadcasts, recognizer A has a word error rate of 6% and recognizer B one of 9%. Most searches in the archive are for names of people and places. Which measurement should decide between the two?",
+        "options": [
+          "How many names in the sample each recognizer gets right",
+          "The word error rate of both recognizers on a large public benchmark",
+          "The word error rate on the archive sample, computed per speaker",
+          "The character error rate of both recognizers on the archive sample"
+        ],
+        "correct": 0,
+        "explanation": "The word error rate weighs every word equally, and most words in a transcript are frequent words that both recognizers handle well. Names of people and places are recognized worst, because the models have seen them rarely, and they are exactly what users search for. A recognizer with the lower WER can still miss more names. The recall of the query terms on a sample of the collection measures what the search needs. A public benchmark says even less about this archive than its own sample. Splitting the WER by speaker or counting characters still weighs all words or characters equally."
       }
     ]
   }
