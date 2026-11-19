@@ -73,7 +73,7 @@ Each session focuses on the listed chapter but may include review of the previou
 | Nov 20 | [Content Analysis](https://roger-weber.github.io/mmir-unibasel-hs26/book/index-9/) ([pdf](https://roger-weber.github.io/mmir-unibasel-hs26/chapters/ch09-content-analysis.pdf), [slides](https://roger-weber.github.io/mmir-unibasel-hs26/slides/ch09-content-analysis.pdf), [exercise](https://github.com/roger-weber/mmir-unibasel-hs26/tree/main/exercises/ch09)) | University | |
 | Nov 27 | *Dies Academicus* |  | No lecture |
 | Dec 04 | [Image Features](https://roger-weber.github.io/mmir-unibasel-hs26/book/index-10/) ([pdf](https://roger-weber.github.io/mmir-unibasel-hs26/chapters/ch10-visual-features.pdf), [slides](https://roger-weber.github.io/mmir-unibasel-hs26/slides/ch10-visual-features.pdf), [exercise](https://github.com/roger-weber/mmir-unibasel-hs26/tree/main/exercises/ch10)) | University | Evaluation |
-| Dec 11 | Audio Features | University | |
+| Dec 11 | [Audio Features](https://roger-weber.github.io/mmir-unibasel-hs26/book/index-11/) ([pdf](https://roger-weber.github.io/mmir-unibasel-hs26/chapters/ch11-audio-features.pdf), [exercise](https://github.com/roger-weber/mmir-unibasel-hs26/tree/main/exercises/ch11)) | University | |
 | Dec 18 | Video & Structural Features | University | Feedback for course |
 
 
