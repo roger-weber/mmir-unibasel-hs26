@@ -45,7 +45,7 @@ The exam asks for understanding, not for memorized details. You need to know wha
 | Kprim | 4 statements, each true or false | 2 or 3 |
 | Short explanation | at most 20 words, written into a box; only a few per exam | 3 |
 
-- **Points follow time.** A question's points reflect the time it needs if you know the answer, about 1 to 1.5 minutes per point. Questions at higher levels and of harder types give more points. You may answer the questions in any order.
+- **Points follow time.** A question's points reflect the time it needs if you know the answer, about half a minute to one minute per point. Questions at higher levels and of harder types give more points. You may answer the questions in any order.
 
 - **Single choice:** mark exactly one box.
 - **Multiple choice:** mark every option that applies. Each wrong mark costs twice what a correct mark earns, and a question never scores below 0. Example: in a 2-point question with 2 correct options, marking both plus 1 wrong option scores 1 + 1 − 2 = 0 of 2 points. If you do not know, marking fewer options is safer than marking more.
@@ -57,17 +57,16 @@ The exam asks for understanding, not for memorized details. You need to know wha
 
 ### Levels of understanding
 
-Every question targets one of four levels. All groups contain questions at several levels.
+Every question targets one of three levels. All groups contain questions at several levels.
 
 | Level | What you do | Approximate share of points |
 |---|---|---|
-| Recall | state one taught name, definition, property, convention or abstract purpose | 25 % |
-| Apply | apply one taught concept to a familiar problem with new details | 40 % |
-| Synthesize | combine at least two necessary taught concepts into a new solution | 25 % |
-| Extend | derive a new consequence from taught principles under an unfamiliar retrieval setting or constraint | 10 % |
+| Recall | state a taught name, definition, property or purpose; match a name and an example; compute a simple count | 25 % |
+| Apply | apply the concepts of one topic group to a problem with new details | 40 % |
+| Combine | combine concepts from different topic groups to solve one problem, also in a retrieval setting the course did not show | 35 % |
 
 - Solid recall and application are enough to pass.
-- Extend questions are few and demanding. They distinguish excellent answers; do not worry if you cannot answer them all.
+- Combine questions are demanding. They distinguish excellent answers; do not worry if you cannot answer them all.
 - No calculator is needed. Some questions ask for a simple calculation from counts, such as the precision of a short result list.
 
 ### Results
@@ -370,6 +369,6 @@ The following is **not** tested:
   - [Indexing and Vector Search](cheat-sheet-index.md)
   - [Semantic Search and RAG](cheat-sheet-semantic.md)
   - [Multimedia Content and Features](cheat-sheet-media.md)
-- **Exam preparation app:** practice exams in the format of the written exam. *Link follows.*
+- **Exam preparation app:** [practice exams](https://roger-weber.github.io/mmir-unibasel-hs26/exam-prep/) in the format of the written exam.
 - **Book:** the [course book](https://roger-weber.github.io/mmir-unibasel-hs26/book/) is the reference for every topic.
 - **Quiz app:** the [chapter quizzes](https://roger-weber.github.io/mmir-unibasel-hs26/quiz/) check the basics of each chapter.

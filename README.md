@@ -47,7 +47,7 @@ Then re-run [setup.ipynb](setup.ipynb) to fetch any new data. Both commands and 
 > [!IMPORTANT]
 > The **[exam guide](exam/README.md)** explains the written exam: format and scoring, the content groups and their shares, what is out of scope, and how to prepare. It links one cheat sheet per content group.
 >
-> The exam preparation app with practice exams in the format of the written exam follows soon.
+> The **[exam preparation app](https://roger-weber.github.io/mmir-unibasel-hs26/exam-prep/)** offers practice exams in the format of the written exam.
 
 
 
