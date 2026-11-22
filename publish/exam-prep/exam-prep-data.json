@@ -1,0 +1,3435 @@
+{
+  "meta": {
+    "title": "MMIR HS26 Exam Preparation",
+    "version": "2026-11-22",
+    "built": "2026-11-22T17:08:12+01:00",
+    "round": 1,
+    "factor": 1.2,
+    "bookBase": "https://roger-weber.github.io/mmir-unibasel-hs26/book/"
+  },
+  "groups": [
+    {
+      "id": "text",
+      "title": "Text and Web Retrieval",
+      "chapters": [
+        1,
+        3,
+        8
+      ]
+    },
+    {
+      "id": "eval",
+      "title": "Evaluation",
+      "chapters": [
+        2
+      ]
+    },
+    {
+      "id": "index",
+      "title": "Indexing and Vector Search",
+      "chapters": [
+        4,
+        6
+      ]
+    },
+    {
+      "id": "semantic",
+      "title": "Semantic Search and RAG",
+      "chapters": [
+        5,
+        7
+      ]
+    },
+    {
+      "id": "media",
+      "title": "Multimedia Content and Features",
+      "chapters": [
+        9,
+        10,
+        11,
+        12
+      ]
+    }
+  ],
+  "exams": [
+    {
+      "id": "r1-a",
+      "title": "Mock exam A",
+      "description": "Round 1, chapters 1 to 12",
+      "duration": 120,
+      "factor": 1.2,
+      "questions": [
+        "L3-ch03-ontology-mc",
+        "L2-ch08-pagerank-only-tx",
+        "L3-ch08-answer-box-mc",
+        "L2-ch01-shop-bm25-kp",
+        "L2-ch03-accents-kw",
+        "L1-ch01-zipf-zones-sc",
+        "L1-ch01-cosine-angle-sc",
+        "L1-ch03-overstemming-sc",
+        "L2-ch03-french-verbs-sc",
+        "L2-ch03-stopword-loss-mc",
+        "L2-ch08-short-query-mc",
+        "L1-ch01-sparse-kw",
+        "L1-ch01-boolean-result-sc",
+        "L1-ch03-cooccurrence-sc",
+        "L2-ch08-anchor-votes-sc",
+        "L1-ch01-bir-estimates-sc",
+        "L1-ch03-homonym-kw",
+        "L2-ch08-mercury-sc",
+        "L2-ch03-lugano-mc",
+        "L1-ch03-router-feats-mc",
+        "L1-ch03-ngrams-stems-sc",
+        "L2-ch01-feedback-kp",
+        "L3-ch08-pointwise-tx",
+        "L1-ch01-token-match-sc",
+        "L2-ch01-negative-idf-sc",
+        "L3-ch01-manual-units-kp",
+        "L2-ch03-router-llm-kp",
+        "L1-ch08-bm25f-kw",
+        "L2-ch01-log-search-sc",
+        "L3-ch03-place-dense-mc",
+        "L1-ch02-order-gain-mc",
+        "L2-ch02-reuse-bias-mc",
+        "L1-ch02-whole-kw",
+        "L2-ch02-copy-cutoff-kw",
+        "L3-ch02-abstain-kp",
+        "L2-ch02-bench-proof-mc",
+        "L2-ch02-search-metrics-kp",
+        "L3-ch02-radio-errors-tx",
+        "L2-ch02-support-avg-kp",
+        "L2-ch02-valid-config-mc",
+        "L2-ch06-memory-kw",
+        "L2-ch06-mixed-feature-kw",
+        "L1-ch04-ranked-steps-mc",
+        "L1-ch06-filter-claims-kp",
+        "L2-ch04-deletes-kp",
+        "L2-ch04-facets-mc",
+        "L2-ch06-tree-leaves-kw",
+        "L2-ch06-vector-shards-kp",
+        "L3-ch06-two-retrievers-kp",
+        "L3-ch06-federated-mc",
+        "L3-ch07-old-rules-mc",
+        "L3-ch05-model-swap-kp",
+        "L2-ch05-rerank-encoder-kw",
+        "L2-ch07-rag-measures-kp",
+        "L2-ch07-route-know-mc",
+        "L3-ch07-expand-archive-kp",
+        "L1-ch07-hier-chunks-kw",
+        "L1-ch07-reader-kw",
+        "L1-ch07-agent-loop-kp",
+        "L2-ch05-bank-vector-sc",
+        "L1-ch09-describe-src-mc",
+        "L3-ch11-podcast-reuse-kw",
+        "L2-ch12-pan-or-fade-tx",
+        "L2-ch11-mood-later-tx",
+        "L1-ch10-hist-moments-sc",
+        "L1-ch10-clip-dino-data-sc",
+        "L1-ch10-metric-learn-kw",
+        "L2-ch10-unseen-class-sc",
+        "L2-ch09-label-thresh-sc",
+        "L1-ch11-frame-length-sc",
+        "L1-ch11-centroid-sc",
+        "L1-ch11-tree-learned-sc",
+        "L1-ch12-hist-vs-pixel-sc",
+        "L1-ch12-scene-unit-sc",
+        "L1-ch12-aperture-kw",
+        "L3-ch09-red-bicycle-kp",
+        "L3-ch11-ocr-names-kp",
+        "L2-ch10-dino-tasks-mc",
+        "L2-ch12-play-clip-kw",
+        "L3-ch11-license-kp"
+      ],
+      "chapters": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "test": false
+    }
+  ],
+  "questions": [
+    {
+      "id": "L3-ch03-ontology-mc",
+      "group": "text",
+      "topic": "vocabulary-mismatch",
+      "type": "mc",
+      "level": 3,
+      "chapter": 3,
+      "chapters": [
+        3,
+        5,
+        9
+      ],
+      "points": 3,
+      "time": 1.75,
+      "round": 1,
+      "hash": "c89944d2",
+      "text": "An online shop searches its products with BM25, spelling correction and query expansion from a hand-crafted ontology. Customers still miss products that exist, and after each complaint the team adds new terms to the ontology. Which of the following address the cause better? Mark all that apply.",
+      "options": [
+        {
+          "text": "Add product embeddings and fuse dense retrieval with BM25",
+          "correct": true,
+          "score": 1.5
+        },
+        {
+          "text": "Let a multimodal model describe each product photo for the index",
+          "correct": true,
+          "score": 1.5
+        },
+        {
+          "text": "Replace BM25 entirely by dense retrieval over the products",
+          "correct": false,
+          "score": -3
+        },
+        {
+          "text": "Let a language model generate the whole ontology automatically",
+          "correct": false,
+          "score": -3
+        },
+        {
+          "text": "Move the products from the search engine to a vector database",
+          "correct": false,
+          "score": -3
+        }
+      ],
+      "explanation": "The cause is the long tail of words customers use, which no list anticipates. Embeddings learn related words from context and cover that tail, fused with BM25 so that exact names and codes still match, and generated descriptions of the photos add the words a product's own text lacks. Dense retrieval alone loses exact matches, a generated ontology is still a list that waits for the next unknown word, and another engine changes nothing about the vocabulary.",
+      "reference": {
+        "text": "Query expansion and query rewriting",
+        "url": "https://roger-weber.github.io/mmir-unibasel-hs26/book/query-understanding/#query-expansion-and-query-rewriting"
+      }
+    },
+    {
+      "id": "L2-ch08-pagerank-only-tx",
+      "group": "text",
+      "topic": "link-analysis",
+      "type": "tx",
+      "level": 2,
+      "chapter": 8,
+      "chapters": [
+        1,
+        8
+      ],
+      "points": 2,
+      "time": 1.25,
+      "round": 1,
+      "hash": "93a27f28",
+      "text": "A university's site search ranks every result containing the query terms by PageRank alone. For \"exam regulations computer science\", the home page comes first, and the regulations themselves only on page three. In one sentence of at most 20 words, explain why.",
+      "key": "Full: PageRank measures a page's prominence independently of the query, so the most linked page wins; it needs content signals such as BM25. Half: \"PageRank does not measure relevance\" without what it measures instead, or \"add BM25\" without why. Sample: \"PageRank measures how linked a page is, not how well it matches the query, so the home page wins.\" Sample: \"PageRank is query-independent prominence; without BM25 or other content signals, the most linked page ranks first.\"",
+      "explanation": "PageRank is computed once for the whole site and does not know the query: the home page, linked from every page, has the highest value and tops every query that it contains. A search engine uses PageRank as one feature next to content signals such as BM25F and proximity, which decide how well a page matches the query.",
+      "reference": {
+        "text": "Computing PageRank by power iteration",
+        "url": "https://roger-weber.github.io/mmir-unibasel-hs26/book/link-analysis/#computing-pagerank-by-power-iteration"
+      }
+    },
+    {
+      "id": "L3-ch08-answer-box-mc",
+      "group": "text",
+      "topic": "ranking-pipeline",
+      "type": "mc",
+      "level": 3,
+      "chapter": 8,
+      "chapters": [
+        7,
+        8
+      ],
+      "points": 3,
+      "time": 1.75,
+      "round": 1,
+      "hash": "d8104236",
+      "text": "A web search engine ranks in two stages: BM25F retrieves 1,000 candidates, and a cross-encoder reranks them. It now adds a generated answer above its results for informational queries, written from the top 8 passages of the reranked list. Which consequences for the retrieval stages follow? Mark all that apply.",
+      "options": [
+        {
+          "text": "A wrong passage among the top 8 can turn into a wrong statement in the answer",
+          "correct": true,
+          "score": 1.5
+        },
+        {
+          "text": "Clicks become a weaker source of labels, since users who read the answer click less",
+          "correct": true,
+          "score": 1.5
+        },
+        {
+          "text": "The first stage can return just 8 candidates, since the model reads only 8 passages",
+          "correct": false,
+          "score": -3
+        },
+        {
+          "text": "PageRank loses its purpose, since the model judges which sources are trustworthy",
+          "correct": false,
+          "score": -3
+        },
+        {
+          "text": "The answer must arrive as fast as the result list, so only a small model can write it",
+          "correct": false,
+          "score": -3
+        }
+      ],
+      "explanation": "A person skips a bad result; a generator may use every passage it is given, so the precision of the top 8 now decides the answer. Clicks label results that users looked at, and an answer that satisfies the user leaves no click, so the logs say less about the ranking. The first stage must still give the cross-encoder enough good candidates to choose the top 8 from. Returning only 8 leaves it nothing to choose, so the answer would rest on the precision of BM25F alone; a smaller cut of the 1,000 is a speed trade that has to be checked against the quality of the top 8. The authority of a source matters more when its text is restated without the page around it; and users accept a few seconds for a better answer.",
+      "reference": {
+        "text": "Learning to rank in practice",
+        "url": "https://roger-weber.github.io/mmir-unibasel-hs26/book/learning-to-rank/#learning-to-rank-in-practice"
+      }
+    },
+    {
+      "id": "L2-ch01-shop-bm25-kp",
+      "group": "text",
+      "topic": "bm25",
+      "type": "kp",
+      "level": 2,
+      "chapter": 1,
+      "chapters": [
+        1
+      ],
+      "points": 2,
+      "time": 1.5,
+      "round": 1,
+      "hash": "dca974ec",
+      "text": "An electronics shop ranks its product pages with BM25. Decide for each statement whether it is true.",
+      "options": [
+        {
+          "text": "Pages that contain the part number \"XG4410\" rank high for a query with this number.",
+          "correct": true
+        },
+        {
+          "text": "Tuning the parameters of BM25 lets \"notebook\" find pages that only say \"laptop\".",
+          "correct": false
+        },
+        {
+          "text": "Repeating \"wireless\" 30 times instead of 3 gives about ten times the score for it.",
+          "correct": false
+        },
+        {
+          "text": "One occurrence of \"battery\" counts less in a long manual than in a short page.",
+          "correct": true
+        }
+      ],
+      "explanation": "A part number occurs on few pages, so it has a high IDF, and an exact match on such a rare term is where BM25 is strong. Its parameters change how matched terms are weighted, but BM25 stays lexical: a page without the word \"notebook\" gets no score for it, and the mismatch needs synonym lists or embeddings. Saturation lets each further occurrence add less, up to a limit, so 30 repetitions add little over 3. Length normalization makes a long document need more occurrences for the same weight, so one \"battery\" in a long manual counts less.",
+      "reference": {
+        "text": "Limitations and modern applications",
+        "url": "https://roger-weber.github.io/mmir-unibasel-hs26/book/probabilistic-ranking-bm25/#limitations-and-modern-applications"
+      }
+    },
+    {
+      "id": "L2-ch03-accents-kw",
+      "group": "text",
+      "topic": "token-matching",
+      "type": "kw",
+      "level": 2,
+      "chapter": 3,
+      "chapters": [
+        3
+      ],
+      "points": 2,
+      "time": 1.0,
+      "round": 1,
+      "hash": "63f3a1a9",
+      "text": "An online bookshop finds no books for the query \"Garcia Marquez\", because its catalog writes the author's name as \"García Márquez\". Name the normalization step that lets both spellings match.",
+      "key": "Full: accent folding (removing the diacritics at indexing and at query time). Half: none.",
+      "match": {
+        "parts": [
+          [
+            "accent",
+            "diacritic",
+            "unidecode"
+          ]
+        ],
+        "half": [],
+        "not": []
+      },
+      "explanation": "Lexical retrieval matches only identical tokens, so \"garcia\" and \"garcía\" are different terms. Accent folding maps \"í\" to \"i\" and \"á\" to \"a\" in documents and queries, so both spellings become the same term. It can cost precision where accents separate words, as with \"schon\" and \"schön\" in German. Case folding and Unicode normalization keep the accents and do not help here.",
+      "reference": {
+        "text": "Case, Unicode, and accents",
+        "url": "https://roger-weber.github.io/mmir-unibasel-hs26/book/tokenization-and-normalization/#case-unicode-and-accents"
+      }
+    },
+    {
+      "id": "L1-ch01-zipf-zones-sc",
+      "group": "text",
+      "topic": "term-discrimination",
+      "type": "sc",
+      "level": 1,
+      "chapter": 1,
+      "chapters": [
+        1
+      ],
+      "points": 1,
+      "time": 0.75,
+      "round": 1,
+      "hash": "00926570",
+      "text": "Sorting the terms of a collection by frequency gives three zones (Zipf's law). Which terms are the most useful for telling relevant from non-relevant documents?",
+      "options": [
+        {
+          "text": "The terms in the middle zone, between the two extremes",
+          "correct": true,
+          "score": 1
+        },
+        {
+          "text": "The rarest terms, since each occurs in very few documents",
+          "correct": false,
+          "score": 0
+        },
+        {
+          "text": "The most frequent terms, since most queries contain them",
+          "correct": false,
+          "score": 0
+        },
+        {
+          "text": "Every zone alike, since IDF evens out their weights",
+          "correct": false,
+          "score": 0
+        }
+      ],
+      "explanation": "The most frequent terms appear in nearly every document and cannot discriminate. The rarest terms are highly specific but seldom occur in queries, so they help little despite their discriminating potential. The most useful terms lie in between. IDF gives rare terms the highest weight, but it does not make them occur in queries, and it does not make all zones equally useful.",
+      "reference": {
+        "text": "Zipf's law",
+        "url": "https://roger-weber.github.io/mmir-unibasel-hs26/book/feature-extraction-pipeline/#zipfs-law"
+      }
+    },
+    {
+      "id": "L1-ch01-cosine-angle-sc",
+      "group": "text",
+      "topic": "vector-space-model",
+      "type": "sc",
+      "level": 1,
+      "chapter": 1,
+      "chapters": [
+        1
+      ],
+      "points": 1,
+      "time": 0.75,
+      "round": 1,
+      "hash": "3c11d86f",
+      "text": "What does the cosine similarity between a query vector and a document vector measure?",
+      "options": [
+        {
+          "text": "The angle between the two vectors, independent of their lengths",
+          "correct": true,
+          "score": 1
+        },
+        {
+          "text": "The overlap of the two vectors, which grows with term frequency",
+          "correct": false,
+          "score": 0
+        },
+        {
+          "text": "The share of the query terms that the document contains",
+          "correct": false,
+          "score": 0
+        },
+        {
+          "text": "The distance between the end points of the two vectors",
+          "correct": false,
+          "score": 0
+        }
+      ],
+      "explanation": "Cosine divides the inner product by both vector lengths, so it compares the direction of the vectors, not their magnitude; for tf·idf vectors its value lies between 0 (no shared terms) and 1 (same direction). The overlap that grows with term frequency is the inner product. The share of query terms present ignores the weights, and the distance between the end points is the Euclidean distance.",
+      "reference": {
+        "text": "Inner product and cosine similarity",
+        "url": "https://roger-weber.github.io/mmir-unibasel-hs26/book/retrieval-models-ranking/#inner-product-and-cosine-similarity"
+      }
+    },
+    {
+      "id": "L1-ch03-overstemming-sc",
+      "group": "text",
+      "topic": "stemming",
+      "type": "sc",
+      "level": 1,
+      "chapter": 3,
+      "chapters": [
+        3
+      ],
+      "points": 1,
+      "time": 0.75,
+      "round": 1,
+      "hash": "6a29ec41",
+      "text": "A stemmer reduces \"universal\" and \"university\" to the same stem. What is this error called, and what does it cost?",
+      "options": [
+        {
+          "text": "Over-stemming, which lowers precision",
+          "correct": true,
+          "score": 1
+        },
+        {
+          "text": "Under-stemming, which lowers recall",
+          "correct": false,
+          "score": 0
+        },
+        {
+          "text": "Over-stemming, which lowers recall",
+          "correct": false,
+          "score": 0
+        },
+        {
+          "text": "Under-stemming, which lowers precision",
+          "correct": false,
+          "score": 0
+        }
+      ],
+      "explanation": "Over-stemming merges words that should stay distinct, so a query for \"university\" also matches documents about \"universal\" things, and precision falls. Under-stemming is the opposite error: related forms keep different stems (\"alumnus\" and \"alumni\"), so a query misses documents with the other form, and recall falls.",
+      "reference": {
+        "text": "Lemmatization and stemming",
+        "url": "https://roger-weber.github.io/mmir-unibasel-hs26/book/feature-extraction-pipeline/#lemmatization-and-stemming"
+      }
+    },
+    {
+      "id": "L2-ch03-french-verbs-sc",
+      "group": "text",
+      "topic": "lemmatization",
+      "type": "sc",
+      "level": 2,
+      "chapter": 3,
+      "chapters": [
+        3
+      ],
+      "points": 1,
+      "time": 1.0,
+      "round": 1,
+      "hash": "35c26edb",
+      "text": "A French news archive is searched with BM25. Its topics are often carried by verbs in irregular forms, such as \"pris\" and \"prenons\" for \"prendre\". Recall matters more than speed. Which reduction of the words fits best?",
+      "options": [
+        {
+          "text": "A French lemmatizer with tables of the verb forms",
+          "correct": true,
+          "score": 1
+        },
+        {
+          "text": "The Snowball stemmer for French, with its suffix rules",
+          "correct": false,
+          "score": 0
+        },
+        {
+          "text": "The Porter stemmer, which reduces most words correctly",
+          "correct": false,
+          "score": 0
+        },
+        {
+          "text": "None, since the IDF of BM25 balances the word forms",
+          "correct": false,
+          "score": 0
+        }
+      ],
+      "explanation": "Irregular verb forms share no common suffix to strip, so rule-based stemmers keep them apart. A lemmatizer with verb tables maps each form to its infinitive and merges them, at the cost of speed, which the stem allows. Snowball is the rule-based option for French but misses inflected verb forms. Porter is an English stemmer and does nothing useful on French. IDF weights terms by their rarity and cannot merge different forms of one verb.",
+      "reference": {
+        "text": "Multi-lingual comparison",
+        "url": "https://roger-weber.github.io/mmir-unibasel-hs26/book/stemming-and-lemmatization/#multi-lingual-comparison"
+      }
+    },
+    {
+      "id": "L2-ch03-stopword-loss-mc",
+      "group": "text",
+      "topic": "stop-words",
+      "type": "mc",
+      "level": 2,
+      "chapter": 3,
+      "chapters": [
+        3
+      ],
+      "points": 2,
+      "time": 1.5,
+      "round": 1,
+      "hash": "e445bd21",
+      "text": "A video archive lowercases all text and removes a standard English stop list of about 180 function words, in documents and in queries. For which queries does this remove a word that carries the meaning? Mark all that apply.",
+      "options": [
+        {
+          "text": "\"Will Smith movies\"",
+          "correct": true,
+          "score": 1
+        },
+        {
+          "text": "\"Doctor Who episodes\"",
+          "correct": true,
+          "score": 1
+        },
+        {
+          "text": "\"fall of the Roman empire\"",
+          "correct": false,
+          "score": -2
+        },
+        {
+          "text": "\"hotels in the Alps\"",
+          "correct": false,
+          "score": -2
+        },
+        {
+          "text": "\"pictures of Paris\"",
+          "correct": false,
+          "score": -2
+        }
+      ],
+      "explanation": "After lowercasing, \"Will\" becomes the stop word \"will\" and \"Who\" the stop word \"who\", so the queries lose the first name of the actor and half of the series title. In the other queries, only function words such as \"of\", \"the\" and \"in\" disappear, and the content words still describe the need. For this reason, the modern default keeps stop words in the index and lets IDF give them a low weight.",
+      "reference": {
+        "text": "Stop words: what to keep out",
+        "url": "https://roger-weber.github.io/mmir-unibasel-hs26/book/stemming-and-lemmatization/#stop-words-what-to-keep-out"
+      }
+    },
+    {
+      "id": "L2-ch08-short-query-mc",
+      "group": "text",
+      "topic": "web-vs-classical",
+      "type": "mc",
+      "level": 2,
+      "chapter": 8,
+      "chapters": [
+        8
+      ],
+      "points": 2,
+      "time": 1.5,
+      "round": 1,
+      "hash": "954345a6",
+      "text": "A two-word web query such as \"cheap flights\" matches millions of pages. Why can a web search engine not rank them by term statistics such as BM25 alone? Mark all that apply.",
+      "options": [
+        {
+          "text": "Millions of pages look equally similar to the query by their terms",
+          "correct": true,
+          "score": 0.67
+        },
+        {
+          "text": "Site owners control the page text and can stuff it with keywords",
+          "correct": true,
+          "score": 0.67
+        },
+        {
+          "text": "Copies of the same content would get the same score and fill the list",
+          "correct": true,
+          "score": 0.66
+        },
+        {
+          "text": "BM25 cannot score millions of candidate pages within a query's time",
+          "correct": false,
+          "score": -1.33
+        },
+        {
+          "text": "Term statistics need relevance judgments, which web queries lack",
+          "correct": false,
+          "score": -1.33
+        }
+      ],
+      "explanation": "A short query matches millions of pages that look about equally similar by their terms, and the page text is exactly what an SEO controls, so term statistics cannot separate the best pages. Copies of a page get the same score and would fill the list. Signals from outside the page text (links, anchors, user behaviour) therefore carry much of the ranking. BM25 is the cheap first stage that selects candidates from the inverted index, so its cost is not the problem, and its IDF comes from document frequencies, not from relevance judgments.",
+      "reference": {
+        "text": "How web search differs from classical retrieval",
+        "url": "https://roger-weber.github.io/mmir-unibasel-hs26/book/web-search-landscape/#how-web-search-differs-from-classical-retrieval"
+      }
+    },
+    {
+      "id": "L1-ch01-sparse-kw",
+      "group": "text",
+      "topic": "document-representation",
+      "type": "kw",
+      "level": 1,
+      "chapter": 1,
+      "chapters": [
+        1
+      ],
+      "points": 1,
+      "time": 0.75,
+      "round": 1,
+      "hash": "5539c487",
+      "text": "Fill in the missing word: a vocabulary holds millions of terms, but a document uses only a few hundred of them, so nearly all components of its vector are zero. Such vectors are called ___.",
+      "key": "Full: sparse. Half: none.",
+      "match": {
+        "parts": [
+          [
+            "sparse",
+            "sparsity"
+          ]
+        ],
+        "half": [],
+        "not": []
+      },
+      "explanation": "Each vocabulary term is one dimension, and a document contains only a few of them, so its tf·idf or bag-of-words vector is sparse. An inverted file stores only the non-zero entries, and a query touches only the documents that share at least one of its terms. Dense embeddings, in contrast, have a non-zero value in every dimension.",
+      "reference": {
+        "text": "Sparsity",
+        "url": "https://roger-weber.github.io/mmir-unibasel-hs26/book/feature-extraction-pipeline/#sparsity"
+      }
+    },
+    {
+      "id": "L1-ch01-boolean-result-sc",
+      "group": "text",
+      "topic": "boolean-retrieval",
+      "type": "sc",
+      "level": 1,
+      "chapter": 1,
+      "chapters": [
+        1
+      ],
+      "points": 1,
+      "time": 0.75,
+      "round": 1,
+      "hash": "10b0eb52",
+      "text": "What does the standard Boolean model return for a query?",
+      "options": [
+        {
+          "text": "An unordered set of the documents that satisfy the query",
+          "correct": true,
+          "score": 1
+        },
+        {
+          "text": "A list ordered by the number of query terms in each document",
+          "correct": false,
+          "score": 0
+        },
+        {
+          "text": "A ranked list in which partial matches get lower scores",
+          "correct": false,
+          "score": 0
+        },
+        {
+          "text": "The top documents, ordered by their tf·idf weights",
+          "correct": false,
+          "score": 0
+        }
+      ],
+      "explanation": "The standard Boolean model evaluates the query as a predicate over the set-of-words representation: a document either satisfies it or not, and the matches form an unordered set. It does not reorder by the number of matching terms. A ranked list with partial matches is what the extended Boolean model returns, and an order by tf·idf weights comes from the vector space model.",
+      "reference": {
+        "text": "Limitations of Boolean retrieval",
+        "url": "https://roger-weber.github.io/mmir-unibasel-hs26/book/text-retrieval-models/#limitations-of-boolean-retrieval"
+      }
+    },
+    {
+      "id": "L1-ch03-cooccurrence-sc",
+      "group": "text",
+      "topic": "phrase-matching",
+      "type": "sc",
+      "level": 1,
+      "chapter": 3,
+      "chapters": [
+        3
+      ],
+      "points": 1,
+      "time": 0.75,
+      "round": 1,
+      "hash": "1633a86c",
+      "text": "A bag-of-words index matches the query \"new york\" against the words \"new\" and \"york\" anywhere in a document. What problem does this cause?",
+      "options": [
+        {
+          "text": "Pages that use the words apart rank like pages with the phrase",
+          "correct": true,
+          "score": 1
+        },
+        {
+          "text": "Pages about New York are missed, since the phrase is split in two",
+          "correct": false,
+          "score": 0
+        },
+        {
+          "text": "The index must hold every pair of neighbouring words as a term",
+          "correct": false,
+          "score": 0
+        },
+        {
+          "text": "Phrase queries return nothing, since the word order is not stored",
+          "correct": false,
+          "score": 0
+        }
+      ],
+      "explanation": "Every page about New York still contains both words, so recall is not the problem. Precision is: \"a new book from York University\" matches as well, and bag-of-words cannot rank the real phrase above such incidental co-occurrences. Phrase tokens for selected bi-grams or proximity over a positional index address this; indexing every pair of words would be far too large, and is a design choice, not a consequence of bag-of-words.",
+      "reference": {
+        "text": "Bi-grams, tri-grams, phrases",
+        "url": "https://roger-weber.github.io/mmir-unibasel-hs26/book/phrases-and-compounds/#bi-grams-tri-grams-phrases"
+      }
+    },
+    {
+      "id": "L2-ch08-anchor-votes-sc",
+      "group": "text",
+      "topic": "web-signals",
+      "type": "sc",
+      "level": 2,
+      "chapter": 8,
+      "chapters": [
+        8
+      ],
+      "points": 1,
+      "time": 1.0,
+      "round": 1,
+      "hash": "40212a7e",
+      "text": "A watch shop is linked with the anchor text \"swiss watches\" from 400 different domains, in 2,000 anchors. A spammer puts \"swiss watches\" into 60,000 anchors on 3 domains, all pointing to its own page. How should the engine count the anchors, so that the spam page does not win?",
+      "options": [
+        {
+          "text": "At most one vote per domain for each term and target page",
+          "correct": true,
+          "score": 1
+        },
+        {
+          "text": "Every anchor, through a logarithm so that large counts grow slowly",
+          "correct": false,
+          "score": 0
+        },
+        {
+          "text": "Every anchor, with a lower weight than the page's own text",
+          "correct": false,
+          "score": 0
+        },
+        {
+          "text": "Every anchor, but only when the target's text repeats the term",
+          "correct": false,
+          "score": 0
+        }
+      ],
+      "explanation": "The spammer controls many anchors but few domains, so counting one vote per domain gives the shop 400 votes and the spam page 3. A logarithm makes large counts grow slowly, but 60,000 anchors still beat 2,000. A lower weight for anchors scales both pages alike and gives more weight to the page text, which the spammer controls as well. A check against the target's own text is passed by a spam page that repeats the term.",
+      "reference": {
+        "text": "Anchor text",
+        "url": "https://roger-weber.github.io/mmir-unibasel-hs26/book/ranking-signals/#anchor-text"
+      }
+    },
+    {
+      "id": "L1-ch01-bir-estimates-sc",
+      "group": "text",
+      "topic": "bir-feedback",
+      "type": "sc",
+      "level": 1,
+      "chapter": 1,
+      "chapters": [
+        1
+      ],
+      "points": 1,
+      "time": 0.75,
+      "round": 1,
+      "hash": "bd240f74",
+      "text": "The BIR model weights a query term by r<sub>j</sub>, its share among the relevant documents, and n<sub>j</sub>, its share among the non-relevant ones. Without relevance feedback, which estimates give the IDF of BM25?",
+      "options": [
+        {
+          "text": "r<sub>j</sub> = 0.5, and n<sub>j</sub> from the document frequency",
+          "correct": true,
+          "score": 1
+        },
+        {
+          "text": "n<sub>j</sub> = 0.5, and r<sub>j</sub> from the document frequency",
+          "correct": false,
+          "score": 0
+        },
+        {
+          "text": "r<sub>j</sub> and n<sub>j</sub> both from the document frequency",
+          "correct": false,
+          "score": 0
+        },
+        {
+          "text": "r<sub>j</sub> and n<sub>j</sub> from the ten top-ranked results",
+          "correct": false,
+          "score": 0
+        }
+      ],
+      "explanation": "Without judgments, nothing is known about the relevant documents, so r<sub>j</sub> is set to 0.5. Almost all documents are non-relevant to a query, so the share of documents that contain the term, its document frequency, estimates n<sub>j</sub>. Substituting both into the BIR weight gives the IDF of BM25. Estimating both from the top results is pseudo-relevance feedback, which BM25 itself does not perform.",
+      "reference": {
+        "text": "Probabilistic IDF",
+        "url": "https://roger-weber.github.io/mmir-unibasel-hs26/book/probabilistic-ranking-bm25/#probabilistic-idf"
+      }
+    },
+    {
+      "id": "L1-ch03-homonym-kw",
+      "group": "text",
+      "topic": "ambiguity",
+      "type": "kw",
+      "level": 1,
+      "chapter": 3,
+      "chapters": [
+        3
+      ],
+      "points": 1,
+      "time": 0.75,
+      "round": 1,
+      "hash": "5afa2352",
+      "text": "\"Bass\" can mean a fish or a low singing voice: one word carries two concepts. Name this kind of word relationship.",
+      "key": "Full: homonym (homonymy; also accepted: homograph, polysemy). Half: none.",
+      "match": {
+        "parts": [
+          [
+            "homonym",
+            "homonymy",
+            "homograph",
+            "polysemy",
+            "polysemous"
+          ]
+        ],
+        "half": [],
+        "not": [
+          "synonym"
+        ]
+      },
+      "explanation": "A homonym is one word for several concepts, so a query for \"bass\" retrieves documents about fish and about music, and precision falls. A synonym is the opposite case, two words for one concept (\"buy\" and \"purchase\"), which hurts recall. Stemming and lemmatization keep a single form for both senses and do not help.",
+      "reference": {
+        "text": "Word relationships: synonyms and homonyms",
+        "url": "https://roger-weber.github.io/mmir-unibasel-hs26/book/query-understanding/#word-relationships-synonyms-and-homonyms"
+      }
+    },
+    {
+      "id": "L2-ch08-mercury-sc",
+      "group": "text",
+      "topic": "ambiguity",
+      "type": "sc",
+      "level": 2,
+      "chapter": 8,
+      "chapters": [
+        8
+      ],
+      "points": 1,
+      "time": 1.0,
+      "round": 1,
+      "hash": "7e5689bb",
+      "text": "A web search engine receives the one-word query \"mercury\", which can mean the planet, the metal or a singer. How should it rank the results?",
+      "options": [
+        {
+          "text": "The sense most users mean first, the rarer senses further down",
+          "correct": true,
+          "score": 1
+        },
+        {
+          "text": "By the part-of-speech tag of \"mercury\", which selects one sense",
+          "correct": false,
+          "score": 0
+        },
+        {
+          "text": "By a contextual embedding of the query, which resolves the sense",
+          "correct": false,
+          "score": 0
+        },
+        {
+          "text": "One sense per result page, so the user pages to the sense wanted",
+          "correct": false,
+          "score": 0
+        }
+      ],
+      "explanation": "A one-word query offers no context to read, so neither the surrounding words nor a contextual embedding can resolve the sense; all three senses are nouns, so a POS tag does not separate them either. The engine therefore ranks the interpretation that most users mean first, learned from the clicks of earlier users, and places the rarer senses a few positions further down, so that a user with a less common intent still finds something on the first page.",
+      "reference": {
+        "text": "What users search for",
+        "url": "https://roger-weber.github.io/mmir-unibasel-hs26/book/web-search-landscape/#what-users-search-for"
+      }
+    },
+    {
+      "id": "L2-ch03-lugano-mc",
+      "group": "text",
+      "topic": "query-understanding",
+      "type": "mc",
+      "level": 2,
+      "chapter": 3,
+      "chapters": [
+        3
+      ],
+      "points": 2,
+      "time": 1.5,
+      "round": 1,
+      "hash": "fde7a831",
+      "text": "The query analyzer of a city guide processes the query \"Italian restaurants in Lugano open on Sunday\" from a user in Zurich. Which of the following belong in the backend query? Mark all that apply.",
+      "options": [
+        {
+          "text": "A hard filter on the location Lugano",
+          "correct": true,
+          "score": 1
+        },
+        {
+          "text": "A filter on restaurants open on Sundays",
+          "correct": true,
+          "score": 1
+        },
+        {
+          "text": "\"Lugano\" as a keyword instead of a location filter",
+          "correct": false,
+          "score": -2
+        },
+        {
+          "text": "The user's position as the location filter",
+          "correct": false,
+          "score": -2
+        },
+        {
+          "text": "A recency filter on pages from last Sunday",
+          "correct": false,
+          "score": -2
+        }
+      ],
+      "explanation": "Named entity recognition finds \"Lugano\" as a location, and a location in the query becomes a hard filter. As a keyword instead, it would also match pages that only mention the city, such as a Zurich restaurant whose page names its Lugano branch. The place in the query also wins over the position of the user in Zurich. \"open on Sunday\" is a condition on the opening hours, not on the date of a page, so a recency filter would answer a different question.",
+      "reference": {
+        "text": "Named entity recognition",
+        "url": "https://roger-weber.github.io/mmir-unibasel-hs26/book/query-understanding/#named-entity-recognition"
+      }
+    },
+    {
+      "id": "L1-ch03-router-feats-mc",
+      "group": "text",
+      "topic": "intent-routing",
+      "type": "mc",
+      "level": 1,
+      "chapter": 3,
+      "chapters": [
+        3
+      ],
+      "points": 2,
+      "time": 1.0,
+      "round": 1,
+      "hash": "5ba3101b",
+      "text": "A classical intent router assigns each query to a backend such as books, people, news or maps. Which of the following does it use as features? Mark all that apply.",
+      "options": [
+        {
+          "text": "The entity labels in the query, such as PERSON",
+          "correct": true,
+          "score": 0.67
+        },
+        {
+          "text": "Question markers, such as a leading WH-word",
+          "correct": true,
+          "score": 0.67
+        },
+        {
+          "text": "The language detected for the query",
+          "correct": true,
+          "score": 0.66
+        },
+        {
+          "text": "The clicks on the results of the same query",
+          "correct": false,
+          "score": -1.33
+        },
+        {
+          "text": "The BM25 scores of the top matching documents",
+          "correct": false,
+          "score": -1.33
+        }
+      ],
+      "explanation": "The router classifies the query before any retrieval, from the tokens, the POS-tag counts, the entity labels, the question markers and the detected language. The clicked backend serves as the training label in the logs, not as a feature of a new query, and the router does not retrieve documents, so no BM25 scores exist when it decides.",
+      "reference": {
+        "text": "Intent routing as classification",
+        "url": "https://roger-weber.github.io/mmir-unibasel-hs26/book/intent-routing-and-classification/#intent-routing-as-classification"
+      }
+    },
+    {
+      "id": "L1-ch03-ngrams-stems-sc",
+      "group": "text",
+      "topic": "character-ngrams",
+      "type": "sc",
+      "level": 1,
+      "chapter": 3,
+      "chapters": [
+        3
+      ],
+      "points": 1,
+      "time": 0.75,
+      "round": 1,
+      "hash": "8afddcec",
+      "text": "How do overlapping character n-grams as index terms differ from stems and lemmas?",
+      "options": [
+        {
+          "text": "They need no rules or dictionary and still match unknown words",
+          "correct": true,
+          "score": 1
+        },
+        {
+          "text": "They need a dictionary of word forms, but no rules for the suffixes",
+          "correct": false,
+          "score": 0
+        },
+        {
+          "text": "They need word boundaries, so they fail on text without spaces",
+          "correct": false,
+          "score": 0
+        },
+        {
+          "text": "They reduce each word to one base form, with rules per language",
+          "correct": false,
+          "score": 0
+        }
+      ],
+      "explanation": "Character n-grams cut the text into overlapping pieces, so they need no rules and no dictionary, and a query word with another inflection, a typo or no entry in any dictionary still shares most of its n-grams with the document. A dictionary belongs to lemmatization and suffix rules per language to stemming. Without spaces, the whole character stream is cut into n-grams, which is why they suit languages without word boundaries.",
+      "reference": {
+        "text": "Word boundaries are not always spaces",
+        "url": "https://roger-weber.github.io/mmir-unibasel-hs26/book/tokenization-and-normalization/#word-boundaries-are-not-always-spaces"
+      }
+    },
+    {
+      "id": "L2-ch01-feedback-kp",
+      "group": "text",
+      "topic": "bir-feedback",
+      "type": "kp",
+      "level": 2,
+      "chapter": 1,
+      "chapters": [
+        1
+      ],
+      "points": 2,
+      "time": 1.5,
+      "round": 1,
+      "hash": "499fc02c",
+      "text": "A digital library considers relevance feedback: users mark relevant results, and the BIR model re-estimates the term weights from these judgments. Decide for each statement whether it is true.",
+      "options": [
+        {
+          "text": "Users judge too few results per query for reliable estimates of the weights.",
+          "correct": true
+        },
+        {
+          "text": "Feedback can propose new terms with a strongly positive weight for the query.",
+          "correct": true
+        },
+        {
+          "text": "A candidate term with a weight close to zero is a good term to add to the query.",
+          "correct": false
+        },
+        {
+          "text": "The idea needs explicit judgments, so it has no use in systems without them.",
+          "correct": false
+        }
+      ],
+      "explanation": "Users mark only a handful of results, far too few to estimate how often a term occurs in relevant and non-relevant documents, which is why explicit feedback is rarely applied directly. From the judged results, BIR finds terms that are much more frequent in relevant documents and proposes them as expansion terms with a strongly positive weight; a weight near zero means that the term does not separate the two groups. The idea survives without explicit judgments: pseudo-relevance feedback treats the top results as relevant, and clicks serve as implicit labels for learning to rank.",
+      "reference": {
+        "text": "Relevance feedback",
+        "url": "https://roger-weber.github.io/mmir-unibasel-hs26/book/probabilistic-ranking-bm25/#relevance-feedback"
+      }
+    },
+    {
+      "id": "L3-ch08-pointwise-tx",
+      "group": "text",
+      "topic": "ltr-losses",
+      "type": "tx",
+      "level": 3,
+      "chapter": 8,
+      "chapters": [
+        2,
+        8
+      ],
+      "points": 2,
+      "time": 1.5,
+      "round": 1,
+      "hash": "a53860cb",
+      "text": "A team trains a ranker to predict the grade (0 to 4) of each page for a query. The average error of the predicted grades is very small, but nDCG@10 on the test queries is poor. In one sentence of at most 20 words, explain why.",
+      "key": "Full: a small grade error says little about the order; small errors can still swap pages at the top, where nDCG@10 counts most. Half: \"pointwise training ignores the ranking\" without how the errors affect nDCG, or \"use pairwise or listwise training\" without why. Also accepted: grades are not comparable across queries, so a good fit per page does not give a good order per query. Sample: \"Small grade errors can still swap pages near the top, and nDCG@10 punishes exactly those swaps.\" Sample: \"Pointwise training minimizes errors that need not change the order, while nDCG@10 rewards the right order at the top.\"",
+      "explanation": "Pointwise training treats each page on its own: it spends effort on errors that leave the order unchanged (predicting 4.0 instead of 3 for the best page) and pays little for small errors that swap two pages. nDCG@10 measures the order of the top ten with the highest weight on the first ranks, so a model with a small average error can still rank poorly. Listwise training weights errors by their effect on such a measure.",
+      "reference": {
+        "text": "The loss: three ways to learn a ranking",
+        "url": "https://roger-weber.github.io/mmir-unibasel-hs26/book/learning-to-rank/#the-loss-three-ways-to-learn-a-ranking"
+      }
+    },
+    {
+      "id": "L1-ch01-token-match-sc",
+      "group": "text",
+      "topic": "token-matching",
+      "type": "sc",
+      "level": 1,
+      "chapter": 1,
+      "chapters": [
+        1
+      ],
+      "points": 1,
+      "time": 0.75,
+      "round": 1,
+      "hash": "c5429e34",
+      "text": "When does lexical retrieval match a query token to a document token?",
+      "options": [
+        {
+          "text": "Only when both become the same term in the text pipeline",
+          "correct": true,
+          "score": 1
+        },
+        {
+          "text": "When they share most of their letters, as \"cat\" and \"cats\" do",
+          "correct": false,
+          "score": 0
+        },
+        {
+          "text": "When they differ only in accents, as \"Zürich\" and \"Zurich\" do",
+          "correct": false,
+          "score": 0
+        },
+        {
+          "text": "When they occur in similar contexts, as \"buy\" and \"purchase\"",
+          "correct": false,
+          "score": 0
+        }
+      ],
+      "explanation": "Tokens define the vocabulary, and a document matches a query term only through an identical term. Tokens that look alike are independent terms: \"cat\" and \"cats\" match only if a stemmer or lemmatizer reduces both to one form, and \"Zürich\" and \"Zurich\" only after accent folding. Words that occur in similar contexts are what embeddings learn; lexical retrieval needs a synonym list for them.",
+      "reference": {
+        "text": "Case, Unicode, and accents",
+        "url": "https://roger-weber.github.io/mmir-unibasel-hs26/book/tokenization-and-normalization/#case-unicode-and-accents"
+      }
+    },
+    {
+      "id": "L2-ch01-negative-idf-sc",
+      "group": "text",
+      "topic": "term-discrimination",
+      "type": "sc",
+      "level": 2,
+      "chapter": 1,
+      "chapters": [
+        1
+      ],
+      "points": 1,
+      "time": 1.0,
+      "round": 1,
+      "hash": "3a540803",
+      "text": "A collection of 100,000 product reviews is ranked with the IDF of the original BM25 formula. The word \"good\" occurs in 70,000 reviews. What does a match on \"good\" do to the score of a review?",
+      "options": [
+        {
+          "text": "It lowers the score, since the weight of the term is negative",
+          "correct": true,
+          "score": 1
+        },
+        {
+          "text": "It adds nothing, since such a common term has a weight of zero",
+          "correct": false,
+          "score": 0
+        },
+        {
+          "text": "It adds a small positive amount, as every matching term does",
+          "correct": false,
+          "score": 0
+        },
+        {
+          "text": "It adds the most, since the term occurs in most of the reviews",
+          "correct": false,
+          "score": 0
+        }
+      ],
+      "explanation": "The original BM25 IDF comes from the BIR weight without feedback and turns negative when a term occurs in more than half of the collection, here 70,000 of 100,000 reviews. A match then lowers the score, the opposite of what a match should do. This is why many engines use an always-positive variant, under which a common term adds a small positive amount. A frequent term never gets the highest weight.",
+      "reference": {
+        "text": "Probabilistic IDF",
+        "url": "https://roger-weber.github.io/mmir-unibasel-hs26/book/probabilistic-ranking-bm25/#probabilistic-idf"
+      }
+    },
+    {
+      "id": "L3-ch01-manual-units-kp",
+      "group": "text",
+      "topic": "retrieval-architecture",
+      "type": "kp",
+      "level": 3,
+      "chapter": 1,
+      "chapters": [
+        1,
+        7
+      ],
+      "points": 3,
+      "time": 1.75,
+      "round": 1,
+      "hash": "3e6dcac2",
+      "text": "A team builds a question-answering assistant over a 600-page maintenance manual. A retriever passes the best units to a language model, which writes the answer. The team must choose the retrieval unit. Decide for each statement whether it is true.",
+      "options": [
+        {
+          "text": "The whole manual as one unit would return the manual, not the passage needed.",
+          "correct": true
+        },
+        {
+          "text": "Single sentences as units match precisely but often lack the context of a step.",
+          "correct": true
+        },
+        {
+          "text": "The finer the units, the smaller the index, since each unit holds less text.",
+          "correct": false
+        },
+        {
+          "text": "A new rule for splitting the manual takes effect without indexing it again.",
+          "correct": false
+        }
+      ],
+      "explanation": "Coarser units reduce the number of entries but leave the reader, here the language model, to find the passage in a large text. Finer units give more specific matches but more entries to manage, and a single sentence often lacks what the answer needs, such as the earlier steps of a procedure. This is why RAG systems choose chunk sizes and overlaps with care. The retrieval units are fixed when the documents are indexed, so a new splitting rule means reindexing.",
+      "reference": {
+        "text": "Documents and retrieval granularity",
+        "url": "https://roger-weber.github.io/mmir-unibasel-hs26/book/fundamental-flows/#documents-and-retrieval-granularity"
+      }
+    },
+    {
+      "id": "L2-ch03-router-llm-kp",
+      "group": "text",
+      "topic": "intent-routing",
+      "type": "kp",
+      "level": 2,
+      "chapter": 3,
+      "chapters": [
+        3
+      ],
+      "points": 2,
+      "time": 1.5,
+      "round": 1,
+      "hash": "4c86647f",
+      "text": "A search portal routes its queries with a Naive Bayes intent router. The team compares it with a large language model that names the intent of each query. Decide for each statement whether it is true.",
+      "options": [
+        {
+          "text": "The Naive Bayes router decides within a millisecond, far faster than the LLM.",
+          "correct": true
+        },
+        {
+          "text": "Only Naive Bayes gives a posterior per intent that can be calibrated on data.",
+          "correct": true
+        },
+        {
+          "text": "Naive Bayes copes better with rare query types, since it learned from the logs.",
+          "correct": false
+        },
+        {
+          "text": "Both routers cost about the same per query, since each makes one decision.",
+          "correct": false
+        }
+      ],
+      "explanation": "The classical stack runs in under a millisecond, while an LLM call takes 100 to 1000 milliseconds. Naive Bayes returns a posterior for every intent, which the portal can threshold and recalibrate on validation data; the confidence that an LLM writes into its answer is generated text, not a probability. A router trained on logs has little evidence for rare query types, which is why production stacks send the queries with low confidence to an LLM. The per-query cost of an LLM call is measurable, that of the classical stack is not.",
+      "reference": {
+        "text": "Where this sits in modern retrieval",
+        "url": "https://roger-weber.github.io/mmir-unibasel-hs26/book/intent-routing-and-classification/#where-this-sits-in-modern-retrieval"
+      }
+    },
+    {
+      "id": "L1-ch08-bm25f-kw",
+      "group": "text",
+      "topic": "bm25",
+      "type": "kw",
+      "level": 1,
+      "chapter": 8,
+      "chapters": [
+        8
+      ],
+      "points": 1,
+      "time": 0.75,
+      "round": 1,
+      "hash": "f249ed3b",
+      "text": "Name the extension of BM25 that weights the term counts of each field (title, headings, body, anchors), adds them up and saturates the sum once.",
+      "key": "Full: BM25F. Half: none.",
+      "match": {
+        "parts": [
+          [
+            "bm25f",
+            "bm25 f",
+            "bm 25f"
+          ]
+        ],
+        "half": [],
+        "not": []
+      },
+      "explanation": "BM25F weights the occurrences of a term per field, adds the weighted counts and applies saturation once to the sum. Saturating each field separately would let a page collect almost the full score once per field by repeating a keyword in the title, the headings and the body.",
+      "reference": {
+        "text": "Field weighting with BM25F",
+        "url": "https://roger-weber.github.io/mmir-unibasel-hs26/book/ranking-signals/#field-weighting-with-bm25f"
+      }
+    },
+    {
+      "id": "L2-ch01-log-search-sc",
+      "group": "text",
+      "topic": "retrieval-architecture",
+      "type": "sc",
+      "level": 2,
+      "chapter": 1,
+      "chapters": [
+        1
+      ],
+      "points": 1,
+      "time": 1.0,
+      "round": 1,
+      "hash": "0ec48979",
+      "text": "An operations team searches the logs of its servers for error messages such as \"disk full\", to reconstruct the sequence of failures. Which design fits best?",
+      "options": [
+        {
+          "text": "The retriever finds the log lines; the ranker orders them by timestamp",
+          "correct": true,
+          "score": 1
+        },
+        {
+          "text": "The retriever finds the log files; the ranker orders the lines by timestamp",
+          "correct": false,
+          "score": 0
+        },
+        {
+          "text": "The retriever finds the log files; the ranker orders the lines by relevance",
+          "correct": false,
+          "score": 0
+        },
+        {
+          "text": "The retriever finds the log lines; the ranker orders them by relevance",
+          "correct": false,
+          "score": 0
+        }
+      ],
+      "explanation": "The team needs the individual errors, so the retrieval unit is the log line, not the file; with whole files as units, the system returns files and cannot order the lines inside them. A sequence of failures is an order in time, so the matching lines are sorted by their timestamp, a metadata attribute, rather than by estimated relevance.",
+      "reference": {
+        "text": "Documents and retrieval granularity",
+        "url": "https://roger-weber.github.io/mmir-unibasel-hs26/book/fundamental-flows/#documents-and-retrieval-granularity"
+      }
+    },
+    {
+      "id": "L3-ch03-place-dense-mc",
+      "group": "text",
+      "topic": "query-understanding",
+      "type": "mc",
+      "level": 3,
+      "chapter": 3,
+      "chapters": [
+        3,
+        5,
+        6,
+        8
+      ],
+      "points": 3,
+      "time": 1.75,
+      "round": 1,
+      "hash": "377b068f",
+      "text": "A flat-rental portal replaces BM25 over its listing descriptions with dense retrieval. Every description names the flat's town, and each listing has a town field. A bi-encoder turns each description and query into one vector, and an HNSW index returns the 100 nearest listings. For \"quiet flat with balcony in Lausanne\", similar flats in other towns now fill the results, and many fitting Lausanne listings are not among the 100. Which changes bring the missing Lausanne listings into the results?",
+      "options": [
+        {
+          "text": "Pre-filter on the town field, then compare those listings exactly",
+          "correct": true,
+          "score": 1.5
+        },
+        {
+          "text": "Fuse the vector ranking with a BM25 ranking of the descriptions",
+          "correct": true,
+          "score": 1.5
+        },
+        {
+          "text": "Keep only the Lausanne listings among the 100 nearest ones",
+          "correct": false,
+          "score": -3
+        },
+        {
+          "text": "Rerank the 100 nearest listings with a cross-encoder",
+          "correct": false,
+          "score": -3
+        },
+        {
+          "text": "Raise the search effort of the HNSW index towards an exact scan",
+          "correct": false,
+          "score": -3
+        }
+      ],
+      "explanation": "A bi-encoder puts the whole description into one vector, and the query into one vector. The town is only one part of that meaning, next to \"quiet\" and \"balcony\", so a quiet flat with a balcony in another town is about as close to the query as one in Lausanne. Query understanding recognizes \"Lausanne\" as a place, and a place in the query becomes a filter. Applied before the vector comparison, the filter on the town field makes every Lausanne listing a candidate, and an exact comparison ranks them by the query vector. Dense retrieval is weak on exact names, while BM25 matches them exactly; every description names the town, so fusing a BM25 ranking with the vector ranking (hybrid retrieval) brings the Lausanne listings into the list. Keeping only the Lausanne listings among the 100 is a post-filter: it can only remove listings, so the missing ones stay missing and few results remain. A cross-encoder reads query and description together and would notice the town, but it only reorders the 100 candidates. A higher HNSW effort brings the result closer to the exact nearest neighbours of the query vector, and that vector still blurs the town, so the same flats from other towns come back.",
+      "reference": {
+        "text": "Named entity recognition",
+        "url": "https://roger-weber.github.io/mmir-unibasel-hs26/book/query-understanding/#named-entity-recognition"
+      }
+    },
+    {
+      "id": "L1-ch02-order-gain-mc",
+      "group": "eval",
+      "topic": "graded-relevance",
+      "type": "mc",
+      "level": 1,
+      "chapter": 2,
+      "chapters": [
+        2
+      ],
+      "points": 2,
+      "time": 1.0,
+      "round": 1,
+      "hash": "e62f1913",
+      "text": "CG ignores the order of the top k results. Which of the following measures reward a ranking that places the best-graded results first? Mark all that apply.",
+      "options": [
+        {
+          "text": "DCG",
+          "correct": true,
+          "score": 1
+        },
+        {
+          "text": "nDCG",
+          "correct": true,
+          "score": 1
+        },
+        {
+          "text": "CG",
+          "correct": false,
+          "score": -2
+        },
+        {
+          "text": "P@k",
+          "correct": false,
+          "score": -2
+        },
+        {
+          "text": "Top-k gain",
+          "correct": false,
+          "score": -2
+        }
+      ],
+      "explanation": "DCG lowers the credit of each result the lower it is ranked, and nDCG divides DCG by its ideal value, so both reward the best grades first. CG only sums the grades, and P@k only counts relevant results within the top k, so neither changes when the top k are reordered. Top-k gain is not a standard measure.",
+      "reference": {
+        "text": "Discounted cumulative gain",
+        "url": "https://roger-weber.github.io/mmir-unibasel-hs26/book/evaluating-graded-relevance/#discounted-cumulative-gain"
+      }
+    },
+    {
+      "id": "L2-ch02-reuse-bias-mc",
+      "group": "eval",
+      "topic": "ground-truth-limits",
+      "type": "mc",
+      "level": 2,
+      "chapter": 2,
+      "chapters": [
+        2
+      ],
+      "points": 2,
+      "time": 1.5,
+      "round": 1,
+      "hash": "2de1d8c1",
+      "text": "A new system is evaluated on an old benchmark. Its judgments come from pooling the results of the original systems. Why can the score of the new system be too low? Mark all that apply.",
+      "options": [
+        {
+          "text": "Its relevant results outside the pool were never judged.",
+          "correct": true,
+          "score": 1
+        },
+        {
+          "text": "Unjudged results count as not relevant.",
+          "correct": true,
+          "score": 1
+        },
+        {
+          "text": "Assessors judged its results more strictly.",
+          "correct": false,
+          "score": -2
+        },
+        {
+          "text": "The measure was fixed before the experiment.",
+          "correct": false,
+          "score": -2
+        },
+        {
+          "text": "Pooling ranks the original systems higher by design.",
+          "correct": false,
+          "score": -2
+        }
+      ],
+      "explanation": "Only the pooled results of the original systems were judged, and unjudged documents count as not relevant, so relevant results that only the new system finds are scored as misses. Nobody judged its results at all, so assessor strictness plays no part. Fixing the measure in advance is a design rule, and pooling does not rank systems; it only decides which documents are judged.",
+      "reference": {
+        "text": "Incomplete ground truth",
+        "url": "https://roger-weber.github.io/mmir-unibasel-hs26/book/when-evaluation-misleads/#incomplete-ground-truth"
+      }
+    },
+    {
+      "id": "L1-ch02-whole-kw",
+      "group": "eval",
+      "topic": "precision-recall",
+      "type": "kw",
+      "level": 1,
+      "chapter": 2,
+      "chapters": [
+        2
+      ],
+      "points": 1,
+      "time": 0.75,
+      "round": 1,
+      "hash": "ed5aa6f8",
+      "text": "A system returns the whole collection for every query. Name the measure that is then perfect by construction.",
+      "key": "Full: recall (also: sensitivity). Half: none.",
+      "match": {
+        "parts": [
+          [
+            "recall",
+            "sensitivity"
+          ]
+        ],
+        "half": [],
+        "not": []
+      },
+      "explanation": "Returning everything finds every relevant document, so recall reaches 100 %. Precision drops to the share of relevant documents in the collection, and fallout rises to 100 %, its worst value.",
+      "reference": {
+        "text": "Precision and recall",
+        "url": "https://roger-weber.github.io/mmir-unibasel-hs26/book/precision-and-recall/#precision-and-recall"
+      }
+    },
+    {
+      "id": "L2-ch02-copy-cutoff-kw",
+      "group": "eval",
+      "topic": "prevalence",
+      "type": "kw",
+      "level": 2,
+      "chapter": 2,
+      "chapters": [
+        2
+      ],
+      "points": 2,
+      "time": 1.0,
+      "round": 1,
+      "hash": "463b47cf",
+      "text": "A photo agency finds copies of its own images with a similarity cutoff on CLIP embeddings. It tuned the cutoff on 10,000 test photos and now searches 10 million photos. In both collections, each agency image has about three true copies, and all other photos are unrelated. Name the measure of the copy detection that falls from the small to the large collection, although the cutoff stays the same.",
+      "key": "Full: precision (positive predictive value). Half: F1, which falls because precision falls.",
+      "match": {
+        "parts": [
+          [
+            "precision",
+            "ppv",
+            "positive predictive"
+          ]
+        ],
+        "half": [
+          "f1"
+        ],
+        "not": [
+          "recall",
+          "sensitivity",
+          "specificity",
+          "accuracy"
+        ]
+      },
+      "explanation": "Each agency image keeps its three copies, so recall stays. The unrelated photos grow from about 10,000 to 10 million, and each one that comes above the cutoff by chance is a false positive. The share of unrelated photos that pass, and with it the specificity, barely changes; with a thousand times more of them, precision falls.",
+      "reference": {
+        "text": "The test set is not production",
+        "url": "https://roger-weber.github.io/mmir-unibasel-hs26/book/when-evaluation-misleads/#the-test-set-is-not-production"
+      }
+    },
+    {
+      "id": "L3-ch02-abstain-kp",
+      "group": "eval",
+      "topic": "thresholds-roc",
+      "type": "kp",
+      "level": 3,
+      "chapter": 2,
+      "chapters": [
+        2,
+        6,
+        7,
+        10
+      ],
+      "points": 3,
+      "time": 1.75,
+      "round": 1,
+      "hash": "ba44e2e4",
+      "text": "A RAG assistant replies only when its best retrieved chunk has a cosine similarity of at least 0.75; otherwise it says \"I don't know\". The threshold was chosen on 400 test questions, half of which the corpus covers. Among real questions, only a tenth are covered, and each kind scores as it did in the test. Next year the team will switch to another embedding model. Decide for each statement whether it holds.",
+      "options": [
+        {
+          "text": "A higher threshold means fewer replies to uncovered questions, but more \"I don't know\" to covered ones.",
+          "correct": true
+        },
+        {
+          "text": "After the model switch, 0.75 keeps its meaning, since cosine similarity always spans −1 to 1.",
+          "correct": false
+        },
+        {
+          "text": "On real questions, a smaller share of its replies is backed by the corpus than in the test.",
+          "correct": true
+        },
+        {
+          "text": "A high similarity of the best chunk shows that the reply will be faithful to that chunk.",
+          "correct": false
+        }
+      ],
+      "explanation": "Replying or saying \"I don't know\" is a binary decision on a score, so the threshold trades one error for the other, as on a ROC curve. Each embedding model has its own range of similarities (unrelated texts may score 0.5 under one and near 0 under another), so the threshold must be chosen again. With a tenth instead of half of the questions covered, and each kind scoring as before, the same rate of replies to uncovered questions makes up a larger share of all replies: precision falls with prevalence. Similarity measures retrieval; whether the reply follows the chunk is faithfulness, a property of the generator that is measured separately.",
+      "reference": {
+        "text": "Choosing an operating point",
+        "url": "https://roger-weber.github.io/mmir-unibasel-hs26/book/scores-thresholds-and-roc/#choosing-an-operating-point"
+      }
+    },
+    {
+      "id": "L2-ch02-bench-proof-mc",
+      "group": "eval",
+      "topic": "benchmark-design",
+      "type": "mc",
+      "level": 2,
+      "chapter": 2,
+      "chapters": [
+        2
+      ],
+      "points": 2,
+      "time": 1.5,
+      "round": 1,
+      "hash": "27a6f732",
+      "text": "A company compares two catalog search systems using five hand-picked screenshots. Which changes turn this into a sound comparison? Mark all that apply.",
+      "options": [
+        {
+          "text": "Freeze a catalog that represents the users' real documents.",
+          "correct": true,
+          "score": 0.67
+        },
+        {
+          "text": "Write needs and judge relevance independently of both systems.",
+          "correct": true,
+          "score": 0.67
+        },
+        {
+          "text": "Fix the measure, cutoff, and averaging before either run.",
+          "correct": true,
+          "score": 0.66
+        },
+        {
+          "text": "Judge only the documents that the new system returns in its top ten.",
+          "correct": false,
+          "score": -1.33
+        },
+        {
+          "text": "Run a significance test on the queries of the five screenshots.",
+          "correct": false,
+          "score": -1.33
+        }
+      ],
+      "explanation": "A reproducible benchmark fixes a representative collection, written needs with independent relevance judgments, and the measurement procedure before results are seen. Judging only what the new system returns leaves the old system's results unjudged, and unjudged documents count as non-relevant, so the comparison favours the new system. A significance test measures chance variation over the queries it is given; it cannot repair queries that were hand-picked.",
+      "reference": {
+        "text": "Why anecdotes are not evidence",
+        "url": "https://roger-weber.github.io/mmir-unibasel-hs26/book/designing-a-benchmark/#why-anecdotes-are-not-evidence"
+      }
+    },
+    {
+      "id": "L2-ch02-search-metrics-kp",
+      "group": "eval",
+      "topic": "ranked-measures",
+      "type": "kp",
+      "level": 2,
+      "chapter": 2,
+      "chapters": [
+        2
+      ],
+      "points": 2,
+      "time": 1.5,
+      "round": 1,
+      "hash": "532d32df",
+      "text": "A university portal receives fact lookups with one authoritative page and research queries that need many sources. The team evaluates both query types separately. Decide for each statement whether it is true.",
+      "options": [
+        {
+          "text": "MRR fits the fact lookups because the first good result determines the user's effort.",
+          "correct": true
+        },
+        {
+          "text": "MAP fits the research queries, since it rewards many relevant sources ranked high.",
+          "correct": true
+        },
+        {
+          "text": "P@1 fits the research queries, since the best source should come first.",
+          "correct": false
+        },
+        {
+          "text": "MRR fits the research queries, since a quick first source shortens the user's work.",
+          "correct": false
+        }
+      ],
+      "explanation": "MRR measures how quickly the first relevant result appears, so it fits one-answer tasks. MAP averages the precision at every relevant result and counts the missed ones as zero, so it fits research tasks that need many sources. P@1 and MRR look only at the top or at the first relevant result: a research query that finds one strong source and misses the rest would score perfectly.",
+      "reference": {
+        "text": "Choosing a metric",
+        "url": "https://roger-weber.github.io/mmir-unibasel-hs26/book/evaluating-ranked-results/#choosing-a-metric"
+      }
+    },
+    {
+      "id": "L3-ch02-radio-errors-tx",
+      "group": "eval",
+      "topic": "classifier-evaluation",
+      "type": "tx",
+      "level": 3,
+      "chapter": 2,
+      "chapters": [
+        2,
+        11
+      ],
+      "points": 2,
+      "time": 1.5,
+      "round": 1,
+      "hash": "14f17f04",
+      "text": "A radio archive labels segments as speech or music. A journalist must not miss speech, and a music editor must not receive speech. Overall accuracy is 92 %. Explain in one sentence of at most 20 words why accuracy is insufficient, and name two per-class checks.",
+      "key": "Full: accuracy can hide different errors by class, plus speech recall and music precision as the two checks. Also accepted: speech sensitivity instead of recall, and checking the equivalent false-positive rate for music contamination. Half: the need for per-class measures without both checks, or both checks without why accuracy hides the errors. Sample: \"Accuracy hides speech misses and music contamination; report speech recall and music precision separately.\"",
+      "explanation": "Overall accuracy pools both labels and can remain high when a class fails. Speech recall shows whether journalist-relevant speech is missed. Music precision shows whether the music facet contains speech. The two user needs therefore require different per-class checks.",
+      "reference": {
+        "text": "Per-class metrics via one-vs-rest",
+        "url": "https://roger-weber.github.io/mmir-unibasel-hs26/book/evaluating-text-classifiers/#per-class-metrics-via-one-vs-rest"
+      }
+    },
+    {
+      "id": "L2-ch02-support-avg-kp",
+      "group": "eval",
+      "topic": "averaging",
+      "type": "kp",
+      "level": 2,
+      "chapter": 2,
+      "chapters": [
+        2
+      ],
+      "points": 2,
+      "time": 1.5,
+      "round": 1,
+      "hash": "bcc6de47",
+      "text": "A customer-support system labels messages as password reset, billing, or account locked. Its test data has 900 password-reset messages, 80 billing messages, and 20 account-locked messages. The team wants every class to count equally. Account-locked recall is 50 %. Decide for each statement whether it is true.",
+      "options": [
+        {
+          "text": "Macro recall gives each of the three classes the same weight.",
+          "correct": true
+        },
+        {
+          "text": "The team should report that account-locked recall comes from 20 test messages.",
+          "correct": true
+        },
+        {
+          "text": "Micro recall gives the rare account-locked class more weight than password reset.",
+          "correct": false
+        },
+        {
+          "text": "Overall accuracy cannot stay high when account-locked recall is low.",
+          "correct": false
+        }
+      ],
+      "explanation": "Macro averaging computes recall for each class and then takes the mean, so every class has the same weight. The support, here 20 test messages, shows how stable a per-class result is. Micro averaging and accuracy give more weight to the common password-reset class, so they can remain high while a rare class fails.",
+      "reference": {
+        "text": "Aggregating across classes",
+        "url": "https://roger-weber.github.io/mmir-unibasel-hs26/book/evaluating-text-classifiers/#aggregating-across-classes"
+      }
+    },
+    {
+      "id": "L2-ch02-valid-config-mc",
+      "group": "eval",
+      "topic": "result-validity",
+      "type": "mc",
+      "level": 2,
+      "chapter": 2,
+      "chapters": [
+        2
+      ],
+      "points": 2,
+      "time": 1.5,
+      "round": 1,
+      "hash": "e3bd2ded",
+      "text": "A team tunes a vector search. It runs 40 configurations on the 50 topics of a public benchmark and chooses the one with the best mean nDCG@10. Now it wants to report how well the chosen configuration will work for its users. Which steps make this report credible? Mark all that apply.",
+      "options": [
+        {
+          "text": "Measure the chosen configuration once on 30 new topics that played no part in the choice",
+          "correct": true,
+          "score": 0.67
+        },
+        {
+          "text": "Report the spread of nDCG@10 across topics, not only the mean",
+          "correct": true,
+          "score": 0.67
+        },
+        {
+          "text": "Report its latency and cost next to the nDCG@10",
+          "correct": true,
+          "score": 0.66
+        },
+        {
+          "text": "Report the mean nDCG@10 on the 50 topics used for the choice",
+          "correct": false,
+          "score": -1.33
+        },
+        {
+          "text": "Tune the configuration on the 30 new topics until their score matches the 50",
+          "correct": false,
+          "score": -1.33
+        }
+      ],
+      "explanation": "Choosing the best of 40 configurations on the same 50 topics fits the choice to those topics. Part of the winner's margin is the luck of that search, so its score on them overstates what users will see. One measurement on new topics that played no part in the choice gives a fair estimate; tuning on those topics afterwards would make them a second selection set. The spread across topics shows whether the mean is convincing, and latency and cost belong to the result as much as the score.",
+      "reference": {
+        "text": "One number is not a result",
+        "url": "https://roger-weber.github.io/mmir-unibasel-hs26/book/when-evaluation-misleads/#one-number-is-not-a-result"
+      }
+    },
+    {
+      "id": "L2-ch06-memory-kw",
+      "group": "index",
+      "topic": "ann-levers",
+      "type": "kw",
+      "level": 2,
+      "chapter": 6,
+      "chapters": [
+        6
+      ],
+      "points": 2,
+      "time": 1.0,
+      "round": 1,
+      "hash": "f719d164",
+      "text": "The full vectors of an image collection need about 20 times the main memory of the search server. Name an approach that lets the approximate search run in main memory again.",
+      "key": "Full: product quantization (PQ), or binary codes / LSH (compression by 16 to about 100 times). Half: scalar quantization or dimensionality reduction (PCA, truncation), which compress too little for 20 times.",
+      "match": {
+        "parts": [
+          [
+            "product quantization",
+            "pq",
+            "binary",
+            "lsh",
+            "hashing",
+            "hamming"
+          ]
+        ],
+        "half": [
+          "scalar",
+          "quantization",
+          "pca",
+          "dimension",
+          "matryoshka",
+          "truncat",
+          "compress"
+        ],
+        "not": []
+      },
+      "explanation": "Product quantization shrinks a vector 16 to 64 times and binary codes about 100 times, so the codes fit into memory, and rescoring the best candidates with the full vectors from disk repairs most errors. Scalar quantization saves 4 to 8 times and fewer dimensions 20 to 60 percent, which is not enough here.",
+      "reference": {
+        "text": "Fewer bits per vector",
+        "url": "https://roger-weber.github.io/mmir-unibasel-hs26/book/approximate-nn-search/#fewer-bits-per-vector"
+      }
+    },
+    {
+      "id": "L2-ch06-mixed-feature-kw",
+      "group": "index",
+      "topic": "similarity-measures",
+      "type": "kw",
+      "level": 2,
+      "chapter": 6,
+      "chapters": [
+        6
+      ],
+      "points": 2,
+      "time": 1.0,
+      "round": 1,
+      "hash": "6fc18426",
+      "text": "An image feature joins 48 color histogram bins, each a fraction between 0 and 1, with the average brightness on a scale from 0 to 255. Under the Manhattan distance, the results now match by brightness only. Name the method that rescales the dimensions so that each one gets a fair share.",
+      "key": "Full: Gaussian normalization (also z-score normalization or standardization: subtract the mean and divide by the standard deviation of each dimension over the collection). Half: \"normalize each dimension\" without the method. None: normalizing the vector to unit length, dividing by the number of pixels.",
+      "match": {
+        "parts": [
+          [
+            "gaussian",
+            "z-score",
+            "zscore",
+            "z score",
+            "standardization",
+            "standardize",
+            "standard deviation"
+          ]
+        ],
+        "half": [
+          "normalize",
+          "normalization",
+          "rescale",
+          "scale"
+        ],
+        "not": [
+          "unit length",
+          "pixel"
+        ]
+      },
+      "explanation": "The bins of each channel sum to 1, so their total Manhattan distance can never exceed 6, while a brightness difference of 50 alone outweighs it. Gaussian normalization subtracts the mean and divides by the standard deviation of each dimension, both estimated once over the collection, so that one unit means one typical variation in every dimension. Normalizing the whole vector to unit length keeps the brightness dominant.",
+      "reference": {
+        "text": "Keeping dimensions comparable",
+        "url": "https://roger-weber.github.io/mmir-unibasel-hs26/book/distance-and-similarity/#keeping-dimensions-comparable"
+      }
+    },
+    {
+      "id": "L1-ch04-ranked-steps-mc",
+      "group": "index",
+      "topic": "ranked-evaluation",
+      "type": "mc",
+      "level": 1,
+      "chapter": 4,
+      "chapters": [
+        4
+      ],
+      "points": 2,
+      "time": 1.0,
+      "round": 1,
+      "hash": "9d2be19e",
+      "text": "Which of the following steps belong to ranked retrieval with BM25 over an inverted index? Mark all that apply.",
+      "options": [
+        {
+          "text": "Take the union of the query terms' postings as candidates",
+          "correct": true,
+          "score": 0.67
+        },
+        {
+          "text": "Score each candidate with the model's scoring function",
+          "correct": true,
+          "score": 0.67
+        },
+        {
+          "text": "Keep the k candidates with the highest scores as the result",
+          "correct": true,
+          "score": 0.66
+        },
+        {
+          "text": "Take the intersection of the query terms' postings as candidates",
+          "correct": false,
+          "score": -1.33
+        },
+        {
+          "text": "Score every document of the collection, then sort them all",
+          "correct": false,
+          "score": -1.33
+        }
+      ],
+      "explanation": "The retriever takes the union of the postings lists of the query terms, the same merge as a Boolean OR, since a document with at least one query term can score above zero. The ranker scores these candidates and keeps the top k. An intersection would drop every document that lacks one of the query terms, although such documents can still rank high. A document without any query term scores zero, so scoring the whole collection is wasted work.",
+      "reference": {
+        "text": "Retriever and ranker",
+        "url": "https://roger-weber.github.io/mmir-unibasel-hs26/book/ranked-retrieval/#retriever-and-ranker"
+      }
+    },
+    {
+      "id": "L1-ch06-filter-claims-kp",
+      "group": "index",
+      "topic": "filtering",
+      "type": "kp",
+      "level": 1,
+      "chapter": 6,
+      "chapters": [
+        6
+      ],
+      "points": 2,
+      "time": 1.0,
+      "round": 1,
+      "hash": "b5649d2d",
+      "text": "A vector search must return the ten nearest neighbors that also pass a metadata filter. Decide for each statement whether it is true.",
+      "options": [
+        {
+          "text": "Pre-filtering compares the query exactly with every admitted vector.",
+          "correct": true
+        },
+        {
+          "text": "The ANN index can check the filter, since it stores the metadata too.",
+          "correct": false
+        },
+        {
+          "text": "Post-filtering can return fewer than ten results, or even none.",
+          "correct": true
+        },
+        {
+          "text": "Pre-filtering gets expensive when the filter admits very few vectors.",
+          "correct": false
+        }
+      ],
+      "explanation": "Pre-filtering applies the condition first and scans the admitted vectors exactly, which is cheap for a selective filter and approaches a full scan for a mild one. Post-filtering runs the ANN search first and drops the candidates that fail the filter, so a selective filter can leave far fewer than ten. The ANN index knows nothing about the metadata, which is why the three strategies exist.",
+      "reference": {
+        "text": "Three ways to filter",
+        "url": "https://roger-weber.github.io/mmir-unibasel-hs26/book/vector-search-in-practice/#three-ways-to-filter"
+      }
+    },
+    {
+      "id": "L2-ch04-deletes-kp",
+      "group": "index",
+      "topic": "inverted-index",
+      "type": "kp",
+      "level": 2,
+      "chapter": 4,
+      "chapters": [
+        4
+      ],
+      "points": 2,
+      "time": 1.5,
+      "round": 1,
+      "hash": "f7fb4f8f",
+      "text": "A shop search engine keeps its postings lists sorted: every new document gets the next free ID, existing entries are never edited in place, and a delete only marks a document as deleted. Each night, the shop deletes 2 % of its products and changes the prices of 10 %. Decide for each statement whether it is true.",
+      "options": [
+        {
+          "text": "A deleted product keeps taking up space until the index is compacted.",
+          "correct": true
+        },
+        {
+          "text": "A product with a new price is deleted and added again under a new ID.",
+          "correct": true
+        },
+        {
+          "text": "Deleted products still show up in results until the index is compacted.",
+          "correct": false
+        },
+        {
+          "text": "The nightly changes leave the postings lists unsorted until compaction.",
+          "correct": false
+        }
+      ],
+      "explanation": "A marked document stays in the postings and is dropped only when the index is compacted, for example when segments are merged in the background. Since entries are never edited in place, a change is a delete of the old version followed by an add of the new one, which gets the next free ID. The marks are checked during the search, so deleted products are filtered out of the results at once. Appending with increasing IDs puts every new entry at the end of its lists, so they stay sorted. Other engines can handle updates differently; the stem fixes this design.",
+      "reference": {
+        "text": "Merging sorted postings as streams",
+        "url": "https://roger-weber.github.io/mmir-unibasel-hs26/book/inverted-files/#merging-sorted-postings-as-streams"
+      }
+    },
+    {
+      "id": "L2-ch04-facets-mc",
+      "group": "index",
+      "topic": "filtering",
+      "type": "mc",
+      "level": 2,
+      "chapter": 4,
+      "chapters": [
+        4
+      ],
+      "points": 2,
+      "time": 1.5,
+      "round": 1,
+      "hash": "8857b950",
+      "text": "A book search keeps one postings list for each facet value, such as each genre and each decade. A user searches \"detective Venice\" and picks the facets Crime and 1990s. What do the facet lists let the engine do? Mark all that apply.",
+      "options": [
+        {
+          "text": "Restrict the merge to books that are in the lists of Crime and 1990s",
+          "correct": true,
+          "score": 1
+        },
+        {
+          "text": "Report how many books fall under each facet value",
+          "correct": true,
+          "score": 1
+        },
+        {
+          "text": "Rank the Crime books of the 1990s above all other books",
+          "correct": false,
+          "score": -2
+        },
+        {
+          "text": "Filter a price range such as under 20 francs in the same way",
+          "correct": false,
+          "score": -2
+        },
+        {
+          "text": "Skip the postings of the query terms, since the facets select the books",
+          "correct": false,
+          "score": -2
+        }
+      ],
+      "explanation": "Each facet value has its own postings list, so the engine intersects the merge of the query terms with the lists of Crime and 1990s, and books outside them are never scored; the lengths of the same lists give the facet counts. The lists filter, they do not rank: a book is in a list or not. A price range is a condition on an ordered attribute, which a list per value does not answer; a B-tree or a sorted column does. The facets narrow the candidates of \"detective Venice\", but the query terms still decide which books match and how they rank.",
+      "reference": {
+        "text": "Faceted search",
+        "url": "https://roger-weber.github.io/mmir-unibasel-hs26/book/filtering-facets-compression/#faceted-search"
+      }
+    },
+    {
+      "id": "L2-ch06-tree-leaves-kw",
+      "group": "index",
+      "topic": "exact-nn-limits",
+      "type": "kw",
+      "level": 2,
+      "chapter": 6,
+      "chapters": [
+        6
+      ],
+      "points": 2,
+      "time": 1.0,
+      "round": 1,
+      "hash": "b1752458",
+      "text": "A team stores 768-dimensional embeddings in an R-tree. Exact nearest-neighbor queries end up opening almost every leaf and run slower than a full scan. Name the effect behind this.",
+      "key": "Full: the curse of dimensionality (also distance concentration). Half: \"overlap\" of the rectangles, which names the symptom without its cause. None: a poor split strategy or implementation.",
+      "match": {
+        "parts": [
+          [
+            "curse",
+            "dimensionality",
+            "concentration",
+            "concentrate"
+          ]
+        ],
+        "half": [
+          "overlap"
+        ],
+        "not": []
+      },
+      "explanation": "In high dimensions, distances concentrate: the nearest neighbor is only marginally closer than the other points, so the sphere through it touches every leaf, and even the optimal algorithm reads all the data. Many tree structures tried to reduce the overlap of their regions, and none restored fast search, because the problem lies in high-dimensional space itself.",
+      "reference": {
+        "text": "A fundamental limit",
+        "url": "https://roger-weber.github.io/mmir-unibasel-hs26/book/low-dimensional-structures/#a-fundamental-limit"
+      }
+    },
+    {
+      "id": "L2-ch06-vector-shards-kp",
+      "group": "index",
+      "topic": "scaling-out",
+      "type": "kp",
+      "level": 2,
+      "chapter": 6,
+      "chapters": [
+        6
+      ],
+      "points": 2,
+      "time": 1.5,
+      "round": 1,
+      "hash": "233661af",
+      "text": "A vector search spreads 2 billion embeddings over 16 shards on 16 nodes, assigning each vector to a shard by a hash of its ID. Each shard has a replica in another zone, and every shard runs its own ANN search. Decide for each statement whether it is true.",
+      "options": [
+        {
+          "text": "The collection can be larger than what fits into one node's main memory.",
+          "correct": true
+        },
+        {
+          "text": "The replicas let more queries run at the same time.",
+          "correct": true
+        },
+        {
+          "text": "A query goes only to the shard whose vectors lie nearest to it.",
+          "correct": false
+        },
+        {
+          "text": "The replicas make each single query run faster.",
+          "correct": false
+        }
+      ],
+      "explanation": "Each shard holds a distinct sixteenth of the vectors, so the collection, and the graph or codes of its ANN index, can outgrow the memory of one node. Replicas add capacity for concurrent queries and keep the service up when a node fails, but a single query still runs on one copy of each shard. Since the shard follows a hash of the ID, not the content, the nearest vectors can lie in any shard, so the query is scattered to all of them and their top lists are merged.",
+      "reference": {
+        "text": "Sharding across nodes",
+        "url": "https://roger-weber.github.io/mmir-unibasel-hs26/book/scaling-out/#sharding-across-nodes"
+      }
+    },
+    {
+      "id": "L3-ch06-two-retrievers-kp",
+      "group": "index",
+      "topic": "ann-tradeoffs",
+      "type": "kp",
+      "level": 3,
+      "chapter": 6,
+      "chapters": [
+        2,
+        6
+      ],
+      "points": 3,
+      "time": 1.75,
+      "round": 1,
+      "hash": "6a418dd8",
+      "text": "Two retrievers feed the same cross-encoder, which reranks their top 50. Against exact search, R1 reaches a recall@10 of 0.95 and R2 only 0.35, but R2 reads 200 times less data. On judged queries, the reranked nDCG@10 is 0.90 for R1 and 0.89 for R2. Decide for each statement whether it is true.",
+      "options": [
+        {
+          "text": "Most documents that R2 returns instead of the exact neighbors are also relevant.",
+          "correct": true
+        },
+        {
+          "text": "For this application, R2 is the better operating point of the two.",
+          "correct": true
+        },
+        {
+          "text": "R2's low recall shows that its index misses most of the relevant documents.",
+          "correct": false
+        },
+        {
+          "text": "The reranker raised R2's recall against exact search to the level of R1.",
+          "correct": false
+        }
+      ],
+      "explanation": "Recall against exact search compares retrievers, not relevance: good matches are only marginally farther than the exact neighbors, so R2's other candidates are often just as relevant, which the almost equal nDCG@10 shows. The operating point is the cheapest retriever whose reranked result stays close to exact search, here R2. The reranker only reorders the 50 candidates it receives; it cannot add the exact neighbors that R2 never returned.",
+      "reference": {
+        "text": "Why does approximate search work?",
+        "url": "https://roger-weber.github.io/mmir-unibasel-hs26/book/approximate-nn-search/#why-does-approximate-search-work"
+      }
+    },
+    {
+      "id": "L3-ch06-federated-mc",
+      "group": "index",
+      "topic": "hybrid-search",
+      "type": "mc",
+      "level": 3,
+      "chapter": 6,
+      "chapters": [
+        6,
+        8
+      ],
+      "points": 3,
+      "time": 1.75,
+      "round": 1,
+      "hash": "50983150",
+      "text": "A university portal shows one result list from three engines it cannot change or copy: the library catalog (BM25), the lecture video archive (CLIP embeddings), and an external web site search that returns only a ranked list without scores. The portal logs which results users click. Which of the following can build the combined list? Mark all that apply.",
+      "options": [
+        {
+          "text": "Fuse the three ranked lists by their ranks, as in rank fusion",
+          "correct": true,
+          "score": 1.5
+        },
+        {
+          "text": "Learn a ranker from the clicks, with each list's rank as a feature",
+          "correct": true,
+          "score": 1.5
+        },
+        {
+          "text": "Add the scores of the three engines for every result they return",
+          "correct": false,
+          "score": -3
+        },
+        {
+          "text": "Normalize each engine's scores to the range 0 to 1, then add them",
+          "correct": false,
+          "score": -3
+        },
+        {
+          "text": "Embed all three collections with one model and search that index",
+          "correct": false,
+          "score": -3
+        }
+      ],
+      "explanation": "The web site search returns no scores, so every method that adds or normalizes scores fails for it, and the BM25 and cosine scores of the other two would not be comparable anyway. Ranks are available from all three engines: rank fusion needs nothing else, and a learned ranker can use the rank in each list, and the source, as features with weights learned from the logged clicks. Embedding all collections into one index would need their content, which the portal cannot copy.",
+      "reference": {
+        "text": "Adding filters and keyword search",
+        "url": "https://roger-weber.github.io/mmir-unibasel-hs26/book/vector-search-in-practice/#adding-filters-and-keyword-search"
+      }
+    },
+    {
+      "id": "L3-ch07-old-rules-mc",
+      "group": "semantic",
+      "topic": "when-rag",
+      "type": "mc",
+      "level": 3,
+      "chapter": 7,
+      "chapters": [
+        4,
+        5,
+        7
+      ],
+      "points": 3,
+      "time": 1.75,
+      "round": 1,
+      "hash": "5e78503b",
+      "text": "A RAG assistant of an insurance company answers questions about its claims rules. The corpus holds the rules of 2023 and of 2025, which differ in many details, and the assistant often answers from the 2023 version, with a correct citation. Which changes fix this problem? Mark all that apply.",
+      "options": [
+        {
+          "text": "Move the superseded rules to an archive that the assistant does not search.",
+          "correct": true,
+          "score": 1.5
+        },
+        {
+          "text": "Store the validity period with every chunk and filter on the rules in force.",
+          "correct": true,
+          "score": 1.5
+        },
+        {
+          "text": "Rerank the retrieved chunks with a cross-encoder before they reach the generator.",
+          "correct": false,
+          "score": -3
+        },
+        {
+          "text": "Fine-tune the generator on the 2025 rules, so that it knows the current version.",
+          "correct": false,
+          "score": -3
+        },
+        {
+          "text": "Retrieve more chunks, so that the 2025 rule is likely to appear beside the 2023 rule.",
+          "correct": false,
+          "score": -3
+        }
+      ],
+      "explanation": "The answer is faithful to outdated evidence, so the corpus or filtering must exclude superseded rules. A cross-encoder finds relevance, not validity, and both versions answer the query. Fine-tuning leaves the old chunks in context. Retrieving more chunks can expose both versions without telling the generator which one governs.",
+      "reference": {
+        "text": "When not to use RAG",
+        "url": "https://roger-weber.github.io/mmir-unibasel-hs26/book/evaluation/#when-not-to-use-rag"
+      }
+    },
+    {
+      "id": "L3-ch05-model-swap-kp",
+      "group": "semantic",
+      "topic": "pipeline-design",
+      "type": "kp",
+      "level": 3,
+      "chapter": 5,
+      "chapters": [
+        5,
+        6,
+        10
+      ],
+      "points": 3,
+      "time": 1.75,
+      "round": 1,
+      "hash": "8f6808cf",
+      "text": "A support search over 30 million chunks runs BM25 and an HNSW index over embeddings stored as PQ codes. The team plans to switch to a better embedding model of the same dimension every six months. Decide for each statement whether it holds.",
+      "options": [
+        {
+          "text": "Keeping the text of every chunk is what makes each switch possible at all.",
+          "correct": true
+        },
+        {
+          "text": "Until re-encoding ends, new-model queries can search the old document vectors.",
+          "correct": false
+        },
+        {
+          "text": "The BM25 index needs no rebuild and can serve alone while the dense side is re-encoded.",
+          "correct": true
+        },
+        {
+          "text": "The PQ codebooks can stay, since the new vectors have the same number of dimensions.",
+          "correct": false
+        }
+      ],
+      "explanation": "Every model has its own vector space, so a switch means re-encoding the whole collection, and only the stored text can be encoded again; the old vectors and their codes are useless to the new model. A query vector of the new model compared with document vectors of the old one measures nothing, whatever the dimension. The inverted index does not depend on any embedding, so BM25 keeps working, and a hybrid system degrades to its lexical half during the switch. PQ codebooks are learned by k-means on the old vectors and must be trained again on the new ones.",
+      "reference": {
+        "text": "Embedding model selection",
+        "url": "https://roger-weber.github.io/mmir-unibasel-hs26/book/building-semantic-search/#embedding-model-selection"
+      }
+    },
+    {
+      "id": "L2-ch05-rerank-encoder-kw",
+      "group": "semantic",
+      "topic": "semantic-similarity",
+      "type": "kw",
+      "level": 2,
+      "chapter": 5,
+      "chapters": [
+        5
+      ],
+      "points": 2,
+      "time": 1.0,
+      "round": 1,
+      "hash": "05a407d5",
+      "text": "A collection has 20 million passages. A first stage selects 100 candidates within 80 ms. The second stage may run one full model pass for each candidate. Name the architecture for the second stage.",
+      "key": "Full: cross-encoder. Half: reranker, if it identifies the second-stage role but not its architecture.",
+      "match": {
+        "parts": [
+          [
+            "cross-encoder",
+            "cross encoder"
+          ]
+        ],
+        "half": [
+          "reranker",
+          "re-ranker"
+        ],
+        "not": [
+          "bi-encoder",
+          "bi encoder"
+        ]
+      },
+      "explanation": "A cross-encoder reads the query and one candidate passage together, so it can make a detailed relevance judgment. One full pass per pair is too costly for all 20 million passages but practical for a shortlist of 100.",
+      "reference": {
+        "text": "Cross-encoders and reranking",
+        "url": "https://roger-weber.github.io/mmir-unibasel-hs26/book/semantic-similarity-with-transformers/#cross-encoders-and-reranking"
+      }
+    },
+    {
+      "id": "L2-ch07-rag-measures-kp",
+      "group": "semantic",
+      "topic": "rag-evaluation",
+      "type": "kp",
+      "level": 2,
+      "chapter": 7,
+      "chapters": [
+        7
+      ],
+      "points": 2,
+      "time": 1.5,
+      "round": 1,
+      "hash": "2972b861",
+      "text": "A support assistant needs two passages for a correct answer. It retrieves one needed passage and two irrelevant passages. Its answer makes four claims: three are supported by the retrieved passages and one adds a fact not in them. Decide for each statement whether it is true.",
+      "options": [
+        {
+          "text": "Because one of two needed passages was found, context recall is 1/2.",
+          "correct": true
+        },
+        {
+          "text": "Because one of three retrieved passages is relevant, context precision is 1/3.",
+          "correct": true
+        },
+        {
+          "text": "Because three of four claims are supported, answer faithfulness is 3/4.",
+          "correct": true
+        },
+        {
+          "text": "The answer correctness can be inferred as 3/4 from these facts.",
+          "correct": false
+        }
+      ],
+      "explanation": "One of the two needed passages was retrieved, so context recall is 1/2. One of three retrieved passages is relevant, so context precision is 1/3. Three of four answer claims are supported, so faithfulness is 3/4. Correctness needs a reference answer: the supported passage could be outdated or incomplete.",
+      "reference": {
+        "text": "Measuring answer quality",
+        "url": "https://roger-weber.github.io/mmir-unibasel-hs26/book/evaluation/#measuring-answer-quality"
+      }
+    },
+    {
+      "id": "L2-ch07-route-know-mc",
+      "group": "semantic",
+      "topic": "when-rag",
+      "type": "mc",
+      "level": 2,
+      "chapter": 7,
+      "chapters": [
+        7
+      ],
+      "points": 2,
+      "time": 1.5,
+      "round": 1,
+      "hash": "a687ae4e",
+      "text": "A university assistant answers three requests: the current student handbook policy, the year the university was founded, and the total payroll for this month. The handbook needs citations and changes each summer. Which routing choices fit these requests? Mark all that apply.",
+      "options": [
+        {
+          "text": "Retrieve the current handbook passages for the policy question.",
+          "correct": true,
+          "score": 0.67
+        },
+        {
+          "text": "Answer the stable historical fact from the model without retrieval.",
+          "correct": true,
+          "score": 0.67
+        },
+        {
+          "text": "Send the payroll count to a database query.",
+          "correct": true,
+          "score": 0.66
+        },
+        {
+          "text": "Fine-tune the model whenever the handbook changes.",
+          "correct": false,
+          "score": -1.33
+        },
+        {
+          "text": "Count the payroll records among the top retrieved passages.",
+          "correct": false,
+          "score": -1.33
+        }
+      ],
+      "explanation": "RAG keeps the changing handbook current and can cite its passages. A stable general fact need not pay the latency and index cost of retrieval. A payroll total is an aggregate over structured records, so a database query sees all matching records. Fine-tuning is costly for changing facts, and retrieval returns only top-ranked passages rather than every payroll record.",
+      "reference": {
+        "text": "When not to use RAG",
+        "url": "https://roger-weber.github.io/mmir-unibasel-hs26/book/evaluation/#when-not-to-use-rag"
+      }
+    },
+    {
+      "id": "L3-ch07-expand-archive-kp",
+      "group": "semantic",
+      "topic": "rag-pipeline",
+      "type": "kp",
+      "level": 3,
+      "chapter": 7,
+      "chapters": [
+        3,
+        7
+      ],
+      "points": 3,
+      "time": 1.75,
+      "round": 1,
+      "hash": "6343599a",
+      "text": "An archive contains scanned newspapers with old spellings. Researchers ask broad questions whose answers use words not in the question. Before retrieval, the assistant adds spelling variants and also writes a hypothetical answer. Decide for each statement whether it holds.",
+      "options": [
+        {
+          "text": "Spelling variants can retrieve passages that use an older form of a query term.",
+          "correct": true
+        },
+        {
+          "text": "A hypothetical answer can retrieve passages whose wording resembles a possible answer.",
+          "correct": true
+        },
+        {
+          "text": "A cross-encoder alone can recover passages that the first retrieval stage did not return.",
+          "correct": false
+        },
+        {
+          "text": "The hypothetical answer makes the retrieved newspapers current and factually correct.",
+          "correct": false
+        }
+      ],
+      "explanation": "Classical query expansion adds spelling variants that bridge surface forms. HyDE uses a language model to write a hypothetical answer, which can match passages that express the answer differently from the question. A cross-encoder can only rerank a retrieved shortlist, and generated expansion text cannot update or verify historic sources.",
+      "reference": {
+        "text": "From two steps to a pipeline",
+        "url": "https://roger-weber.github.io/mmir-unibasel-hs26/book/rag-pipeline/#from-two-steps-to-a-pipeline"
+      }
+    },
+    {
+      "id": "L1-ch07-hier-chunks-kw",
+      "group": "semantic",
+      "topic": "chunking",
+      "type": "kw",
+      "level": 1,
+      "chapter": 7,
+      "chapters": [
+        7
+      ],
+      "points": 1,
+      "time": 0.75,
+      "round": 1,
+      "hash": "4b78c321",
+      "text": "Name the strategy that retrieves small units but gives their enclosing section to the generator as context.",
+      "key": "Full: hierarchical chunking. Half: none.",
+      "match": {
+        "parts": [
+          [
+            "hierarchical chunking"
+          ]
+        ],
+        "half": [],
+        "not": [
+          "semantic chunking",
+          "structural chunking",
+          "fixed-size chunking",
+          "query-aware chunking"
+        ]
+      },
+      "explanation": "Hierarchical chunking uses small chunks for sharp retrieval, then adds the parent section for the generator. It separates the retrieval unit from the broader context needed to answer.",
+      "reference": {
+        "text": "Hierarchical chunking",
+        "url": "https://roger-weber.github.io/mmir-unibasel-hs26/book/chunking-strategies/#hierarchical-chunking"
+      }
+    },
+    {
+      "id": "L1-ch07-reader-kw",
+      "group": "semantic",
+      "topic": "result-generation",
+      "type": "kw",
+      "level": 1,
+      "chapter": 7,
+      "chapters": [
+        7
+      ],
+      "points": 1,
+      "time": 0.75,
+      "round": 1,
+      "hash": "cf83f0cb",
+      "text": "Name the presentation form that marks an answer span inside one retrieved passage and returns that span verbatim.",
+      "key": "Full: reader. Half: none.",
+      "match": {
+        "parts": [
+          [
+            "reader",
+            "extractive reader"
+          ]
+        ],
+        "half": [],
+        "not": [
+          "generator",
+          "synthesizer",
+          "reranker"
+        ]
+      },
+      "explanation": "A reader selects a span from a retrieved passage and returns it unchanged. This grounds the answer in that passage but prevents the system from combining or rewriting information.",
+      "reference": {
+        "text": "The reader",
+        "url": "https://roger-weber.github.io/mmir-unibasel-hs26/book/result-presentation/#the-reader"
+      }
+    },
+    {
+      "id": "L1-ch07-agent-loop-kp",
+      "group": "semantic",
+      "topic": "agentic-rag",
+      "type": "kp",
+      "level": 1,
+      "chapter": 7,
+      "chapters": [
+        7
+      ],
+      "points": 2,
+      "time": 1.0,
+      "round": 1,
+      "hash": "2035d744",
+      "text": "Consider an agent that searches documents and tools to answer a request. Decide for each statement whether it is true.",
+      "options": [
+        {
+          "text": "After a tool result, the agent can reason about what evidence is still missing.",
+          "correct": true
+        },
+        {
+          "text": "The loop can stop when the evidence is enough or an iteration budget is reached.",
+          "correct": true
+        },
+        {
+          "text": "The agent requires a step-by-step guide in its prompt.",
+          "correct": false
+        },
+        {
+          "text": "Guardrails are needed only after the agent has written its final answer.",
+          "correct": false
+        }
+      ],
+      "explanation": "An agent repeats reasoning, action and observation, using each observation to decide what to do next. It stops once it has enough evidence or reaches a budget. Tool descriptions guide the choice, but the loop does not need a fixed step-by-step guide. Guardrails check inputs, tool calls and outputs throughout the loop.",
+      "reference": {
+        "text": "The agent loop",
+        "url": "https://roger-weber.github.io/mmir-unibasel-hs26/book/agentic-rag/#the-agent-loop"
+      }
+    },
+    {
+      "id": "L2-ch05-bank-vector-sc",
+      "group": "semantic",
+      "topic": "static-embeddings",
+      "type": "sc",
+      "level": 2,
+      "chapter": 5,
+      "chapters": [
+        5
+      ],
+      "points": 1,
+      "time": 1.0,
+      "round": 1,
+      "hash": "6ca566fd",
+      "text": "An archive uses one static vector for every word. A query asks about a river bank, but results about a financial bank rank highly. What limitation causes this?",
+      "options": [
+        {
+          "text": "The word \"bank\" has one vector regardless of its context.",
+          "correct": true,
+          "score": 1
+        },
+        {
+          "text": "Each use of \"bank\" receives a separate vector in the index.",
+          "correct": false,
+          "score": 0
+        },
+        {
+          "text": "Static vectors cannot capture any relation between words.",
+          "correct": false,
+          "score": 0
+        },
+        {
+          "text": "The document vectors are created only after the query arrives.",
+          "correct": false,
+          "score": 0
+        }
+      ],
+      "explanation": "Static word embeddings assign one vector to every word type, so the river and financial senses of \"bank\" are mixed in the same representation. They can still capture relationships between words, and document vectors are created before queries rather than after them.",
+      "reference": {
+        "text": "Emergent properties and limitations",
+        "url": "https://roger-weber.github.io/mmir-unibasel-hs26/book/word-embeddings/#emergent-properties-and-limitations"
+      }
+    },
+    {
+      "id": "L1-ch09-describe-src-mc",
+      "group": "media",
+      "topic": "describe-or-embed",
+      "type": "mc",
+      "level": 1,
+      "chapter": 9,
+      "chapters": [
+        9
+      ],
+      "points": 2,
+      "time": 1.0,
+      "round": 1,
+      "hash": "a095434c",
+      "text": "The describe path turns media into text and searches the text. Which of the following produce such text? Mark all that apply.",
+      "options": [
+        {
+          "text": "Multimodal language model",
+          "correct": true,
+          "score": 0.67
+        },
+        {
+          "text": "Speech recognition",
+          "correct": true,
+          "score": 0.67
+        },
+        {
+          "text": "Text recognition (OCR)",
+          "correct": true,
+          "score": 0.66
+        },
+        {
+          "text": "Embeddings from a dual encoder (CLIP)",
+          "correct": false,
+          "score": -1.33
+        },
+        {
+          "text": "Color histogram of the image",
+          "correct": false,
+          "score": -1.33
+        }
+      ],
+      "explanation": "A multimodal language model writes descriptions and metadata fields, speech recognition transcribes spoken words, and OCR extracts the words shown in images and videos: all three feed text indexes. A dual encoder produces a vector, not text, and a color histogram is a perceptual feature.",
+      "reference": {
+        "text": "Describe, then search text",
+        "url": "https://roger-weber.github.io/mmir-unibasel-hs26/book/multimodal-transformers/#describe-then-search-text"
+      }
+    },
+    {
+      "id": "L3-ch11-podcast-reuse-kw",
+      "group": "media",
+      "topic": "fingerprinting",
+      "type": "kw",
+      "level": 3,
+      "chapter": 11,
+      "chapters": [
+        4,
+        11
+      ],
+      "points": 2,
+      "time": 1.25,
+      "round": 1,
+      "hash": "6175bccb",
+      "text": "A podcast platform wants to detect new uploads that reuse segments of any of its 3 million episodes. It hashes pairs of spectrogram peaks of every episode. For each hash of an upload, it must find within milliseconds all episodes and time offsets that contain this hash. Name the index structure that answers this lookup.",
+      "key": "Full: inverted index (inverted file, postings lists keyed by hash). Half: hash table or hash map without the lists of episodes and offsets.",
+      "match": {
+        "parts": [
+          [
+            "inverted",
+            "postings",
+            "posting list"
+          ]
+        ],
+        "half": [
+          "hash table",
+          "hash map",
+          "hashmap",
+          "lookup table",
+          "dictionary"
+        ],
+        "not": []
+      },
+      "explanation": "The hash plays the role of a term, and its postings list holds the episodes and anchor times in which it occurs, so a lookup costs one access and a pass over a short list, whatever the size of the catalogue. Time alignment of the matched entries then decides which episode was reused.",
+      "reference": {
+        "text": "Combinatorial hashing",
+        "url": "https://roger-weber.github.io/mmir-unibasel-hs26/book/audio-fingerprinting/#combinatorial-hashing"
+      }
+    },
+    {
+      "id": "L2-ch12-pan-or-fade-tx",
+      "group": "media",
+      "topic": "shot-detection",
+      "type": "tx",
+      "level": 2,
+      "chapter": 12,
+      "chapters": [
+        10,
+        12
+      ],
+      "points": 2,
+      "time": 1.25,
+      "round": 1,
+      "hash": "844a8cf8",
+      "text": "A shot detector compares color histograms of consecutive frames with twin thresholds. In a slow pan across a mountain range, the colors shift from snow to forest over 3 seconds, and the detector reports a soft cut. In one sentence of at most 20 words, explain how the detector can tell such a pan from a dissolve.",
+      "key": "Full: estimate the camera motion with optical flow; in a pan the pixels move consistently in one direction, in a dissolve they fade in place. Also accepted: the flow of a pan is uniform across the frame, a dissolve has no consistent flow. Half: \"check for camera motion\" or \"use optical flow\" without what tells the two apart. Sample: \"Optical flow shows all pixels moving in one direction during a pan, while a dissolve fades them in place.\" Sample: \"Check the camera motion: a pan shifts the whole frame consistently, a dissolve blends two images without motion.\"",
+      "explanation": "A histogram ignores where pixels lie, so it sees only that the colors change gradually, which a pan and a dissolve share. Optical flow gives each position a motion vector: a pan moves the whole frame in one direction, while in a dissolve one image fades into another at the same positions, so the flow shows no consistent motion.",
+      "reference": {
+        "text": "Gradual transitions and twin thresholds",
+        "url": "https://roger-weber.github.io/mmir-unibasel-hs26/book/shot-boundary-detection/#gradual-transitions-and-twin-thresholds"
+      }
+    },
+    {
+      "id": "L2-ch11-mood-later-tx",
+      "group": "media",
+      "topic": "fingerprinting",
+      "type": "tx",
+      "level": 2,
+      "chapter": 11,
+      "chapters": [
+        9,
+        11
+      ],
+      "points": 2,
+      "time": 1.25,
+      "round": 1,
+      "hash": "5af9a1b9",
+      "text": "Around 2003, a phone could identify a song from ten seconds of noisy audio in a bar. Searching music by mood, such as \"calm piano for studying\", became practical only two decades later, with models trained on pairs of audio and text. In one sentence of at most 20 words, explain why identification came so much earlier.",
+      "key": "Full: identification matches a recording with distorted copies of itself, so robust signal features suffice; mood is a human concept across the semantic gap, which needs learning from paired data. Also accepted: identification has one correct answer contained in the signal, mood has no signal feature that defines it. Half: one side only (\"fingerprints are robust to noise\", or \"mood is subjective\"). Sample: \"Identification matches a recording with distorted copies of itself; mood links sound to human words, which needed paired training data.\" Sample: \"Peaks identify the same signal, but mood is a human concept across the semantic gap, learned only from audio-text pairs.\"",
+      "explanation": "A fingerprint never has to know what the music means: it keeps the spectrogram peaks that survive noise and finds the recording that contains the same pattern. Mood lies on the far side of the semantic gap; no hand-crafted feature defines \"calm\", and closing that gap needed a model that learned from many recordings paired with descriptions, as CLAP does.",
+      "reference": {
+        "text": "Speed and limits",
+        "url": "https://roger-weber.github.io/mmir-unibasel-hs26/book/audio-fingerprinting/#speed-and-limits"
+      }
+    },
+    {
+      "id": "L1-ch10-hist-moments-sc",
+      "group": "media",
+      "topic": "hand-crafted-image-features",
+      "type": "sc",
+      "level": 1,
+      "chapter": 10,
+      "chapters": [
+        10
+      ],
+      "points": 1,
+      "time": 0.75,
+      "round": 1,
+      "hash": "168eaf7f",
+      "text": "Color histograms and color moments both summarize the colors of an image. How do color moments differ from a histogram?",
+      "options": [
+        {
+          "text": "Fewer values and no bin edges, but they describe a single peak",
+          "correct": true,
+          "score": 1
+        },
+        {
+          "text": "Fewer values and no bin edges, and they describe several peaks",
+          "correct": false,
+          "score": 0
+        },
+        {
+          "text": "Fewer values, and they record where each color lies in the image",
+          "correct": false,
+          "score": 0
+        },
+        {
+          "text": "More values, but they need no rescaling before they are compared",
+          "correct": false,
+          "score": 0
+        }
+      ],
+      "explanation": "Color moments summarize each channel by a few statistics such as the mean, the spread and the skew: about 15 values instead of 125 to 1,000 bins, and no bin edges that a small change of lighting can cross. A few statistics cannot describe a distribution with several peaks: a bright sky and a dark forest average to a lightness that few pixels have. Like histograms, moments ignore where a color lies, and their dimensions have very different ranges, so they must be rescaled before a distance compares them.",
+      "reference": {
+        "text": "Color moments",
+        "url": "https://roger-weber.github.io/mmir-unibasel-hs26/book/color-features/#color-moments"
+      }
+    },
+    {
+      "id": "L1-ch10-clip-dino-data-sc",
+      "group": "media",
+      "topic": "image-search-models",
+      "type": "sc",
+      "level": 1,
+      "chapter": 10,
+      "chapters": [
+        10
+      ],
+      "points": 1,
+      "time": 0.75,
+      "round": 1,
+      "hash": "1e66a427",
+      "text": "CLIP and DINOv2 both turn an image into one vector for image search. How do they differ in their training data?",
+      "options": [
+        {
+          "text": "CLIP learns from images with captions, DINOv2 from images alone",
+          "correct": true,
+          "score": 1
+        },
+        {
+          "text": "CLIP learns from images alone, DINOv2 from images with captions",
+          "correct": false,
+          "score": 0
+        },
+        {
+          "text": "CLIP learns from images with class labels, DINOv2 from images alone",
+          "correct": false,
+          "score": 0
+        },
+        {
+          "text": "Each learns from images with captions, but DINOv2 from many more",
+          "correct": false,
+          "score": 0
+        }
+      ],
+      "explanation": "CLIP is trained on 400 million image-caption pairs from the web, with the captions as the only supervision, so its image and text encoders share one space. DINOv2 is trained on images alone, by matching its outputs for different crops of the same image, and has no text encoder. Neither model needs class labels; those belong to a classifier such as a CNN trained on ImageNet.",
+      "reference": {
+        "text": "DINO: similarity from images alone",
+        "url": "https://roger-weber.github.io/mmir-unibasel-hs26/book/transformer-image-search/#dino-similarity-from-images-alone"
+      }
+    },
+    {
+      "id": "L1-ch10-metric-learn-kw",
+      "group": "media",
+      "topic": "learned-image-features",
+      "type": "kw",
+      "level": 1,
+      "chapter": 10,
+      "chapters": [
+        10
+      ],
+      "points": 1,
+      "time": 0.75,
+      "round": 1,
+      "hash": "845cf03a",
+      "text": "An image encoder is trained on pairs of matching and non-matching images. Its loss compares the embeddings of each pair directly, so that matching images end up close together. Name this training approach.",
+      "key": "Full: metric learning (also: contrastive learning). Half: triplet loss or Siamese network, which name a loss or a network layout rather than the approach.",
+      "match": {
+        "parts": [
+          [
+            "metric",
+            "contrastive"
+          ]
+        ],
+        "half": [
+          "triplet",
+          "siamese"
+        ],
+        "not": []
+      },
+      "explanation": "Metric learning trains what \"similar\" means for the task. A classifier separates its classes, but the distances within a class were never part of its training, so its embedding can rank a different mountain above another photo of the same one. Face embeddings trained with a triplet loss are the classic case of metric learning, and the bi-encoder of Sentence-BERT is its text counterpart.",
+      "reference": {
+        "text": "The second-to-last layer as an embedding",
+        "url": "https://roger-weber.github.io/mmir-unibasel-hs26/book/learned-features/#the-second-to-last-layer-as-an-embedding"
+      }
+    },
+    {
+      "id": "L2-ch10-unseen-class-sc",
+      "group": "media",
+      "topic": "learned-image-features",
+      "type": "sc",
+      "level": 2,
+      "chapter": 10,
+      "chapters": [
+        10
+      ],
+      "points": 1,
+      "time": 1.0,
+      "round": 1,
+      "hash": "944a429a",
+      "text": "A CNN was trained to sort photos into 500 classes of animals and vehicles. None of its classes covers buildings. A user uploads a photo of a cathedral. What does the classifier return?",
+      "options": [
+        {
+          "text": "One of its 500 known labels, possibly with a high score",
+          "correct": true,
+          "score": 1
+        },
+        {
+          "text": "An \"unknown\" label instead of one of its 500 classes",
+          "correct": false,
+          "score": 0
+        },
+        {
+          "text": "A new label for the photo, built from the parts it learned",
+          "correct": false,
+          "score": 0
+        },
+        {
+          "text": "No label, until the class is added to a list of text prompts",
+          "correct": false,
+          "score": 0
+        }
+      ],
+      "explanation": "The output layer can only name the classes the network was trained on, and the softmax spreads the scores over them, so a photo of an unseen class gets one of the known labels, often with confidence (a mausoleum labeled \"mosque\" with 98.8 %). There is no built-in \"unknown\" output, and a new class needs labeled examples and training, at least of a new head on top of the frozen network. Labels from a list of text prompts belong to a dual encoder such as CLIP, not to a classifier with a fixed output layer.",
+      "reference": {
+        "text": "Feature maps: from edges to objects",
+        "url": "https://roger-weber.github.io/mmir-unibasel-hs26/book/learned-features/#feature-maps-from-edges-to-objects"
+      }
+    },
+    {
+      "id": "L2-ch09-label-thresh-sc",
+      "group": "media",
+      "topic": "metadata",
+      "type": "sc",
+      "level": 2,
+      "chapter": 9,
+      "chapters": [
+        9
+      ],
+      "points": 1,
+      "time": 1.0,
+      "round": 1,
+      "hash": "77a3355f",
+      "text": "A photo archive keeps every automatic label with a confidence of at least 85 %. A check on 300 photos with known content shows: \"eagle\" is right on 95 % of the photos that get it, \"hawk\" on only 60 %. The archive wants reliable labels without losing many correct ones. What should it change?",
+      "options": [
+        {
+          "text": "Set a separate threshold for each label from such a check",
+          "correct": true,
+          "score": 1
+        },
+        {
+          "text": "Raise one common threshold for all labels to 95 %",
+          "correct": false,
+          "score": 0
+        },
+        {
+          "text": "Lower the threshold for \"hawk\" so that it is given more often",
+          "correct": false,
+          "score": 0
+        },
+        {
+          "text": "Store all labels in a standard keyword field such as IPTC",
+          "correct": false,
+          "score": 0
+        }
+      ],
+      "explanation": "A confidence value says how strongly the model favors a label, not how often such labels are right, and the relation differs from label to label. A check against ground truth shows it per label, so each label gets its own threshold: \"eagle\" can keep 85 %, while \"hawk\" needs a higher one. One high threshold for all labels would also drop many correct \"eagle\" labels, a lower threshold for \"hawk\" adds more wrong ones, and a metadata standard fixes the names of the fields, not whether their values are right.",
+      "reference": {
+        "text": "Classification: from features to labels",
+        "url": "https://roger-weber.github.io/mmir-unibasel-hs26/book/automated-feature-extraction/#classification-from-features-to-labels"
+      }
+    },
+    {
+      "id": "L1-ch11-frame-length-sc",
+      "group": "media",
+      "topic": "time-frequency",
+      "type": "sc",
+      "level": 1,
+      "chapter": 11,
+      "chapters": [
+        11
+      ],
+      "points": 1,
+      "time": 0.75,
+      "round": 1,
+      "hash": "c170f8e9",
+      "text": "An audio system cuts a recording into short frames and turns each frame into a spectrum. What does the length of the frames decide?",
+      "options": [
+        {
+          "text": "The frequency resolution, at the cost of time resolution",
+          "correct": true,
+          "score": 1
+        },
+        {
+          "text": "The highest frequency that each spectrum can still represent",
+          "correct": false,
+          "score": 0
+        },
+        {
+          "text": "The unit that a classifier labels and a search returns",
+          "correct": false,
+          "score": 0
+        },
+        {
+          "text": "The time resolution, with no effect on the frequency bins",
+          "correct": false,
+          "score": 0
+        }
+      ],
+      "explanation": "A longer frame gives finer frequency bins but averages over a longer time, so events within one frame merge into one spectrum; no frame length gives both, and the task decides the compromise. The highest frequency a spectrum can represent is half the sampling rate. The unit that a classifier labels and a search returns is the segment of a few seconds, which groups many frames.",
+      "reference": {
+        "text": "The time-frequency trade-off",
+        "url": "https://roger-weber.github.io/mmir-unibasel-hs26/book/sound-to-spectrogram/#the-time-frequency-trade-off"
+      }
+    },
+    {
+      "id": "L1-ch11-centroid-sc",
+      "group": "media",
+      "topic": "audio-features",
+      "type": "sc",
+      "level": 1,
+      "chapter": 11,
+      "chapters": [
+        11
+      ],
+      "points": 1,
+      "time": 0.75,
+      "round": 1,
+      "hash": "969949fb",
+      "text": "A frame feature averages the frequencies of a spectrum, each weighted by its magnitude. Listeners hear a high value as a bright sound. What is this feature called?",
+      "options": [
+        {
+          "text": "Spectral centroid",
+          "correct": true,
+          "score": 1
+        },
+        {
+          "text": "Spectral roll-off",
+          "correct": false,
+          "score": 0
+        },
+        {
+          "text": "Spectral flux",
+          "correct": false,
+          "score": 0
+        },
+        {
+          "text": "Fundamental frequency",
+          "correct": false,
+          "score": 0
+        }
+      ],
+      "explanation": "The spectral centroid is the center of gravity of the spectrum: a high value sounds bright or sharp, a low one dark or dull. It measures brightness, not pitch; a tone whose high harmonics grow sounds brighter at the same pitch. The spectral roll-off is the frequency below which 85 % of the magnitude lies, the spectral flux measures how much the spectrum changes from one frame to the next, and the fundamental frequency determines the pitch.",
+      "reference": {
+        "text": "Features in the frequency domain",
+        "url": "https://roger-weber.github.io/mmir-unibasel-hs26/book/perceptual-features/#features-in-the-frequency-domain"
+      }
+    },
+    {
+      "id": "L1-ch11-tree-learned-sc",
+      "group": "media",
+      "topic": "audio-classification",
+      "type": "sc",
+      "level": 1,
+      "chapter": 11,
+      "chapters": [
+        11
+      ],
+      "points": 1,
+      "time": 0.75,
+      "round": 1,
+      "hash": "c0b7b0b2",
+      "text": "A decision tree on segment statistics and a learned network on the log mel spectrogram can both label audio. What does the tree offer that the network lacks?",
+      "options": [
+        {
+          "text": "Readable rules, learned from a few labeled examples",
+          "correct": true,
+          "score": 1
+        },
+        {
+          "text": "Higher accuracy on music whose rhythm resembles speech",
+          "correct": false,
+          "score": 0
+        },
+        {
+          "text": "A separate score for each of hundreds of sound classes",
+          "correct": false,
+          "score": 0
+        },
+        {
+          "text": "Labels for sound classes without any training examples",
+          "correct": false,
+          "score": 0
+        }
+      ],
+      "explanation": "A tree decides with a few threshold tests that a person can read and check, needs a few dozen labeled segments instead of millions of clips, and is small enough for a microcontroller. Learned networks such as CNNs or audio transformers are more accurate, also on music that behaves like speech, and give one score per class for hundreds of classes. Labels without training examples come from a model such as CLAP, which compares a clip with text prompts.",
+      "reference": {
+        "text": "CLAP: zero-shot labels and text queries",
+        "url": "https://roger-weber.github.io/mmir-unibasel-hs26/book/classifying-audio/#clap-zero-shot-labels-and-text-queries"
+      }
+    },
+    {
+      "id": "L1-ch12-hist-vs-pixel-sc",
+      "group": "media",
+      "topic": "shot-detection",
+      "type": "sc",
+      "level": 1,
+      "chapter": 12,
+      "chapters": [
+        12
+      ],
+      "points": 1,
+      "time": 0.75,
+      "round": 1,
+      "hash": "cf79cf0b",
+      "text": "A shot detector compares each frame with the one before it. Why does a difference of color histograms separate cuts better than a difference of pixels?",
+      "options": [
+        {
+          "text": "Motion in a shot moves pixels but barely changes their colors",
+          "correct": true,
+          "score": 1
+        },
+        {
+          "text": "It also finds cuts between two shots of the same room and light",
+          "correct": false,
+          "score": 0
+        },
+        {
+          "text": "It ignores flashes that change the colors of a single frame",
+          "correct": false,
+          "score": 0
+        },
+        {
+          "text": "Pixel differences stay small at cuts that change the brightness",
+          "correct": false,
+          "score": 0
+        }
+      ],
+      "explanation": "A pixel difference reacts to every motion: a pan by a few pixels or a person walking through the frame changes most pixel values while the shot continues, so no threshold separates cuts from motion. A histogram ignores where the pixels lie, so it stays stable within a shot and jumps at a cut. It has blind spots of its own: two shots of different persons in the same room and light can have nearly the same histogram, so the cut is missed, and a flash changes the histogram of one frame completely and produces a false cut.",
+      "reference": {
+        "text": "Measuring the change between frames",
+        "url": "https://roger-weber.github.io/mmir-unibasel-hs26/book/shot-boundary-detection/#measuring-the-change-between-frames"
+      }
+    },
+    {
+      "id": "L1-ch12-scene-unit-sc",
+      "group": "media",
+      "topic": "video-search",
+      "type": "sc",
+      "level": 1,
+      "chapter": 12,
+      "chapters": [
+        12
+      ],
+      "points": 1,
+      "time": 0.75,
+      "round": 1,
+      "hash": "99810980",
+      "text": "A video retrieval system detects shot boundaries from the changes between frames. Why are the boundaries of scenes harder to detect?",
+      "options": [
+        {
+          "text": "Shots of one scene can look very different from each other",
+          "correct": true,
+          "score": 1
+        },
+        {
+          "text": "Scenes are shorter than shots and span fewer frames to compare",
+          "correct": false,
+          "score": 0
+        },
+        {
+          "text": "Scene boundaries are marked only by changes in the soundtrack",
+          "correct": false,
+          "score": 0
+        },
+        {
+          "text": "Scenes change only at gradual transitions such as fades",
+          "correct": false,
+          "score": 0
+        }
+      ],
+      "explanation": "A scene groups consecutive shots that share a location, a time or a continuous action; a dialogue filmed with alternating views of two speakers is one scene of many shots. Shot boundaries are a perceptual task, since the frames change, but the shots of one scene can look very different, so finding the scene needs an understanding of who is present, where, and what happens. Scenes are longer than shots. Gradual transitions mark scene boundaries more often than hard cuts do, but scenes also change at hard cuts, and the soundtrack often runs on across both kinds of boundaries.",
+      "reference": {
+        "text": "Time as a new dimension",
+        "url": "https://roger-weber.github.io/mmir-unibasel-hs26/book/time-and-specialized-solutions/#time-as-a-new-dimension"
+      }
+    },
+    {
+      "id": "L1-ch12-aperture-kw",
+      "group": "media",
+      "topic": "motion-detection",
+      "type": "kw",
+      "level": 1,
+      "chapter": 12,
+      "chapters": [
+        12
+      ],
+      "points": 1,
+      "time": 0.75,
+      "round": 1,
+      "hash": "1d1868b1",
+      "text": "Optical flow assumes that a point keeps its brightness while it moves. At a single pixel, this gives one equation for the two unknowns of the motion. Only the motion across an edge can be measured, not the motion along it. Name this problem.",
+      "key": "Full: aperture problem. Half: none.",
+      "match": {
+        "parts": [
+          [
+            "aperture"
+          ]
+        ],
+        "half": [],
+        "not": []
+      },
+      "explanation": "Every vector that adds a component along the edge satisfies the same equation, so a pixel, or a small window that sees only one straight edge, reveals only the motion perpendicular to it. The barber pole illusion is the same effect in human vision. Lucas-Kanade assumes that all pixels of a small window move together; the window determines the full motion only where it holds gradients in several directions, at corners and in texture.",
+      "reference": {
+        "text": "Optical flow",
+        "url": "https://roger-weber.github.io/mmir-unibasel-hs26/book/motion-detection/#optical-flow"
+      }
+    },
+    {
+      "id": "L3-ch09-red-bicycle-kp",
+      "group": "media",
+      "topic": "semantic-gap",
+      "type": "kp",
+      "level": 3,
+      "chapter": 9,
+      "chapters": [
+        3,
+        6,
+        9,
+        10
+      ],
+      "points": 3,
+      "time": 1.75,
+      "round": 1,
+      "hash": "093e9ba5",
+      "text": "A news archive had no captions for its photos. It now lets a multimodal model write a caption for each photo and searches the captions with BM25. It also keeps a color histogram of each photo. A user searches for \"red bicycle\". Decide for each statement whether it is true.",
+      "options": [
+        {
+          "text": "Once the captions exist, the histograms add nothing to the search for \"red bicycle\".",
+          "correct": false
+        },
+        {
+          "text": "Fusing the two rankings by rank needs no common scale for BM25 scores and histogram distances.",
+          "correct": true
+        },
+        {
+          "text": "A photo with a high red share and \"bicycle\" in its caption shows a red bicycle.",
+          "correct": false
+        },
+        {
+          "text": "A caption that says \"bike\" misses \"bicycle\" in BM25, although the photo fits.",
+          "correct": true
+        }
+      ],
+      "explanation": "Captions put the photos on the text path, with its problems: a caption that says \"bike\" does not match \"bicycle\" in BM25. A caption also holds only what the model chose to write, so it may leave out the color; the histogram still shows a high red share, so it keeps adding to the search. The two rankings come from different scores, BM25 and a histogram distance, and rank fusion combines them without making the scores comparable. A histogram counts colors over the whole photo and says nothing about where they are: a high red share and \"bicycle\" in the caption fit a blue bicycle in front of a red wall as well. That is the semantic gap of perceptual features.",
+      "reference": {
+        "text": "The gap across modalities",
+        "url": "https://roger-weber.github.io/mmir-unibasel-hs26/book/the-semantic-gap/#the-gap-across-modalities"
+      }
+    },
+    {
+      "id": "L3-ch11-ocr-names-kp",
+      "group": "media",
+      "topic": "transcription",
+      "type": "kp",
+      "level": 3,
+      "chapter": 11,
+      "chapters": [
+        3,
+        11
+      ],
+      "points": 3,
+      "time": 1.75,
+      "round": 1,
+      "hash": "7d357194",
+      "text": "A national library runs OCR over 2 million newspaper pages from 1850 to 1950. A language model corrects uncertain words, and letters that look alike, such as \"rn\" and \"m\", are often confused. The character error rate is 3 %. Historians search mostly for names of persons and villages. Decide for each statement whether it is true.",
+      "options": [
+        {
+          "text": "Rare names are corrected less well than common words, so their errors are more frequent.",
+          "correct": true
+        },
+        {
+          "text": "The recall of searched names should be measured on a sample, not only the error rate.",
+          "correct": true
+        },
+        {
+          "text": "A character error rate of 3 % keeps the recall of the searched names close to 97 %.",
+          "correct": false
+        },
+        {
+          "text": "Phonetic codes catch \"rn\"/\"m\" confusions as well as character n-grams do.",
+          "correct": false
+        }
+      ],
+      "explanation": "OCR with a language model is a describe-then-search pipeline like speech recognition, and its errors concentrate in the same place: rare names, which the language model has seen rarely and corrects toward common words. An error rate weighs every character equally, so it says little about the names users search for; their recall is measured on a sample. Phonetic codes compare pronunciations, which suits a recognizer that hears a name; OCR confuses letters by their shape (\"rn\" and \"m\" sound different), so character n-grams or an edit distance on the letters fit better.",
+      "reference": {
+        "text": "Searching transcripts",
+        "url": "https://roger-weber.github.io/mmir-unibasel-hs26/book/transcription/#searching-transcripts"
+      }
+    },
+    {
+      "id": "L2-ch10-dino-tasks-mc",
+      "group": "media",
+      "topic": "image-search-models",
+      "type": "mc",
+      "level": 2,
+      "chapter": 10,
+      "chapters": [
+        10
+      ],
+      "points": 2,
+      "time": 1.5,
+      "round": 1,
+      "hash": "f6089057",
+      "text": "A photo platform stores both CLIP and DINOv2 embeddings of its 50 million photos. For which of the following searches is DINOv2 the better choice? Mark all that apply.",
+      "options": [
+        {
+          "text": "Copies of a photo that were resized, recompressed or turned gray",
+          "correct": true,
+          "score": 1
+        },
+        {
+          "text": "Photos with the same arrangement of objects as an example photo",
+          "correct": true,
+          "score": 1
+        },
+        {
+          "text": "Photos that match a description such as \"a fox in the snow\"",
+          "correct": false,
+          "score": -2
+        },
+        {
+          "text": "Labels for every photo from a list of 40 category names",
+          "correct": false,
+          "score": -2
+        },
+        {
+          "text": "Photos of the same concept, even when they look very different",
+          "correct": false,
+          "score": -2
+        }
+      ],
+      "explanation": "DINOv2 learns from images alone and captures visual similarity in detail: it separates edited copies from other photos most clearly, and it captures parts, shapes and layout, details that captions rarely mention and CLIP is weaker on. CLIP shares its space with texts, so it answers descriptions and assigns zero-shot labels from category names; DINOv2 has no text encoder. For image-to-image search, CLIP tends to find the same concept even when the photos look different.",
+      "reference": {
+        "text": "Image search in practice",
+        "url": "https://roger-weber.github.io/mmir-unibasel-hs26/book/transformer-image-search/#image-search-in-practice"
+      }
+    },
+    {
+      "id": "L2-ch12-play-clip-kw",
+      "group": "media",
+      "topic": "video-search",
+      "type": "kw",
+      "level": 2,
+      "chapter": 12,
+      "chapters": [
+        12
+      ],
+      "points": 2,
+      "time": 1.0,
+      "round": 1,
+      "hash": "b95b7ce3",
+      "text": "A basketball archive finds great plays from bursts of crowd noise. A burst starts only after the play, so each clip must begin earlier than the burst. Name the unit of the video by which the clip is extended back in time, and whose boundaries set the edges of the clip.",
+      "key": "Full: the shot (shot boundaries). Half: the scene, which also groups the play but is harder to detect and often too long for a clip.",
+      "match": {
+        "parts": [
+          [
+            "shot"
+          ]
+        ],
+        "half": [
+          "scene"
+        ],
+        "not": []
+      },
+      "explanation": "The crowd reacts after the play, so the reaction marks the end of the action, not its beginning. The clip starts one shot before the reaction begins and ends at the first shot boundary after it, so that it neither starts nor ends in the middle of a shot. Scene boundaries need an understanding of the content and are harder to find than shot boundaries.",
+      "reference": {
+        "text": "Worked example: football highlights",
+        "url": "https://roger-weber.github.io/mmir-unibasel-hs26/book/video-understanding/#worked-example-football-highlights"
+      }
+    },
+    {
+      "id": "L3-ch11-license-kp",
+      "group": "media",
+      "topic": "audio-classification",
+      "type": "kp",
+      "level": 3,
+      "chapter": 11,
+      "chapters": [
+        2,
+        11
+      ],
+      "points": 3,
+      "time": 1.75,
+      "round": 1,
+      "hash": "29aa8062",
+      "text": "A broadcaster publishes recordings from its archive online. A recording that contains music needs a license check first, and archivists must explain each decision to the rights holders. The team compares a decision tree on segment statistics with an audio transformer trained on hundreds of sound classes. Decide for each statement whether it is true.",
+      "options": [
+        {
+          "text": "The operating point of the classifier should favor the recall of music over its precision.",
+          "correct": true
+        },
+        {
+          "text": "A majority vote over the segments of a recording is the wrong rule for this decision.",
+          "correct": true
+        },
+        {
+          "text": "Explaining each decision needs the transformer, since only it scores every sound class.",
+          "correct": false
+        },
+        {
+          "text": "A talk over background music gets a low music score, since speech dominates the clip.",
+          "correct": false
+        }
+      ],
+      "explanation": "A recording with music that goes online without a check is the costly error; an extra check costs only time, so the operating point favors the recall of music, at the price of precision. A majority vote labels a talk with one song as speech, while the license rule asks whether any music is present, so one music stretch must already trigger the check. The tree's readable rules give the reason for each decision; the transformer's per-class scores show what it heard, not why the recording was or was not flagged. The transformer gives each class its own score, because a clip can contain several sounds at once: a talk over background music scores high for both, which is exactly the case the license rule must catch.",
+      "reference": {
+        "text": "From segments to streams and files",
+        "url": "https://roger-weber.github.io/mmir-unibasel-hs26/book/classifying-audio/#from-segments-to-streams-and-files"
+      }
+    }
+  ]
+}
